@@ -37,7 +37,10 @@ import {
   SiCplusplus,
   SiMysql,
   SiKotlin,
-  SiJavascript
+  SiJavascript,
+  SiLeetcode,
+  SiGeeksforgeeks,
+  SiCodingninjas
 } from 'react-icons/si'
 import { DiDotnet } from 'react-icons/di'
 import '../styles/components/SkillOrbs.css'
@@ -99,6 +102,11 @@ const SkillOrbsFallback = () => {
       { name: 'Figma', color: '#f24e1e', icon: SiFigma },
       { name: 'DSA', color: '#4ecdc4', icon: FaCode },
       { name: 'Responsive', color: '#764abc', icon: FaMobile },
+      
+      // Coding Platforms
+      { name: 'LeetCode', color: '#ffa116', icon: SiLeetcode },
+      { name: 'GeeksforGeeks', color: '#0f9d58', icon: SiGeeksforgeeks },
+      { name: 'CodingNinjas', color: '#dd6620', icon: SiCodingninjas },
     ]
 
     const containerRect = containerRef.current.getBoundingClientRect()
