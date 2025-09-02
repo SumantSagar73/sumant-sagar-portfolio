@@ -6,10 +6,31 @@
 
 .about-content {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xl);
-  align-items: center;
+  align-items: start;
   margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .profile-container {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  
+  .profile-highlight {
+    margin-top: var(--spacing-lg);
+  }
 }
 
 .section-title {
@@ -30,19 +51,26 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 }
 
 .stat-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-lg);
   text-align: center;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .stat-value {
   display: block;
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   font-weight: var(--font-bold);
   color: var(--primary-color);
   margin-bottom: var(--spacing-xs);
@@ -52,12 +80,21 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
   text-transform: capitalize;
+  font-weight: var(--font-medium);
+}
+
+.about-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
 }
 
 .profile-container {
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 280px;
+  height: 280px;
   border-radius: var(--radius-full);
   overflow: hidden;
   border: 4px solid var(--primary-color);
@@ -72,6 +109,27 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Add some visual elements around the profile */
+.profile-highlight {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: white;
+  margin-top: var(--spacing-md);
+}
+
+.profile-highlight h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--text-lg);
+}
+
+.profile-highlight p {
+  margin: 0;
+  font-size: var(--text-sm);
+  opacity: 0.9;
 }
 
 .skills-section {

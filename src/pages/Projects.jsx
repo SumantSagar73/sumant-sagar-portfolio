@@ -12,19 +12,6 @@ const Projects = () => {
     setFilteredProjects(getProjectsByCategory(category))
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  }
-
   return (
     <motion.div
       className="projects-page"
@@ -34,22 +21,32 @@ const Projects = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container">
-        <motion.div 
-          className="page-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h1 className="page-title" variants={itemVariants}>
+        <div className="page-content">
+          <motion.h1 
+            className="page-title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             My Projects
           </motion.h1>
           
-          <motion.p className="page-description" variants={itemVariants}>
+          <motion.p 
+            className="page-description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Explore my latest work and personal projects that showcase my skills and creativity.
           </motion.p>
 
           {/* Category Filter */}
-          <motion.div className="category-filter" variants={itemVariants}>
+          <motion.div 
+            className="category-filter"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             {projectsData.categories.map((category) => (
               <button
                 key={category}
@@ -62,7 +59,12 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Stats */}
-          <motion.div className="projects-stats" variants={itemVariants}>
+          <motion.div 
+            className="projects-stats"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <div className="stat-item">
               <span className="stat-number">{projectsData.stats.total}+</span>
               <span className="stat-label">Total Projects</span>
@@ -78,7 +80,12 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div className="projects-grid" variants={itemVariants}>
+          <motion.div 
+            className="projects-grid"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             <AnimatePresence mode="wait">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -188,7 +195,7 @@ const Projects = () => {
               <p>No projects found in this category.</p>
             </motion.div>
           )}
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   )

@@ -76,19 +76,6 @@ const Contact = () => {
 
   const contactMethods = getContactMethods()
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  }
-
   return (
     <motion.div
       className="contact-page"
@@ -98,23 +85,33 @@ const Contact = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container">
-        <motion.div 
-          className="page-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h1 className="page-title" variants={itemVariants}>
+        <div className="page-content">
+          <motion.h1 
+            className="page-title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             Get In Touch
           </motion.h1>
           
-          <motion.p className="page-description" variants={itemVariants}>
+          <motion.p 
+            className="page-description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Let's discuss your next project or collaboration. I'm always open to new opportunities.
           </motion.p>
 
           <div className="contact-content">
             {/* Contact Information */}
-            <motion.div className="contact-info-section" variants={itemVariants}>
+            <motion.div 
+              className="contact-info-section"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <h2 className="section-title">Contact Information</h2>
               
               <div className="contact-methods">
@@ -153,7 +150,9 @@ const Contact = () => {
               {/* Availability Status */}
               <motion.div 
                 className="availability-card"
-                variants={itemVariants}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <div className="availability-header">
                   <FaCheckCircle className="status-icon" />
@@ -173,7 +172,12 @@ const Contact = () => {
             </motion.div>
 
             {/* Contact Form */}
-            <motion.div className="contact-form-section" variants={itemVariants}>
+            <motion.div 
+              className="contact-form-section"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               <h2 className="section-title">Send a Message</h2>
               
               <form onSubmit={handleSubmit} className="contact-form">
@@ -233,7 +237,12 @@ const Contact = () => {
           </div>
 
           {/* Additional Info */}
-          <motion.div className="additional-info" variants={itemVariants}>
+          <motion.div 
+            className="additional-info"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
             <h2 className="section-title">What I Can Help With</h2>
             <div className="services-grid">
               {contactInfo.preferences.projectTypes.map((type, index) => (
@@ -251,7 +260,7 @@ const Contact = () => {
               ))}
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   )

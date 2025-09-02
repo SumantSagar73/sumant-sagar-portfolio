@@ -8,19 +8,6 @@ import { certificationsData } from '../data/certifications'
 import profilePic from '../assets/profile-pic.png'
 
 const About = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  }
-
   return (
     <motion.div
       className="about-page"
@@ -30,22 +17,32 @@ const About = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container">
-        <motion.div 
-          className="page-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h1 className="page-title" variants={itemVariants}>
+        <div className="page-content">
+          <motion.h1 
+            className="page-title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             About Me
           </motion.h1>
           
-          <motion.p className="page-description" variants={itemVariants}>
+          <motion.p 
+            className="page-description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             {personalInfo.tagline}
           </motion.p>
 
           {/* Personal Info Section */}
-          <motion.section className="about-section" variants={itemVariants}>
+          <motion.section 
+            className="about-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <div className="about-content">
               <div className="about-text">
                 <h2 className="section-title">Who I Am</h2>
@@ -83,12 +80,30 @@ const About = () => {
                     <span>{personalInfo.name.split(' ').map(n => n[0]).join('')}</span>
                   </div>
                 </motion.div>
+                
+                {/* Profile Highlight */}
+                <motion.div 
+                  className="profile-highlight"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <h3>Quick Facts</h3>
+                  <p>Based in {personalInfo.location}</p>
+                  <p>{personalInfo.experience}+ years of experience</p>
+                  <p>Passionate about {personalInfo.interests[0].toLowerCase()}</p>
+                </motion.div>
               </div>
             </div>
           </motion.section>
 
           {/* Skills Section */}
-          <motion.section className="skills-section" variants={itemVariants}>
+          <motion.section 
+            className="skills-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <h2 className="section-title">Technical Skills</h2>
             
             {Object.entries(skillCategories).map(([category, title]) => (
@@ -125,7 +140,13 @@ const About = () => {
           </motion.section>
 
           {/* Experience Preview */}
-          <motion.section className="experience-section" variants={itemVariants}>
+                    {/* Experience Section */}
+          <motion.section 
+            className="experience-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             <h2 className="section-title">Professional Journey</h2>
             <div className="experience-timeline">
               {experienceData.work.concat(experienceData.internships).map((exp) => (
@@ -152,7 +173,12 @@ const About = () => {
           </motion.section>
 
           {/* Certifications Section */}
-          <motion.section className="certifications-section" variants={itemVariants}>
+          <motion.section 
+            className="certifications-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
             <h2 className="section-title">Certifications & Achievements</h2>
             <p className="section-description">
               Professional certifications and achievements that validate my technical expertise
@@ -242,7 +268,12 @@ const About = () => {
           </motion.section>
 
           {/* Interests */}
-          <motion.section className="interests-section" variants={itemVariants}>
+          <motion.section 
+            className="interests-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+          >
             <h2 className="section-title">Interests & Passion</h2>
             <div className="interests-grid">
               {personalInfo.interests.map((interest, index) => (
@@ -260,7 +291,7 @@ const About = () => {
               ))}
             </div>
           </motion.section>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   )

@@ -186,6 +186,23 @@ body {
   transform: translateZ(0);
 }
 
+/* Override reduced motion preference for framer-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Allow framer-motion animations to still work */
+  [data-framer-appear-id],
+  [data-framer-name] {
+    animation-duration: unset !important;
+    transition-duration: unset !important;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
