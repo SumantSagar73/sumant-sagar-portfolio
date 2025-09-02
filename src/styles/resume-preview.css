@@ -1,0 +1,398 @@
+/* Resume Page Styles - Consistent with Portfolio Design */
+.resume-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: calc(var(--navbar-height) + var(--spacing-xl)) 0 var(--spacing-4xl);
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.resume-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  overflow: visible;
+  animation: slideUp 0.6s ease-out;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Navigation */
+.resume-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Header Styles */
+.resume-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.resume-name {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-extrabold);
+  margin: 0 0 var(--spacing-sm) 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.resume-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-medium);
+  margin: 0 0 var(--spacing-xl) 0;
+  opacity: 0.95;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+}
+
+.contact-icon {
+  color: var(--accent-color);
+  flex-shrink: 0;
+  font-size: var(--text-lg);
+}
+
+/* Section Styles */
+.resume-section {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.resume-section:last-child {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+.section-icon {
+  color: var(--primary-color);
+  font-size: var(--text-xl);
+  padding: var(--spacing-sm);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+/* Card Components */
+.education-list,
+.projects-list,
+.certifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.education-card,
+.project-card,
+.certification-card,
+.activity-card,
+.hobby-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.education-card::before,
+.project-card::before,
+.certification-card::before,
+.activity-card::before,
+.hobby-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-color);
+}
+
+.project-card::before {
+  background: var(--warning-color);
+}
+
+.certification-card::before {
+  background: var(--error-color);
+}
+
+.activity-card::before {
+  background: var(--accent-color);
+}
+
+.hobby-card::before {
+  background: var(--success-color);
+}
+
+.education-card:hover,
+.project-card:hover,
+.certification-card:hover,
+.activity-card:hover,
+.hobby-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Card Headers */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.card-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.card-location,
+.card-duration {
+  color: var(--text-tertiary);
+  font-weight: var(--font-medium);
+  background: var(--bg-tertiary);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  border: 1px solid var(--border-color);
+}
+
+/* Card Content */
+.card-content {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.card-subtitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.card-description {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--text-base);
+}
+
+.card-highlight {
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+  margin: var(--spacing-xs) 0;
+}
+
+/* Contributions */
+.contributions {
+  margin-top: var(--spacing-lg);
+}
+
+.contributions-title {
+  color: var(--primary-color);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  margin-bottom: var(--spacing-md);
+}
+
+.contributions-list {
+  margin: 0;
+  padding-left: var(--spacing-xl);
+  list-style: none;
+}
+
+.contributions-list li {
+  position: relative;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  padding-left: var(--spacing-md);
+}
+
+.contributions-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+  font-weight: var(--font-bold);
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.skill-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--secondary-color);
+}
+
+.skill-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.skill-category {
+  color: var(--primary-color);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  margin-bottom: var(--spacing-md);
+}
+
+.skill-list {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  font-size: var(--text-base);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .resume-page {
+    padding: calc(var(--navbar-height) + var(--spacing-lg)) var(--spacing-md) var(--spacing-2xl);
+  }
+  
+  .resume-nav {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: stretch;
+  }
+  
+  .resume-header {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+  
+  .resume-name {
+    font-size: var(--text-4xl);
+  }
+  
+  .resume-title {
+    font-size: var(--text-xl);
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resume-section {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .resume-name {
+    font-size: var(--text-3xl);
+  }
+  
+  .contributions-list {
+    padding-left: var(--spacing-lg);
+  }
+  
+  .card-title {
+    font-size: var(--text-lg);
+  }
+}

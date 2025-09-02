@@ -1,0 +1,20 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+/* Import Global Styles */
+@import './styles/globals.css';
+
+/* Import Component Styles */
+@import './styles/components/Navbar.css';
+@import './styles/components/Footer.css';
+@import './styles/components/ScrollToTop.css';
+@import './styles/components/ThemeToggle.css';
+
+/* Import Page Styles */
+@import './styles/pages/Home.css';
+@import './styles/pages/About.css';
+@import './styles/pages/Projects.css';
+@import './styles/pages/Contact.css';
+
+/* Import Resume Preview Styles */
+@import './styles/resume-preview.css';

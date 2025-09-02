@@ -1,0 +1,42 @@
+/* Theme Toggle Component Styles */
+
+.theme-toggle-container {
+  position: fixed;
+  top: 50%;
+  right: var(--spacing-lg);
+  transform: translateY(-50%);
+  z-index: var(--z-fixed);
+}
+
+.theme-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: var(--text-lg);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle-container {
+    right: var(--spacing-md);
+  }
+  
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: var(--text-base);
+  }
+}
