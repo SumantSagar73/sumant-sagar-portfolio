@@ -26,7 +26,7 @@ export const experienceData = {
   // Internships
   internships: [
     {
-      id: 1,
+      id: 2,
       company: "Web Innovations Inc",
       position: "Frontend Developer Intern",
       type: "Internship",
@@ -49,7 +49,7 @@ export const experienceData = {
   // Freelance/Projects
   freelance: [
     {
-      id: 1,
+      id: 3,
       client: "Local Restaurant Chain",
       project: "Restaurant Website & Online Ordering",
       type: "Freelance",
@@ -68,7 +68,7 @@ export const experienceData = {
       testimonial: "Sumant delivered exactly what we needed and more. Professional, timely, and excellent quality work."
     },
     {
-      id: 2,
+      id: 4,
       client: "Digital Marketing Agency",
       project: "Portfolio Websites for Clients",
       type: "Freelance",
@@ -89,7 +89,7 @@ export const experienceData = {
   // Volunteer Work
   volunteer: [
     {
-      id: 1,
+      id: 5,
       organization: "Code for Good Foundation",
       role: "Web Developer Volunteer",
       startDate: "2022-06",

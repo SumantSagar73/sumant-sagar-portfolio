@@ -1,0 +1,59 @@
+/* 3D Card Styles */
+.card-3d {
+  position: relative;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-3d-content {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  height: 100%;
+  transform: translateZ(20px);
+}
+
+.card-3d-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 1;
+  border-radius: var(--radius-lg);
+  transform: translateZ(10px);
+  pointer-events: none;
+}
+
+.card-3d:hover {
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+}
+
+/* Enhanced depth for dark theme */
+[data-theme="dark"] .card-3d {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card-3d:hover {
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-3d {
+    transform: none !important;
+  }
+  
+  .card-3d-content {
+    transform: none;
+  }
+  
+  .card-3d-glow {
+    display: none;
+  }
+}

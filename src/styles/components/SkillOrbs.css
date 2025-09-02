@@ -1,0 +1,513 @@
+/* Physics-based Interactive Skill Orbs */
+.skill-orbs-container {
+  position: relative;
+  width: 100%;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(111, 66, 193, 0.05) 100%);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Interactive Message Styling */
+.interaction-message {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.interaction-message p {
+  margin: 0.5rem 0;
+  color: var(--text-primary, #333);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.interaction-message p:first-child {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.interaction-message strong {
+  color: var(--primary-color, #4f46e5);
+  font-weight: 600;
+}
+
+.emoji-hint {
+  display: inline-block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-left: 0.5rem;
+  animation: bounce-hint 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 20px rgba(79, 70, 229, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      0 0 30px rgba(79, 70, 229, 0.2);
+  }
+}
+
+@keyframes bounce-hint {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.physics-playground {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.05));
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.skill-orb.physics-ball {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  user-select: none;
+  will-change: transform;
+  /* Add subtle animation for collision feedback */
+  animation: none;
+}
+
+.skill-orb.physics-ball.collision {
+  animation: collision-pulse 0.3s ease-out;
+}
+
+@keyframes collision-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.25),
+      0 0 0 2px var(--primary-color),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.skill-orb.physics-ball:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.skill-orb.physics-ball:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.orb-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.skill-icon {
+  font-size: 2rem;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.skill-tooltip {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1000;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skill-orb.physics-ball:hover .skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.skill-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.orb-glow {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.skill-orb.physics-ball:hover .orb-glow {
+  opacity: 0.3;
+  transform: scale(1.2);
+}
+
+.orb-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.skill-orb.physics-ball:active .orb-ripple {
+  animation: ripple-effect 0.6s ease-out;
+}
+
+@keyframes ripple-effect {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* Add some physics container styling */
+.physics-playground::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  pointer-events: none;
+}
+
+.physics-playground::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .skill-orbs-container {
+    min-height: 600px;
+    padding: 1.5rem;
+  }
+  
+  .interaction-message {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    max-width: 100%;
+  }
+  
+  .interaction-message p {
+    font-size: 0.8rem;
+  }
+  
+  .interaction-message p:first-child {
+    font-size: 0.9rem;
+  }
+  
+  .physics-playground {
+    height: 400px;
+    max-width: 100%;
+  }
+  
+  .skill-orb.physics-ball {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .skill-icon {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-orbs-container {
+    min-height: 550px;
+    padding: 1rem;
+  }
+  
+  .interaction-message {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .physics-playground {
+    height: 350px;
+  }
+  
+  .skill-orb.physics-ball {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .skill-icon {
+    font-size: 1.5rem;
+  }
+  
+  .skill-tooltip {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+}
+
+.orb-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--primary-color);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Hover Effects with Physics */
+.skill-orb.physics-orb:hover {
+  transform: 
+    translateY(-15px) 
+    translateX(var(--random-x, 0)) 
+    scale(1.15) 
+    rotateX(15deg) 
+    rotateY(15deg);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 0 0 2px var(--primary-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation-play-state: paused;
+}
+
+.skill-orb.physics-orb:hover .skill-icon {
+  transform: scale(1.2) rotateY(360deg);
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+.skill-orb.physics-orb:hover .skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.skill-orb.physics-orb:hover .orb-glow {
+  opacity: 0.6;
+}
+
+.skill-orb.physics-orb:hover .orb-ripple {
+  animation: ripple 0.6s ease-out;
+}
+
+/* Active/Click Effect */
+.skill-orb.physics-orb:active {
+  transform: 
+    translateY(-10px) 
+    scale(1.05);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-5px) rotate(180deg);
+  }
+  75% {
+    transform: translateY(-25px) translateX(15px) rotate(270deg);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(-10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  75% { transform: translateX(5px) rotate(5deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .skill-orbs-container {
+    min-height: 300px;
+    padding: 1.5rem;
+  }
+  
+  .physics-playground {
+    height: 280px;
+    gap: 1rem;
+  }
+  
+  .skill-orb.physics-orb {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .skill-icon {
+    font-size: 1.5rem;
+  }
+  
+  .skill-orb.physics-orb:hover {
+    transform: 
+      translateY(-10px) 
+      scale(1.1);
+  }
+}
+
+@media (max-width: 480px) {
+  .physics-playground {
+    gap: 0.8rem;
+  }
+  
+  .skill-orb.physics-orb {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .skill-icon {
+    font-size: 1.3rem;
+  }
+}
+
+/* Special color variants for better contrast */
+.skill-orb.physics-orb[data-skill="Express"] {
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  border: 2px solid #ffffff;
+}
+
+.skill-orb.physics-orb[data-skill="JavaScript"] .skill-icon {
+  color: #000000;
+}
+
+.skill-orb.physics-orb[data-skill="TypeScript"] .skill-icon {
+  color: #ffffff;
+}

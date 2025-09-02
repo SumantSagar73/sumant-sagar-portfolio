@@ -52,11 +52,13 @@ const About = () => {
                 
                 <div className="stats-grid">
                   {Object.entries(personalInfo.stats).map(([key, value]) => (
-                    <div key={key} className="stat-card">
-                      <span className="stat-value">{value}</span>
-                      <span className="stat-label">
-                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                      </span>
+                    <div key={key}>
+                      <div className="stat-card">
+                        <span className="stat-value">{value}</span>
+                        <span className="stat-label">
+                          {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>

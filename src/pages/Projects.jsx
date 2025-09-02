@@ -90,19 +90,18 @@ const Projects = () => {
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  className={`project-card ${project.featured ? 'featured' : ''}`}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -30 }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -10, scale: 1.02 }}
                   layout
                 >
-                  {project.featured && (
-                    <div className="featured-badge">
-                      <span>⭐ Featured</span>
-                    </div>
-                  )}
+                  <div className={`project-card ${project.featured ? 'featured' : ''}`}>
+                    {project.featured && (
+                      <div className="featured-badge">
+                        <span>⭐ Featured</span>
+                      </div>
+                    )}
                   
                   <div className="project-image">
                     <img 
@@ -180,6 +179,7 @@ const Projects = () => {
                         <FaGithub /> Code
                       </a>
                     </div>
+                  </div>
                   </div>
                 </motion.div>
               ))}

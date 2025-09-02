@@ -26,7 +26,7 @@ export const certificationsData = {
       items: [
         // Add your completed courses here later
         {
-          id: 1,
+          id: 2,
           name: "Example Course",
           provider: "Course Platform",
           date: "2024",
@@ -44,7 +44,7 @@ export const certificationsData = {
       items: [
         // Add your coding platform achievements here later
         {
-          id: 1,
+          id: 3,
           name: "Problem Solving Badge",
           platform: "LeetCode",
           date: "2024",

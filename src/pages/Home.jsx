@@ -20,6 +20,8 @@ import {
 import { personalInfo } from "../data/personal";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
 import profilePic from "../assets/profile-pic.png";
+// import Hero3DBackground from "../components/Hero3DBackground";
+import SkillOrbsFallback from "../components/SkillOrbsFallback";
 import "../styles/pages/Home.css";
 
 const Home = () => {
@@ -55,6 +57,7 @@ const Home = () => {
     <div className="home-page">
       {/* Hero Section */}
       <section className="hero-section">
+        {/* <Hero3DBackground /> */}
         <div className="container">
           <motion.div
             className="hero-content"
@@ -257,7 +260,13 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h3 className="section-title">What I Do</h3>
+            <h3 className="section-title">My Tech Stack</h3>
+            <p className="section-description">
+              Interactive visualization of my core technologies
+            </p>
+            <SkillOrbsFallback />
+            
+            <h3 className="section-title" style={{ marginTop: '3rem' }}>What I Do</h3>
             <div className="skills-grid">
               {webDevRoles.map((role, index) => (
                 <motion.div

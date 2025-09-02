@@ -2,7 +2,9 @@
 export const educationData = {
   // Formal Education
   degrees: [
-    {
+     {
+      id: 7,
+      name: "JavaScript - The Complete Guide",{
       id: 1,
       institution: "Lovely Professional University",
       degree: "Bachelor of Technology",
@@ -36,7 +38,7 @@ export const educationData = {
   // Certifications
   certifications: [
     {
-      id: 1,
+      id: 2,
       name: "React Developer Certification",
       issuer: "freeCodeCamp",
       issueDate: "2023-08",
@@ -47,7 +49,7 @@ export const educationData = {
       logo: "/assets/certifications/freecodecamp.png"
     },
     {
-      id: 2,
+      id: 3,
       name: "JavaScript Algorithms and Data Structures",
       issuer: "freeCodeCamp", 
       issueDate: "2023-06",
@@ -58,7 +60,7 @@ export const educationData = {
       logo: "/assets/certifications/freecodecamp.png"
     },
     {
-      id: 3,
+      id: 4,
       name: "Responsive Web Design",
       issuer: "freeCodeCamp",
       issueDate: "2023-04",
@@ -69,7 +71,7 @@ export const educationData = {
       logo: "/assets/certifications/freecodecamp.png"
     },
     {
-      id: 4,
+      id: 5,
       name: "Frontend Development Bootcamp",
       issuer: "Coding Ninjas",
       issueDate: "2023-03",
@@ -84,7 +86,7 @@ export const educationData = {
   // Online Courses
   courses: [
     {
-      id: 1,
+      id: 6,
       name: "Complete React Developer Course",
       platform: "Udemy",
       instructor: "Andrew Mead",
@@ -93,7 +95,7 @@ export const educationData = {
       skills: ["React", "Redux", "Node.js", "MongoDB"]
     },
     {
-      id: 2,
+      id: 8,
       name: "Advanced CSS and Sass",
       platform: "Udemy", 
       instructor: "Jonas Schmedtmann",
@@ -102,7 +104,7 @@ export const educationData = {
       skills: ["CSS3", "Sass", "Animation", "Flexbox", "Grid"]
     },
     {
-      id: 3,
+      id: 9,
       name: "JavaScript: The Complete Guide",
       platform: "Udemy",
       instructor: "Maximilian Schwarzmüller", 
@@ -115,7 +117,7 @@ export const educationData = {
   // Academic Projects
   academicProjects: [
     {
-      id: 1,
+      id: 10,
       title: "Student Management System",
       description: "Full-stack web application for managing student records with CRUD operations",
       techStack: ["React", "Node.js", "MongoDB", "Express"],
@@ -124,7 +126,7 @@ export const educationData = {
       teamSize: 4
     },
     {
-      id: 2, 
+      id: 11, 
       title: "Library Management System",
       description: "Database-driven application for library book management",
       techStack: ["PHP", "MySQL", "HTML5", "CSS3"],
