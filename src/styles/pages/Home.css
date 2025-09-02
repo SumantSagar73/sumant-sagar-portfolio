@@ -13,6 +13,86 @@
   overflow: hidden;
 }
 
+/* Animated Grid Background */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0, 0 0;
+  z-index: 1;
+  animation: grid-move 20s linear infinite;
+  opacity: 0.6;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+  background-size: 25px 25px;
+  background-position: 0 0, 0 0;
+  z-index: 1;
+  animation: grid-move 15s linear infinite reverse;
+  opacity: 0.4;
+}
+
+@keyframes grid-move {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 50px 50px, 50px 50px;
+  }
+}
+
+/* Additional grid enhancements */
+.hero-section .container {
+  position: relative;
+  z-index: 3;
+}
+
+/* Subtle dot overlay for extra depth */
+.hero-section .hero-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(circle, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -1;
+  animation: dots-float 25s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+@keyframes dots-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px) scale(1.05);
+  }
+  50% {
+    transform: translateY(0) translateX(10px) scale(1);
+  }
+  75% {
+    transform: translateY(10px) translateX(5px) scale(0.95);
+  }
+}
+
 .hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -23,7 +103,20 @@
   margin: 0 auto;
   padding: var(--spacing-lg);
   position: relative;
+  z-index: 4; /* Increased to ensure content is above all grid layers */
+}
+
+/* Additional gradient overlay for better text readability */
+.hero-section > .container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
   z-index: 2;
+  pointer-events: none;
 }
 
 .hero-title {
@@ -234,6 +327,22 @@
 }
 
 @media (max-width: 768px) {
+  /* Adjust grid for mobile */
+  .hero-section::before {
+    background-size: 30px 30px;
+    animation-duration: 15s;
+  }
+  
+  .hero-section::after {
+    background-size: 15px 15px;
+    animation-duration: 12s;
+  }
+  
+  .hero-content::before {
+    background-size: 15px 15px;
+    animation-duration: 20s;
+  }
+  
   .hero-content {
     grid-template-columns: 1fr;
     gap: var(--spacing-2xl);

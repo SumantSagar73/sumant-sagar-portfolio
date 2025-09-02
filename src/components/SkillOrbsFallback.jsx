@@ -143,17 +143,21 @@ const SkillOrbsFallback = () => {
       setOrbs(prevOrbs => {
         const newOrbs = prevOrbs.map(orb => {
           if (orb.isDragging) {
-            // Calculate velocity based on mouse movement for realistic dragging
+            // Calculate target position based on mouse and drag offset
             const targetX = mousePos.x - orb.dragOffset.x
             const targetY = mousePos.y - orb.dragOffset.y
-            const dragForce = 0.2 // How strongly the ball follows the mouse
+            
+            // Use smoother following with less aggressive movement
+            const dragForce = 0.15 // Reduced for smoother following
+            const deltaX = targetX - orb.x
+            const deltaY = targetY - orb.y
             
             return {
               ...orb,
-              x: orb.x + (targetX - orb.x) * dragForce,
-              y: orb.y + (targetY - orb.y) * dragForce,
-              vx: (targetX - orb.x) * 0.1, // Give it velocity based on drag direction
-              vy: (targetY - orb.y) * 0.1,
+              x: orb.x + deltaX * dragForce,
+              y: orb.y + deltaY * dragForce,
+              vx: deltaX * 0.08, // Reduced velocity transfer
+              vy: deltaY * 0.08,
               isAsleep: false
             }
           }
@@ -394,6 +398,9 @@ const SkillOrbsFallback = () => {
     const mouseX = e.clientX - containerRect.left
     const mouseY = e.clientY - containerRect.top
 
+    // Set initial mouse position to prevent jump
+    setMousePos({ x: mouseX, y: mouseY })
+    
     setDraggedOrb(orbId)
     setOrbs(prevOrbs => prevOrbs.map(o => 
       o.id === orbId 
@@ -401,7 +408,7 @@ const SkillOrbsFallback = () => {
             ...o, 
             isDragging: true,
             dragOffset: {
-              x: mouseX - o.x,
+              x: mouseX - o.x, // Offset from ball center to mouse
               y: mouseY - o.y
             }
           }
