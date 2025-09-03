@@ -4,6 +4,11 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.certifications-section {
+  margin-bottom: var(--spacing-xl);
+  overflow: visible; /* Allow 3D carousel to extend beyond */
+}
+
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -38,6 +43,27 @@
   font-weight: var(--font-bold);
   color: var(--text-primary);
   margin-bottom: var(--spacing-md);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-header .section-title {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: var(--text-3xl);
+}
+
+.section-header .section-description {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .about-description {

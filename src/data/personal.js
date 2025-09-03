@@ -32,7 +32,6 @@ export const personalInfo = {
   stats: {
     projectsCompleted: "15+",
     dsaProblemseSolved: "200+",
-    yearsOfExperience: "2+",
     technologiesUsed: "10+"
   },
   

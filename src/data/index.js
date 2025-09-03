@@ -7,6 +7,7 @@ export { default as socialLinks, allSocialLinks, mainSocialLinks, getSocialLinks
 export { contactInfo, getPrimaryEmail, getContactMethods, getAvailabilityStatus } from './contact.js'
 export { default as experienceData, getAllExperience, getCurrentJob, getTotalExperience, getWorkExperience } from './experience.js'
 export { default as educationData, getDegrees, getCertifications, getEducationTimeline } from './education.js'
+export { certificates } from './certificates.js'
 
 // Configuration and settings
 export const config = {

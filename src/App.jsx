@@ -1,53 +1,53 @@
-import React from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import ThemeProvider from './context/ThemeContext'
-import { useTheme } from './context/useTheme'
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import ThemeProvider from "./context/ThemeContext";
+import { useTheme } from "./context/useTheme";
 
 // Components
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import ScrollToTop from './components/ScrollToTop'
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Pages
-import Home from './pages/Home'
-import About from './pages/About'
-import Projects from './pages/Projects'
-import Contact from './pages/Contact'
-import ResumePreview from './components/ResumePreview'
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import Contact from "./pages/Contact";
+import ResumePreview from "./components/ResumePreview";
 
 // Theme Toggle Button Component
 const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme()
-  
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <button
       onClick={toggleTheme}
       className="theme-toggle btn btn-ghost"
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-      title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {theme === 'light' ? '🌙' : '☀️'}
+      {theme === "light" ? "🌙" : "☀️"}
       <span className="sr-only">
-        {theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+        {theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
       </span>
     </button>
-  )
-}
+  );
+};
 
 // Main App Layout Component
 const AppLayout = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <div className="app-layout">
       <Navbar />
-      
+
       {/* Theme Toggle - Fixed Position */}
       <div className="theme-toggle-container">
         <ThemeToggle />
       </div>
-      
+
       {/* Main Content Area */}
       <main className="main-content">
         <Routes location={location}>
@@ -60,14 +60,14 @@ const AppLayout = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      
+
       <Footer />
-      
+
       {/* Scroll to Top Button */}
       <ScrollToTop />
     </div>
-  )
-}
+  );
+};
 
 // 404 Not Found Component
 const NotFound = () => {
@@ -84,8 +84,8 @@ const NotFound = () => {
             <a href="/" className="btn btn-primary">
               Go Home
             </a>
-            <button 
-              onClick={() => window.history.back()} 
+            <button
+              onClick={() => window.history.back()}
               className="btn btn-secondary"
             >
               Go Back
@@ -94,8 +94,8 @@ const NotFound = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Root App Component
 const App = () => {
@@ -103,7 +103,7 @@ const App = () => {
     <ThemeProvider>
       <AppLayout />
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

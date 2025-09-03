@@ -3,8 +3,7 @@ import { motion } from 'framer-motion'
 import { FaCertificate, FaGraduationCap, FaTrophy, FaExternalLinkAlt } from 'react-icons/fa'
 import { personalInfo } from '../data/personal'
 import { skillsData, skillCategories } from '../data/skills'
-import { experienceData } from '../data/experience'
-import { certificationsData } from '../data/certifications'
+import CertificateCarousel from '../components/CertificateCarousel'
 import profilePic from '../assets/profile-pic.png'
 
 const About = () => {
@@ -92,7 +91,6 @@ const About = () => {
                 >
                   <h3>Quick Facts</h3>
                   <p>Based in {personalInfo.location}</p>
-                  <p>{personalInfo.experience}+ years of experience</p>
                   <p>Passionate about {personalInfo.interests[0].toLowerCase()}</p>
                 </motion.div>
               </div>
@@ -141,132 +139,21 @@ const About = () => {
             ))}
           </motion.section>
 
-          {/* Experience Preview */}
-                    {/* Experience Section */}
-          <motion.section 
-            className="experience-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <h2 className="section-title">Professional Journey</h2>
-            <div className="experience-timeline">
-              {experienceData.work.concat(experienceData.internships).map((exp) => (
-                <motion.div
-                  key={exp.id}
-                  className="timeline-item"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="timeline-content">
-                    <h3 className="job-title">{exp.position}</h3>
-                    <h4 className="company-name">{exp.company}</h4>
-                    <span className="job-duration">{exp.startDate} - {exp.endDate}</span>
-                    <p className="job-description">{exp.description}</p>
-                    <div className="job-skills">
-                      {exp.skills.map(skill => (
-                        <span key={skill} className="skill-tag">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
           {/* Certifications Section */}
           <motion.section 
             className="certifications-section"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <h2 className="section-title">Certifications & Achievements</h2>
-            <p className="section-description">
-              Professional certifications and achievements that validate my technical expertise
-            </p>
-            
-            <div className="certifications-container">
-              {Object.entries(certificationsData.categories).map(([key, category]) => (
-                <motion.div 
-                  key={key}
-                  className="certification-category"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="category-title">
-                    {key === 'technical' && <FaCertificate />}
-                    {key === 'courses' && <FaGraduationCap />}
-                    {key === 'achievements' && <FaTrophy />}
-                    {category.title}
-                  </h3>
-                  
-                  <div className="certifications-grid">
-                    {category.items.map((cert, index) => (
-                      <motion.div
-                        key={cert.id}
-                        className="certification-card"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ scale: 1.02, y: -5 }}
-                        viewport={{ once: true }}
-                      >
-                        <div className="cert-header">
-                          <div className="cert-icon">
-                            {key === 'technical' && <FaCertificate />}
-                            {key === 'courses' && <FaGraduationCap />}
-                            {key === 'achievements' && <FaTrophy />}
-                          </div>
-                          <div className="cert-status">{cert.status}</div>
-                        </div>
-                        
-                        <div className="cert-content">
-                          <h4 className="cert-name">{cert.name}</h4>
-                          <p className="cert-issuer">
-                            {cert.issuer || cert.provider || cert.platform}
-                          </p>
-                          <p className="cert-description">{cert.description}</p>
-                          
-                          <div className="cert-details">
-                            <span className="cert-date">{cert.date}</span>
-                            {cert.duration && <span className="cert-duration">{cert.duration}</span>}
-                            {cert.rank && <span className="cert-rank">Rank: {cert.rank}</span>}
-                          </div>
-                          
-                          {cert.skills && (
-                            <div className="cert-skills">
-                              {cert.skills.map((skill, idx) => (
-                                <span key={idx} className="skill-tag">{skill}</span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        
-                        {cert.url && cert.url !== '#' && (
-                          <a href={cert.url} target="_blank" rel="noopener noreferrer" className="cert-link">
-                            <FaExternalLinkAlt /> View Certificate
-                          </a>
-                        )}
-                        
-                        {cert.url === '#' && (
-                          <div className="cert-placeholder">
-                            <span>Certificate will be added soon</span>
-                          </div>
-                        )}
-                      </motion.div>
-                    ))}
-                  </div>
-                  
-                  {category.items.length === 0 && (
-                    <div className="empty-category">
-                      <p>Certifications will be added to this section soon.</p>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
+            <div className="section-header">
+              <h2 className="section-title">Professional Certifications</h2>
+              <p className="section-description">
+                Scroll through my 3D certificate carousel to explore my professional achievements and technical expertise
+              </p>
             </div>
+            
+            <CertificateCarousel />
           </motion.section>
 
           {/* Interests */}

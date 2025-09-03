@@ -1,16 +1,26 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaEye, FaCode, FaCalendarAlt } from 'react-icons/fa'
-import { projectsData, getProjectsByCategory } from '../data/projects'
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaEye,
+  FaCode,
+  FaCalendarAlt,
+} from "react-icons/fa";
+import { projectsData, getProjectsByCategory } from "../data/projects";
+import ProjectCarousel from "../components/ProjectCarousel";
 
 const Projects = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [filteredProjects, setFilteredProjects] = useState(projectsData.all)
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [filteredProjects, setFilteredProjects] = useState(projectsData.all);
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category)
-    setFilteredProjects(getProjectsByCategory(category))
-  }
+    setSelectedCategory(category);
+    setFilteredProjects(getProjectsByCategory(category));
+  };
+
+  // Get all projects for carousel
+  const carouselProjects = projectsData.all;
 
   return (
     <motion.div
@@ -22,7 +32,7 @@ const Projects = () => {
     >
       <div className="container">
         <div className="page-content">
-          <motion.h1 
+          <motion.h1
             className="page-title"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -30,27 +40,52 @@ const Projects = () => {
           >
             My Projects
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             className="page-description"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Explore my latest work and personal projects that showcase my skills and creativity.
+            Explore my latest work and personal projects that showcase my skills
+            and creativity.
           </motion.p>
 
+          {/* Project Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <ProjectCarousel projects={carouselProjects} />
+          </motion.div>
+
+          {/* All Projects Section */}
+          <motion.div
+            className="section-divider"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <h2 className="section-title">All Projects</h2>
+            <p className="section-description">
+              Browse through all my projects by category
+            </p>
+          </motion.div>
+
           {/* Category Filter */}
-          <motion.div 
+          <motion.div
             className="category-filter"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             {projectsData.categories.map((category) => (
               <button
                 key={category}
-                className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
+                className={`filter-btn ${
+                  selectedCategory === category ? "active" : ""
+                }`}
                 onClick={() => handleCategoryChange(category)}
               >
                 {category}
@@ -59,7 +94,7 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Stats */}
-          <motion.div 
+          <motion.div
             className="projects-stats"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,7 +105,9 @@ const Projects = () => {
               <span className="stat-label">Total Projects</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">{projectsData.stats.completed}</span>
+              <span className="stat-number">
+                {projectsData.stats.completed}
+              </span>
               <span className="stat-label">Completed</span>
             </div>
             <div className="stat-item">
@@ -80,7 +117,7 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div 
+          <motion.div
             className="projects-grid"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,90 +133,102 @@ const Projects = () => {
                   transition={{ delay: index * 0.1 }}
                   layout
                 >
-                  <div className={`project-card ${project.featured ? 'featured' : ''}`}>
+                  <div
+                    className={`project-card ${
+                      project.featured ? "featured" : ""
+                    }`}
+                  >
                     {project.featured && (
                       <div className="featured-badge">
                         <span>⭐ Featured</span>
                       </div>
                     )}
-                  
-                  <div className="project-image">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      onError={(e) => {
-                        e.target.style.display = 'none'
-                        e.target.nextSibling.style.display = 'flex'
-                      }}
-                    />
-                    <div className="image-placeholder">
-                      <FaCode />
+
+                    <div className="project-image">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          e.target.nextSibling.style.display = "flex";
+                        }}
+                      />
+                      <div className="image-placeholder">
+                        <FaCode />
+                      </div>
+
+                      <div className="project-overlay">
+                        <div className="project-actions">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="action-btn"
+                            title="View Live Demo"
+                          >
+                            <FaEye />
+                          </a>
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="action-btn"
+                            title="View Source Code"
+                          >
+                            <FaGithub />
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="project-overlay">
-                      <div className="project-actions">
-                        <a 
-                          href={project.liveUrl} 
-                          target="_blank" 
+
+                    <div className="project-content">
+                      <div className="project-header">
+                        <h3 className="project-title">{project.title}</h3>
+                        <div className="project-meta">
+                          <span className="project-year">
+                            <FaCalendarAlt /> {project.year}
+                          </span>
+                          <span
+                            className={`project-status ${project.status
+                              .toLowerCase()
+                              .replace(" ", "-")}`}
+                          >
+                            {project.status}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className="project-description">
+                        {project.description}
+                      </p>
+
+                      <div className="project-tech">
+                        {project.techStack.map((tech) => (
+                          <span key={tech} className="tech-tag">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="project-footer">
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="action-btn"
-                          title="View Live Demo"
+                          className="btn btn-primary btn-sm"
                         >
-                          <FaEye />
+                          <FaExternalLinkAlt /> Live Demo
                         </a>
-                        <a 
-                          href={project.githubUrl} 
-                          target="_blank" 
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="action-btn"
-                          title="View Source Code"
+                          className="btn btn-outline btn-sm"
                         >
-                          <FaGithub />
+                          <FaGithub /> Code
                         </a>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="project-content">
-                    <div className="project-header">
-                      <h3 className="project-title">{project.title}</h3>
-                      <div className="project-meta">
-                        <span className="project-year">
-                          <FaCalendarAlt /> {project.year}
-                        </span>
-                        <span className={`project-status ${project.status.toLowerCase().replace(' ', '-')}`}>
-                          {project.status}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <p className="project-description">{project.description}</p>
-                    
-                    <div className="project-tech">
-                      {project.techStack.map((tech) => (
-                        <span key={tech} className="tech-tag">{tech}</span>
-                      ))}
-                    </div>
-                    
-                    <div className="project-footer">
-                      <a 
-                        href={project.liveUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-primary btn-sm"
-                      >
-                        <FaExternalLinkAlt /> Live Demo
-                      </a>
-                      <a 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-outline btn-sm"
-                      >
-                        <FaGithub /> Code
-                      </a>
-                    </div>
-                  </div>
                   </div>
                 </motion.div>
               ))}
@@ -187,7 +236,7 @@ const Projects = () => {
           </motion.div>
 
           {filteredProjects.length === 0 && (
-            <motion.div 
+            <motion.div
               className="no-projects"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -198,7 +247,7 @@ const Projects = () => {
         </div>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default Projects
+export default Projects;

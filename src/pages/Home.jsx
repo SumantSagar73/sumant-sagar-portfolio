@@ -223,12 +223,13 @@ const Home = () => {
                 >
                   🚀
                 </motion.div>
+                
               </div>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll to Explore Indicator */}
         <motion.div
           className="scroll-indicator"
           initial={{ opacity: 0 }}
@@ -249,6 +250,7 @@ const Home = () => {
           <span>Scroll to explore</span>
         </motion.div>
       </section>
+      
 
       {/* Skills Preview Section */}
       <section className="skills-preview-section">
