@@ -3,7 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
 import { useTheme } from "./context/useTheme";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/react';
+
 
 // Components
 import Navbar from "./components/Navbar";
@@ -102,7 +103,11 @@ const NotFound = () => {
 const App = () => {
   return (
     <ThemeProvider>
-      <Analytics />
+            <Analytics />
+
+      {/* @vercel/analytics/next is Next.js-only and causes Vite to try resolving `next/navigation`.
+          Removed to avoid runtime errors in this Vite app. If you want analytics, use a
+          Vite-compatible analytics integration or initialize the package conditionally. */}
 
       <AppLayout />
     </ThemeProvider>
