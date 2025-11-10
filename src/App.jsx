@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
 import { useTheme } from "./context/useTheme";
+import { Analytics } from "@vercel/analytics/next"
 
 // Components
 import Navbar from "./components/Navbar";
@@ -101,6 +102,8 @@ const NotFound = () => {
 const App = () => {
   return (
     <ThemeProvider>
+      <Analytics />
+
       <AppLayout />
     </ThemeProvider>
   );

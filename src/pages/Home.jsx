@@ -1,4 +1,5 @@
 import React from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -18,6 +19,8 @@ import {
   SiCodechef,
 } from "react-icons/si";
 import { personalInfo } from "../data/personal";
+import RotatingTitles from "../components/RotatingTitles";
+import { heroTitles } from "../data/titles";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
 import profilePic from "../assets/profile-pic.png";
 // import Hero3DBackground from "../components/Hero3DBackground";
@@ -26,11 +29,7 @@ import "../styles/pages/Home.css";
 
 const Home = () => {
   // Web Development roles instead of programming languages
-  const webDevRoles = [
-    { name: "Frontend Development", icon: FaCode, color: "#61dafb" },
-    { name: "UI/UX Design", icon: FaPalette, color: "#ff6b6b" },
-    { name: "Responsive Design", icon: FaMobile, color: "#4ecdc4" },
-  ];
+  // ...existing web development role metadata removed (not displayed)
 
   // Combine professional and coding platforms for social display
   const socialPlatforms = [
@@ -101,7 +100,9 @@ const Home = () => {
               >
                 <h2 className="hero-subtitle">
                   I'm a{" "}
-                  <span className="gradient-text">{personalInfo.title}</span>
+                  <span className="gradient-text">
+                    <RotatingTitles titles={heroTitles} interval={2200} />
+                  </span>
                 </h2>
               </motion.div>
 
@@ -124,14 +125,16 @@ const Home = () => {
                   <FaEye />
                   View My Work
                 </Link>
-                <Link
-                  to="/resume"
+                <a
+                  href={personalInfo.resumeUrl}
                   className="btn btn-secondary"
                   style={{ marginLeft: "1rem" }}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaDownload />
                   Preview & Download Resume
-                </Link>
+                </a>
               </motion.div>
 
               {/* Social Links */}
@@ -268,25 +271,7 @@ const Home = () => {
             </p>
             <SkillOrbsFallback />
             
-            <h3 className="section-title" style={{ marginTop: '3rem' }}>What I Do</h3>
-            <div className="skills-grid">
-              {webDevRoles.map((role, index) => (
-                <motion.div
-                  key={role.name}
-                  className="skill-card"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="skill-icon" style={{ color: role.color }}>
-                    <role.icon />
-                  </div>
-                  <h4 className="skill-name">{role.name}</h4>
-                </motion.div>
-              ))}
-            </div>
+            {/* 'What I Do' section removed per request */}
 
             <motion.div
               className="skills-cta"

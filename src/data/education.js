@@ -2,9 +2,7 @@
 export const educationData = {
   // Formal Education
   degrees: [
-     {
-      id: 7,
-      name: "JavaScript - The Complete Guide",{
+    {
       id: 1,
       institution: "Lovely Professional University",
       degree: "Bachelor of Technology",

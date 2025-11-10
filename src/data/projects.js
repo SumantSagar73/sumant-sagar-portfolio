@@ -111,47 +111,82 @@ export const projectsData = {
       featured: true,
       year: "2023"
     },
+    // Replaced 3 dummy projects with real projects from resume
     {
       id: 4,
-      title: "Task Management App",
-      description: "A productivity app for managing tasks with drag-and-drop functionality and team collaboration.",
-      longDescription: "Full-featured task management application with Kanban boards, real-time collaboration, file attachments, and progress tracking.",
-      techStack: ["React", "TypeScript", "Firebase", "Material-UI"],
+      title: "SecureVPN",
+      description: "Virtual Private Network (VPN) application focused on online security and privacy.",
+      longDescription: "Developed a VPN application implementing encryption protocols, a user-friendly interface, server selection, and privacy protections like DNS leak prevention and a kill-switch. Deployed on AWS for scalability and reliability.",
+      techStack: ["OpenVPN", "IPSec", "AWS", "Security Protocols"],
       liveUrl: "#",
-      githubUrl: "https://github.com/SumantSagar73/task-manager",
-      image: "/assets/projects/task-manager.png",
-      category: "Web Development",
+      githubUrl: "#",
+      image: "/assets/projects/securevpn.png",
+      category: "Security",
       status: "Completed",
       featured: false,
-      year: "2023"
+      year: "2024",
+      highlights: [
+        "Implemented encryption protocols (OpenVPN/IPSec)",
+        "Integrated kill-switch and DNS leak protection",
+        "Deployed to AWS for scalability"
+      ]
     },
     {
       id: 5,
-      title: "Recipe Finder App",
-      description: "A mobile-responsive app to discover and save recipes with nutritional information.",
-      longDescription: "Recipe discovery platform with advanced search, nutritional analysis, meal planning, and social sharing features.",
-      techStack: ["React", "CSS3", "Recipe API", "Local Storage"],
+      title: "Event Management System",
+      description: "Full-stack MERN event management platform for discovering, booking, and managing events.",
+      longDescription: "Built a full-stack event management platform with responsive frontend, secure authentication, role-based access, RESTful APIs, and admin dashboards. Implemented file uploads and deployed to cloud platforms for live access.",
+      techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT"],
       liveUrl: "#",
-      githubUrl: "https://github.com/SumantSagar73/recipe-finder",
-      image: "/assets/projects/recipe-app.png",
-      category: "Web Development",
-      status: "Completed",
-      featured: false,
-      year: "2023"
-    },
-    {
-      id: 6,
-      title: "Social Media Dashboard",
-      description: "A comprehensive analytics dashboard for managing multiple social media accounts.",
-      longDescription: "Advanced social media management tool with analytics, post scheduling, engagement tracking, and automated reporting features.",
-      techStack: ["React", "Node.js", "PostgreSQL", "Socket.io", "Chart.js"],
-      liveUrl: "#",
-      githubUrl: "https://github.com/SumantSagar73/social-dashboard",
-      image: "/assets/projects/social-dashboard.png",
+      githubUrl: "#",
+      image: "/assets/projects/event-management.png",
       category: "Full Stack",
       status: "Completed",
       featured: false,
-      year: "2024"
+      year: "2025",
+      highlights: [
+        "Responsive frontend with React and Bootstrap",
+        "Role-based authentication with JWT",
+        "Organizer/admin dashboards and file uploads"
+      ]
+    },
+    {
+      id: 22,
+      title: "Dharma Desk – Browser Extension",
+      description: "A productivity-focused browser extension turning the new tab into a personal dashboard with task management, goals, and daily quotes.",
+      longDescription: "Built a lightweight browser extension that replaces the new tab with a personal dashboard. Features include persistent task tracking using LocalStorage, daily Bhagavad Gita quotes, quick links, and goal tracking. Designed for instant load and cross-browser compatibility.",
+      techStack: ["JavaScript", "HTML", "CSS", "LocalStorage", "Browser APIs"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image: "/assets/projects/dharma-desk.png",
+      category: "Browser Extension",
+      status: "Completed",
+      featured: false,
+      year: "2025",
+      highlights: [
+        "Persistent task tracking using LocalStorage",
+        "Integrated Bhagavad Gita daily quotes",
+        "Responsive, optimized UI for instant load across browsers"
+      ]
+    },
+    {
+      id: 23,
+      title: "Certify",
+      description: "A secure full-stack certificate management app for uploading, indexing, and searching PDFs/images with user isolation.",
+      longDescription: "Engineered a secure full-stack application for managing certificates with advanced metadata, search, and bulk operations. Integrated Supabase Authentication (Magic Link & Google Sign-In), storage with Row Level Security, and optimized UI with Tailwind CSS and a HelpTour to guide new users.",
+      techStack: ["React", "Vite", "Supabase", "PostgreSQL", "Tailwind CSS"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image: "/assets/projects/certify.png",
+      category: "Full Stack",
+      status: "In Progress",
+      featured: false,
+      year: "2025",
+      highlights: [
+        "Supabase Authentication and Storage with RLS",
+        "Advanced metadata, search, and bulk certificate operations",
+        "Improved onboarding with HelpTour and theming"
+      ]
     },
     {
       id: 7,
@@ -377,8 +412,8 @@ export const projectsData = {
 
   // Project Statistics
   stats: {
-    total: 21,
-    completed: 16,
+    total: 23,
+    completed: 18,
     inProgress: 5,
     featured: 3
   }

@@ -1,4 +1,6 @@
 import React from 'react'
+// motion is used in JSX (e.g. <motion.div />). Some linters flag it as unused; allow it here.
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion'
 import { FaCertificate, FaGraduationCap, FaTrophy, FaExternalLinkAlt } from 'react-icons/fa'
 import { personalInfo } from '../data/personal'

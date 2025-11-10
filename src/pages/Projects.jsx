@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+// motion is used as JSX components (<motion.div />). Silence false-positive unused var warnings.
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaGithub,

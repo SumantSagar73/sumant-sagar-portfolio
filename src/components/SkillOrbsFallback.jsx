@@ -110,7 +110,7 @@ const SkillOrbsFallback = () => {
     ]
 
     const containerRect = containerRef.current.getBoundingClientRect()
-    const orbSize = 80
+    const orbSize = 85 //80
     
     const initialOrbs = skills.map((skill, index) => ({
       id: index,
@@ -121,7 +121,8 @@ const SkillOrbsFallback = () => {
       vy: 0, // Vertical velocity starts at 0
       radius: orbSize / 2,
       isDragging: false,
-      dragOffset: { x: 0, y: 0 }
+      dragOffset: { x: 0, y: 0 },
+      bounceScale: 1 // For bounce animation
     }))
 
     setOrbs(initialOrbs)
@@ -134,14 +135,21 @@ const SkillOrbsFallback = () => {
     const animate = () => {
       const containerRect = containerRef.current.getBoundingClientRect()
       const gravity = 0.25 // Further reduced gravity
-      const bounce = 0.4 // Much reduced bounce
-      const friction = 0.998 // Higher friction for better damping
-      const minVelocity = 0.02 // Higher threshold to stop micro-movements
-      const floorDamping = 0.05 // Additional damping when near floor
-      const sleepThreshold = 0.005 // Velocity below which balls "sleep"
+      const bounce = 0.3 // Much reduced bounce to prevent bouncing
+      const friction = 0.995 // Higher friction for better damping
+      const minVelocity = 0.05 // Higher threshold to stop micro-movements
+      const floorDamping = 0.15 // Additional damping when near floor
+      const sleepThreshold = 0.15 // Velocity below which balls "sleep"
 
       setOrbs(prevOrbs => {
         const newOrbs = prevOrbs.map(orb => {
+          // Decay bounce scale back to 1
+          const newBounceScale = orb.bounceScale > 1 
+            ? Math.max(1, orb.bounceScale - 0.02) 
+            : orb.bounceScale < 1 
+            ? Math.min(1, orb.bounceScale + 0.02)
+            : 1
+
           if (orb.isDragging) {
             // Calculate target position based on mouse and drag offset
             const targetX = mousePos.x - orb.dragOffset.x
@@ -158,7 +166,8 @@ const SkillOrbsFallback = () => {
               y: orb.y + deltaY * dragForce,
               vx: deltaX * 0.08, // Reduced velocity transfer
               vy: deltaY * 0.08,
-              isAsleep: false
+              isAsleep: false,
+              bounceScale: newBounceScale
             }
           }
 
@@ -169,7 +178,7 @@ const SkillOrbsFallback = () => {
 
           // Enhanced sleep mode for settled balls
           const velocityMagnitude = Math.sqrt(newVx * newVx + newVy * newVy)
-          const isNearFloor = newY >= containerRect.height - orb.radius - 10
+          const isNearFloor = newY >= containerRect.height - orb.radius - 5
           
           if (velocityMagnitude < sleepThreshold && isNearFloor) {
             // Ball is essentially motionless, put it to sleep
@@ -182,11 +191,12 @@ const SkillOrbsFallback = () => {
               y: newY,
               vx: newVx,
               vy: newVy,
-              isAsleep: true
+              isAsleep: true,
+              bounceScale: 1
             }
           }
 
-          // Apply stronger damping when moving slowly
+          // Apply stronger damping when moving slowly to avoid micro-vibrations
           if (Math.abs(newVx) < minVelocity) {
             newVx = 0
           }
@@ -204,32 +214,42 @@ const SkillOrbsFallback = () => {
           const containerWidth = containerRect.width
           const containerHeight = containerRect.height
 
+          // Track if collision happened for bounce animation
+          let hasCollision = false
+
           // Left and right walls
           if (newX <= orb.radius) {
             newX = orb.radius
             newVx = -newVx * bounce
+            hasCollision = Math.abs(newVx) > 0.5 // Only trigger if significant impact
           } else if (newX >= containerWidth - orb.radius) {
             newX = containerWidth - orb.radius
             newVx = -newVx * bounce
+            hasCollision = Math.abs(newVx) > 0.5
           }
 
-          // Floor - with enhanced settling logic
+          // Floor - with enhanced settling logic to eliminate tiny bounces
           if (newY >= containerHeight - orb.radius) {
             newY = containerHeight - orb.radius
-            
-            // If velocity is very small, stop all movement
-            if (Math.abs(newVy) < 1.5) {
+
+            // If vertical velocity is small, stop vertical movement completely
+            if (Math.abs(newVy) < 1.0) {
               newVy = 0
-              newVx *= 0.5 // Heavy horizontal damping when settled
+              // Aggressively damp horizontal velocity as well to prevent sliding/vibration
+              newVx *= 0.5
             } else {
               newVy = -newVy * bounce
+              hasCollision = Math.abs(newVy) > 1.0 // Trigger bounce on floor impact
             }
-            
-            // Additional settling check - if ball has been near floor, reduce energy
+
+            // If very close to floor and low energy, zero it out completely
             const distanceFromFloor = (containerHeight - orb.radius) - orb.y
-            if (distanceFromFloor < 5 && Math.abs(newVy) < 3) {
-              newVy *= 0.3 // Aggressive damping for near-floor balls
-              newVx *= 0.7
+            if (distanceFromFloor < 2 && Math.abs(newVy) < 1.5) {
+              newVy = 0
+              // Stop horizontal movement too to prevent vibration
+              if (Math.abs(newVx) < 0.5) {
+                newVx = 0
+              }
             }
           }
 
@@ -238,7 +258,8 @@ const SkillOrbsFallback = () => {
             x: newX,
             y: newY,
             vx: newVx,
-            vy: newVy
+            vy: newVy,
+            bounceScale: hasCollision ? 1.08 : newBounceScale
           }
         })
 
@@ -272,6 +293,9 @@ const SkillOrbsFallback = () => {
               const separationX = (normalX * overlap) / 2
               const separationY = (normalY * overlap) / 2
 
+              // Track collision impact for bounce effect
+              const impactStrength = Math.min(Math.abs(overlap) / 10, 1)
+
               // If one ball is being dragged, only move the non-dragged ball
               if (orb1.isDragging && !orb2.isDragging) {
                 newOrbs[j].x += separationX * 2 // Move the non-dragged ball away
@@ -281,6 +305,9 @@ const SkillOrbsFallback = () => {
                 const pushForce = 2
                 newOrbs[j].vx += normalX * pushForce
                 newOrbs[j].vy += normalY * pushForce
+                
+                // Add bounce effect to pushed ball
+                newOrbs[j].bounceScale = 1.1
               } else if (orb2.isDragging && !orb1.isDragging) {
                 newOrbs[i].x -= separationX * 2 // Move the non-dragged ball away
                 newOrbs[i].y -= separationY * 2
@@ -289,6 +316,9 @@ const SkillOrbsFallback = () => {
                 const pushForce = 2
                 newOrbs[i].vx -= normalX * pushForce
                 newOrbs[i].vy -= normalY * pushForce
+                
+                // Add bounce effect to pushed ball
+                newOrbs[i].bounceScale = 1.1
               } else if (!orb1.isDragging && !orb2.isDragging) {
                 // Normal collision between two non-dragged balls
                 newOrbs[i].x -= separationX
@@ -307,7 +337,7 @@ const SkillOrbsFallback = () => {
                 if (velocityAlongNormal > 0) continue
 
                 // Much reduced restitution for minimal bouncing
-                const restitution = 0.2
+                const restitution = 0.15 // Further reduced to minimize bounce
 
                 // Calculate impulse scalar
                 const impulse = -(1 + restitution) * velocityAlongNormal
@@ -316,13 +346,22 @@ const SkillOrbsFallback = () => {
                 const impulseX = impulse * normalX
                 const impulseY = impulse * normalY
 
-                newOrbs[i].vx -= impulseX * 0.4 // Reduced impulse transfer
-                newOrbs[i].vy -= impulseY * 0.4
-                newOrbs[j].vx += impulseX * 0.4
-                newOrbs[j].vy += impulseY * 0.4
+                newOrbs[i].vx -= impulseX * 0.3 // Further reduced impulse transfer
+                newOrbs[i].vy -= impulseY * 0.3
+                newOrbs[j].vx += impulseX * 0.3
+                newOrbs[j].vy += impulseY * 0.3
 
-                // Remove random energy boost completely to prevent vibration
-                // No energy addition to keep system stable
+                // Apply additional damping after collision to settle faster
+                newOrbs[i].vx *= 0.95
+                newOrbs[i].vy *= 0.95
+                newOrbs[j].vx *= 0.95
+                newOrbs[j].vy *= 0.95
+
+                // Add subtle bounce effect based on impact strength
+                if (impactStrength > 0.3) {
+                  newOrbs[i].bounceScale = 1 + (impactStrength * 0.08)
+                  newOrbs[j].bounceScale = 1 + (impactStrength * 0.08)
+                }
               }
             }
           }
@@ -444,7 +483,10 @@ const SkillOrbsFallback = () => {
                 '--primary-color': orb.skill.color,
                 cursor: orb.isDragging ? 'grabbing' : 'grab',
                 zIndex: orb.isDragging ? 10 : 1,
-                transform: orb.isDragging ? 'scale(1.1)' : 'scale(1)'
+                transform: orb.isDragging 
+                  ? 'scale(1.1)' 
+                  : `scale(${orb.bounceScale})`,
+                transition: orb.isDragging ? 'none' : 'transform 0.15s ease-out'
               }}
               onMouseDown={(e) => handleOrbMouseDown(e, orb.id)}
               data-skill={orb.skill.name}

@@ -1,5 +1,7 @@
 // Personal Information
 import { resumeData } from './resume';
+// Import local resume PDF (placed in src/assets)
+import resumePdf from '../assets/SumantSagarResume.pdf';
 
 export const personalInfo = {
   // Basic Information
@@ -21,7 +23,8 @@ export const personalInfo = {
   
   // Media
   profileImage: "/assets/profile-pic.png",
-  resumeUrl: resumeData.resumeUrls.googleDocsPdf,
+  // Use the locally checked-in PDF so clicking the button opens the file in a new tab
+  resumeUrl: resumePdf || resumeData.resumeUrls.googleDocsView,
   
   // Status
   availableForWork: true,

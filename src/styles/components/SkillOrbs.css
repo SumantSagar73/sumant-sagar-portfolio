@@ -172,6 +172,10 @@
   color: white;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .skill-tooltip {
@@ -314,6 +318,7 @@
   
   .skill-icon {
     font-size: 1.7rem;
+    line-height: 1;
   }
 }
 
@@ -338,6 +343,7 @@
   
   .skill-icon {
     font-size: 1.5rem;
+    line-height: 1;
   }
   
   .skill-tooltip {

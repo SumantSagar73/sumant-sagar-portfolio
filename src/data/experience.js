@@ -118,7 +118,6 @@ export const getCurrentJob = () =>
 
 export const getTotalExperience = () => {
   // Calculate total years of experience
-  const allExp = getAllExperience()
   return "2+ years"
 }
 
