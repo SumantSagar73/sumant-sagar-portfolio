@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaDownload, FaClock, FaCheckCircle, FaPaperPlane } from 'react-icons/fa'
+import { FaEnvelope, FaClock, FaCheckCircle, FaPaperPlane, FaMapMarkerAlt } from 'react-icons/fa'
 import { contactInfo, getContactMethods } from '../data/contact'
 import emailjs from '@emailjs/browser'
 import '../styles/pages/Contact.css'
@@ -27,23 +27,19 @@ const Contact = () => {
     setIsSubmitting(true)
     setFormStatus('')
 
-    // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       setFormStatus('error')
       setIsSubmitting(false)
-      console.error('Form validation failed: Missing required fields')
       return
     }
 
     try {
-      // EmailJS configuration from environment variables
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
-      // Validate environment variables
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS configuration missing. Please check your environment variables.')
+        throw new Error('EmailJS configuration missing')
       }
 
       const templateParams = {
@@ -54,20 +50,11 @@ const Contact = () => {
         to_name: 'Sumant Sagar'
       }
 
-      console.log('Sending email with params:', templateParams)
       await emailjs.send(serviceId, templateId, templateParams, publicKey)
-      
       setFormStatus('success')
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      })
+      setFormData({ name: '', email: '', subject: '', message: '' })
     } catch (error) {
       console.error('EmailJS error:', error)
-      console.error('Error details:', error.text || error.message)
       setFormStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -112,9 +99,7 @@ const Contact = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <h2 className="section-title">Contact Information</h2>
-              
-              <div className="contact-methods">
+              <div className="contact-methods" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
                 {contactMethods.map((method, index) => (
                   <motion.div
                     key={method.name}
@@ -147,26 +132,17 @@ const Contact = () => {
                 ))}
               </div>
 
-              {/* Availability Status */}
+              {/* Availability Status - Kept subtle, no explicit text */}
               <motion.div 
                 className="availability-card"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
+                style={{ marginTop: '1rem', padding: '0.75rem 1rem' }}
               >
-                <div className="availability-header">
+                <div className="availability-header" style={{ marginBottom: 0 }}>
                   <FaCheckCircle className="status-icon" />
-                  <h3>{contactInfo.availability.status}</h3>
-                </div>
-                <div className="availability-details">
-                  <div className="detail-item">
-                    <FaClock />
-                    <span>Response time: {contactInfo.availability.responseTime}</span>
-                  </div>
-                  <div className="detail-item">
-                    <FaMapMarkerAlt />
-                    <span>Location: {contactInfo.primary.location}</span>
-                  </div>
+                  <h3 style={{ fontSize: '0.95rem', margin: 0 }}>Open to collaboration</h3>
                 </div>
               </motion.div>
             </motion.div>
@@ -178,88 +154,81 @@ const Contact = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h2 className="section-title">Send a Message</h2>
+              <h2 className="section-title" style={{ fontSize: '1.5rem' }}>Send a Message</h2>
               
-              <form onSubmit={handleSubmit} className="contact-form">
-                {contactInfo.form.fields.map((field) => (
-                  <div key={field.name} className="form-group">
-                    <label htmlFor={field.name} className="form-label">
-                      {field.label}
-                      {field.required && <span className="required">*</span>}
-                    </label>
-                    
-                    {field.type === 'textarea' ? (
-                      <textarea
-                        id={field.name}
-                        name={field.name}
-                        value={formData[field.name]}
-                        onChange={handleChange}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        rows={field.rows || 4}
-                        className="form-textarea"
-                      />
-                    ) : (
-                      <input
-                        type={field.type}
-                        id={field.name}
-                        name={field.name}
-                        value={formData[field.name]}
-                        onChange={handleChange}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        className="form-input"
-                      />
-                    )}
+              <form onSubmit={handleSubmit} className="contact-form" style={{ gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Name"
+                      required
+                      className="form-input"
+                      style={{ padding: '0.8rem' }}
+                    />
                   </div>
-                ))}
+                  <div className="form-group">
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      required
+                      className="form-input"
+                      style={{ padding: '0.8rem' }}
+                    />
+                  </div>
+                </div>
                 
-                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="Subject"
+                    required
+                    className="form-input"
+                    style={{ padding: '0.8rem' }}
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Message"
+                    required
+                    rows={4}
+                    className="form-textarea"
+                    style={{ padding: '0.8rem', minHeight: '100px' }}
+                  />
+                </div>
+                
+                <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ width: '100%' }}>
                   {isSubmitting ? <FaClock /> : <FaPaperPlane />}
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
                 
                 {formStatus === 'success' && (
                   <div className="form-status success">
-                    <FaCheckCircle />
-                    Message sent successfully! I'll get back to you soon.
+                    <FaCheckCircle /> Message sent!
                   </div>
                 )}
 
                 {formStatus === 'error' && (
                   <div className="form-status error">
-                    <FaEnvelope />
-                    Failed to send message. Please check the console for details or contact me directly.
+                    <FaEnvelope /> Failed to send.
                   </div>
                 )}
               </form>
             </motion.div>
           </div>
-
-          {/* Additional Info */}
-          <motion.div 
-            className="additional-info"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <h2 className="section-title">What I Can Help With</h2>
-            <div className="services-grid">
-              {contactInfo.preferences.projectTypes.map((type, index) => (
-                <motion.div
-                  key={type}
-                  className="service-card"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  viewport={{ once: true }}
-                >
-                  {type}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
     </motion.div>

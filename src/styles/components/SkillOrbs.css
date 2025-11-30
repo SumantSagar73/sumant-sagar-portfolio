@@ -91,8 +91,8 @@
 }
 
 .skill-orb.physics-ball {
-  width: 80px;
-  height: 80px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
   background: var(--primary-color);
   display: flex;
@@ -168,7 +168,7 @@
 }
 
 .skill-icon {
-  font-size: 2rem;
+  font-size: 3rem;
   color: white;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   transition: all 0.3s ease;

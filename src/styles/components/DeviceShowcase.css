@@ -1,0 +1,282 @@
+/* Device Showcase Container */
+.device-showcase-container {
+  width: 100%;
+  padding: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.showcase-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--spacing-2xl);
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Left Panel: Info */
+.project-info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  z-index: 2;
+}
+
+.project-category-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.project-title-display {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.project-description-display {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+}
+
+.tech-stack-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+}
+
+.tech-pill {
+  padding: 6px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.tech-pill:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.project-actions-display {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+/* Navigation Controls */
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.pagination-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: var(--primary-color);
+  transform: scale(1.5);
+}
+
+/* Right Panel: Laptop Device */
+.device-display-area {
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.laptop-wrapper {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.laptop-wrapper:hover {
+  transform: rotateY(-5deg) rotateX(5deg);
+}
+
+/* Laptop Lid */
+.laptop-lid {
+  background: #1a1a1a; /* Dark Grey/Black Frame */
+  border-radius: 16px 16px 0 0;
+  padding: 12px 12px 0 12px; /* Bezel */
+  position: relative;
+  box-shadow: inset 0 0 0 2px #333;
+  aspect-ratio: 16 / 10;
+  transform-origin: bottom;
+}
+
+.laptop-camera {
+  width: 6px;
+  height: 6px;
+  background: #333;
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+
+.laptop-screen {
+  background: #000;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #333;
+}
+
+.screen-image-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e1e1e;
+}
+
+.screen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.screen-fallback {
+  position: absolute;
+  z-index: -1;
+  font-size: 4rem;
+  color: #333;
+}
+
+/* Laptop Base */
+.laptop-base {
+  background: #2a2a2a; /* Darker base */
+  height: 16px;
+  border-radius: 0 0 12px 12px;
+  position: relative;
+  margin-top: -1px; /* Connect to lid */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.laptop-base::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 8px;
+  background: #3a3a3a; /* Hinge area */
+  border-radius: 0 0 8px 8px;
+}
+
+.laptop-trackpad {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 100%;
+  /* Subtle trackpad outline if needed, usually invisible on side view */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .showcase-layout {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .project-info-panel {
+    order: 2; /* Move info below laptop on mobile */
+    text-align: center;
+    align-items: center;
+  }
+
+  .project-actions-display {
+    justify-content: center;
+  }
+
+  .tech-stack-display {
+    justify-content: center;
+  }
+
+  .navigation-controls {
+    justify-content: center;
+  }
+
+  .device-display-area {
+    order: 1;
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .project-title-display {
+    font-size: var(--text-2xl);
+  }
+  
+  .laptop-lid {
+    padding: 8px 8px 0 8px;
+  }
+}

@@ -14,12 +14,11 @@ export const personalInfo = {
         I specialize in creating responsive, user-friendly applications using React and modern JavaScript frameworks.`,
   
   detailedBio: `I'm a dedicated Frontend Developer who loves turning complex problems into simple, beautiful designs. 
-                With over 200+ Data Structures & Algorithms problems solved and 15+ projects completed, 
                 I bring both technical expertise and creative problem-solving to every project.
                 
                 My journey in web development started with curiosity and has evolved into a passion for creating 
                 seamless user experiences. I believe in writing clean, maintainable code and staying updated 
-                with the latest industry trends and best practices.`,
+                with the latest industry trends.`,
   
   // Media
   profileImage: "/assets/profile-pic.png",

@@ -1,7 +1,7 @@
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 import {
   FaDownload,
   FaEye,
@@ -23,8 +23,6 @@ import RotatingTitles from "../components/RotatingTitles";
 import { heroTitles } from "../data/titles";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
 import profilePic from "../assets/profile-pic.png";
-// import Hero3DBackground from "../components/Hero3DBackground";
-import SkillOrbsFallback from "../components/SkillOrbsFallback";
 import "../styles/pages/Home.css";
 
 const Home = () => {
@@ -56,7 +54,6 @@ const Home = () => {
     <div className="home-page">
       {/* Hero Section */}
       <section className="hero-section">
-        {/* <Hero3DBackground /> */}
         <div className="container">
           <motion.div
             className="hero-content"
@@ -121,10 +118,17 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                <Link to="/projects" className="btn btn-primary">
+                <ScrollLink 
+                  to="projects" 
+                  smooth={true} 
+                  offset={-70} 
+                  duration={500} 
+                  className="btn btn-primary"
+                  style={{ cursor: 'pointer' }}
+                >
                   <FaEye />
                   View My Work
-                </Link>
+                </ScrollLink>
                 <a
                   href={personalInfo.resumeUrl}
                   className="btn btn-secondary"
@@ -196,36 +200,6 @@ const Home = () => {
                     </span>
                   </div>
                 </motion.div>
-
-                {/* Floating Elements */}
-                <motion.div
-                  className="floating-element floating-1"
-                  animate={{
-                    y: [-10, 10, -10],
-                    rotate: [0, 5, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  💻
-                </motion.div>
-                <motion.div
-                  className="floating-element floating-2"
-                  animate={{
-                    y: [10, -10, 10],
-                    rotate: [0, -5, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  🚀
-                </motion.div>
                 
               </div>
             </motion.div>
@@ -252,40 +226,6 @@ const Home = () => {
           </motion.div>
           <span>Scroll to explore</span>
         </motion.div>
-      </section>
-      
-
-      {/* Skills Preview Section */}
-      <section className="skills-preview-section">
-        <div className="container">
-          <motion.div
-            className="skills-preview"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <h3 className="section-title">My Tech Stack</h3>
-            <p className="section-description">
-              Interactive visualization of my core technologies
-            </p>
-            <SkillOrbsFallback />
-            
-            {/* 'What I Do' section removed per request */}
-
-            <motion.div
-              className="skills-cta"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <Link to="/about" className="btn btn-outline">
-                Learn More About Me
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
       </section>
     </div>
   );

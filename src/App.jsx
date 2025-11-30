@@ -40,6 +40,24 @@ const ThemeToggle = () => {
 // Main App Layout Component
 const AppLayout = () => {
   const location = useLocation();
+  const isResumePage = location.pathname === "/resume";
+
+  if (isResumePage) {
+    return (
+      <div className="app-layout">
+        <Navbar />
+        <div className="theme-toggle-container">
+          <ThemeToggle />
+        </div>
+        <main className="main-content">
+          <Routes>
+            <Route path="/resume" element={<ResumePreview />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="app-layout">
@@ -52,49 +70,24 @@ const AppLayout = () => {
 
       {/* Main Content Area */}
       <main className="main-content">
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/resume" element={<ResumePreview />} />
-          {/* Catch-all route for 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <section id="home">
+          <Home />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="projects">
+          <Projects />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
       </main>
 
       <Footer />
 
       {/* Scroll to Top Button */}
       <ScrollToTop />
-    </div>
-  );
-};
-
-// 404 Not Found Component
-const NotFound = () => {
-  return (
-    <div className="not-found-container">
-      <div className="container">
-        <div className="not-found-content">
-          <h1 className="not-found-title">404</h1>
-          <h2 className="not-found-subtitle">Page Not Found</h2>
-          <p className="not-found-description">
-            The page you're looking for doesn't exist or has been moved.
-          </p>
-          <div className="not-found-actions">
-            <a href="/" className="btn btn-primary">
-              Go Home
-            </a>
-            <button
-              onClick={() => window.history.back()}
-              className="btn btn-secondary"
-            >
-              Go Back
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

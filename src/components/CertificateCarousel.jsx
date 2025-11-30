@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { certificates } from '../data/certificates';
+import { FaExpand, FaCompress } from 'react-icons/fa';
 import '../styles/components/CertificateCarousel.css';
 
 const CertificateCarousel = () => {
@@ -7,6 +8,7 @@ const CertificateCarousel = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isInView, setIsInView] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef(null);
   const contentRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -19,37 +21,44 @@ const CertificateCarousel = () => {
     const container = containerRef.current;
     if (!container) return;
 
+    let rafId;
     let scrollTimeout;
     let hasScrolled = false;
 
     const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      const maxScroll = container.scrollHeight - container.clientHeight;
-      const scrollPercent = maxScroll > 0 ? scrollTop / maxScroll : 0;
-      setScrollPosition(scrollPercent);
+      if (rafId) return;
+      
+      rafId = requestAnimationFrame(() => {
+        const scrollTop = container.scrollTop;
+        const maxScroll = container.scrollHeight - container.clientHeight;
+        const scrollPercent = maxScroll > 0 ? scrollTop / maxScroll : 0;
+        setScrollPosition(scrollPercent);
+        rafId = null;
 
-      // On first scroll within the container, center the section
-      if (!hasScrolled && scrollTop > 0) {
-        hasScrolled = true;
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          const wrapper = wrapperRef.current;
-          if (wrapper) {
-            wrapper.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-          }
-        }, 150);
-      }
+        // On first scroll within the container, center the section
+        if (!hasScrolled && scrollTop > 0) {
+          hasScrolled = true;
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            const wrapper = wrapperRef.current;
+            if (wrapper) {
+              wrapper.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+              });
+            }
+          }, 150);
+        }
+      });
     };
 
     container.addEventListener('scroll', handleScroll);
     return () => {
       container.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
       clearTimeout(scrollTimeout);
     };
-  }, []);
+  }, [isFullscreen]);
 
   // Intersection Observer to detect when section comes into view
   useEffect(() => {
@@ -62,7 +71,7 @@ const CertificateCarousel = () => {
         setIsInView(entry.isIntersecting);
         
         // When section comes into view, scroll it to center
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !isFullscreen) {
           setTimeout(() => {
             wrapper.scrollIntoView({
               behavior: 'smooth',
@@ -79,7 +88,24 @@ const CertificateCarousel = () => {
 
     observer.observe(wrapper);
     return () => observer.unobserve(wrapper);
-  }, []);
+  }, [isFullscreen]);
+
+  // Handle fullscreen toggle
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  // Handle escape key to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
 
   // Calculate rotation for each certificate - arranged like spokes facing center
   const getCardTransform = (index) => {
@@ -87,7 +113,7 @@ const CertificateCarousel = () => {
     const rotationOffset = scrollPosition * 360 * 2; // 2 full rotations
     const finalAngle = baseAngle + rotationOffset;
     
-    const radius = 400; // Increased radius to utilize extra container space
+    const radius = isFullscreen ? 500 : 400; // Increased radius in fullscreen
     
     // Calculate position on the circle
     const angleInRadians = (finalAngle * Math.PI) / 180;
@@ -120,11 +146,21 @@ const CertificateCarousel = () => {
   };
 
   return (
-    <div className="certificate-carousel-wrapper" ref={wrapperRef}>
-      <div className="certificate-carousel-header">
-        <h2>Professional Certifications</h2>
-        <p>Scroll to rotate the certificate carousel</p>
-      </div>
+    <div 
+      className={`certificate-carousel-wrapper ${isFullscreen ? 'fullscreen' : ''}`} 
+      ref={wrapperRef}
+    >
+      <button 
+        className="fullscreen-toggle-btn"
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        title={isFullscreen ? "Exit Fullscreen (Esc)" : "View Fullscreen"}
+      >
+        {isFullscreen ? <FaCompress /> : <FaExpand />}
+        <span className="fullscreen-hint">
+          {isFullscreen ? "Exit Fullscreen" : "Fullscreen Mode"}
+        </span>
+      </button>
       
       <div 
         ref={containerRef}
@@ -179,18 +215,6 @@ const CertificateCarousel = () => {
                             </span>
                           ))}
                         </div>
-                        
-                        <div className="certificate-footer">
-                          <a 
-                            href={certificate.verifyUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="verify-btn"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            Verify
-                          </a>
-                        </div>
                       </div>
                       
                       {/* Add back side with same content for visibility from all angles */}
@@ -222,18 +246,6 @@ const CertificateCarousel = () => {
                               {skill}
                             </span>
                           ))}
-                        </div>
-                        
-                        <div className="certificate-footer">
-                          <a 
-                            href={certificate.verifyUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="verify-btn"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            Verify
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -305,14 +317,6 @@ const CertificateCarousel = () => {
               </div>
               
               <div className="modal-actions">
-                <a 
-                  href={selectedCertificate.verifyUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="modal-verify-btn"
-                >
-                  🔗 Verify Certificate
-                </a>
                 <button 
                   className="modal-close-action"
                   onClick={() => setSelectedCertificate(null)}

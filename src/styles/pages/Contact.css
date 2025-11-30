@@ -7,6 +7,13 @@
   margin-bottom: var(--spacing-2xl);
 }
 
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+
 .contact-info-section {
   display: flex;
   flex-direction: column;
@@ -39,66 +46,71 @@
 }
 
 .contact-methods {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  /* Grid layout is handled inline in JSX now, but keeping this for fallback/mobile overrides if needed */
+  width: 100%;
 }
 
 .contact-method {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   transition: all var(--transition-normal);
   cursor: pointer;
+  height: 100%;
 }
 
 .method-icon {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-full);
   background: var(--bg-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   flex-shrink: 0;
 }
 
 .method-info {
   flex: 1;
+  min-width: 0; /* Prevent text overflow */
 }
 
 .method-name {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: var(--font-semibold);
   color: var(--text-primary);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: 2px;
 }
 
 .method-value {
   color: var(--primary-color);
   font-weight: var(--font-medium);
-  margin-bottom: var(--spacing-xs);
+  font-size: var(--text-sm);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .method-description {
   color: var(--text-secondary);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .method-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: var(--primary-color);
   color: white;
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   text-decoration: none;
   border-radius: var(--radius-full);
   transition: all var(--transition-normal);
