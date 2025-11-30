@@ -3,7 +3,7 @@ import './rotating-titles.css'
 
 // Simple rotating titles component — cycles through `titles` array
 // Animation: vertical scroll (slide up) per item; configurable interval
-export default function RotatingTitles({ titles = [], interval = 2000 }) {
+export default function RotatingTitles({ titles = [], interval = 2000, className = '' }) {
   const [index, setIndex] = useState(0)
   const mounted = useRef(true)
 
@@ -26,7 +26,7 @@ export default function RotatingTitles({ titles = [], interval = 2000 }) {
         {titles.map((t, i) => (
           <div
             key={t + i}
-            className={`rotating-item ${i === index ? 'active' : ''}`}>
+            className={`rotating-item ${i === index ? 'active' : ''} ${className}`}>
             {t}
           </div>
         ))}

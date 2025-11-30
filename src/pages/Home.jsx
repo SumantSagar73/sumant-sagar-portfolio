@@ -97,9 +97,7 @@ const Home = () => {
               >
                 <h2 className="hero-subtitle">
                   I'm a{" "}
-                  <span className="gradient-text">
-                    <RotatingTitles titles={heroTitles} interval={2200} />
-                  </span>
+                  <RotatingTitles titles={heroTitles} interval={2200} className="gradient-text" />
                 </h2>
               </motion.div>
 

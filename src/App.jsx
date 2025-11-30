@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
 import { useTheme } from "./context/useTheme";
+import { FaMoon, FaSun } from 'react-icons/fa'
 import { Analytics } from '@vercel/analytics/react';
 
 
@@ -29,7 +30,7 @@ const ThemeToggle = () => {
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
       title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {theme === "light" ? "🌙" : "☀️"}
+      {theme === "light" ? <FaMoon aria-hidden="true" /> : <FaSun aria-hidden="true" />}
       <span className="sr-only">
         {theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
       </span>

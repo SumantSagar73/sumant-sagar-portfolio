@@ -200,9 +200,6 @@ const CertificateCarousel = () => {
                           <h3 className="certificate-title">
                             {certificate.title}
                           </h3>
-                          <div className="certificate-credential">
-                            Credential ID: {certificate.credential}
-                          </div>
                           <div className="certificate-date">
                             Issued: {certificate.date}
                           </div>
@@ -232,9 +229,6 @@ const CertificateCarousel = () => {
                           <h3 className="certificate-title">
                             {certificate.title}
                           </h3>
-                          <div className="certificate-credential">
-                            Credential ID: {certificate.credential}
-                          </div>
                           <div className="certificate-date">
                             Issued: {certificate.date}
                           </div>
@@ -284,11 +278,6 @@ const CertificateCarousel = () => {
               </h2>
               
               <div className="modal-details">
-                <div className="detail-item">
-                  <span className="detail-label">Credential ID:</span>
-                  <span className="detail-value">{selectedCertificate.credential}</span>
-                </div>
-                
                 <div className="detail-item">
                   <span className="detail-label">Issued:</span>
                   <span className="detail-value">{selectedCertificate.date}</span>

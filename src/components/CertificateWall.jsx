@@ -40,7 +40,6 @@ const CertificateWall = () => {
                     </div>
                     <h3 className="cert-title">{cert.title}</h3>
                     <div className="cert-date">{cert.date}</div>
-                    <div className="cert-credential">ID: {cert.credential}</div>
                     <div className="cert-skills">
                       {cert.skills.slice(0, 3).map((skill, i) => (
                         <span key={i} className="cert-skill-tag">{skill}</span>
@@ -83,11 +82,6 @@ const CertificateWall = () => {
               </h2>
               
               <div className="modal-details">
-                <div className="detail-item">
-                  <span className="detail-label">Credential ID:</span>
-                  <span className="detail-value">{selectedCertificate.credential}</span>
-                </div>
-                
                 <div className="detail-item">
                   <span className="detail-label">Issued:</span>
                   <span className="detail-value">{selectedCertificate.date}</span>
