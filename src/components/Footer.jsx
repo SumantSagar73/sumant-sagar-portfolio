@@ -1,5 +1,6 @@
 import React from 'react'
-import { FaHeart, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaHeart, FaExternalLinkAlt, FaGithub, FaLinkedin, FaTwitter, FaGlobe, FaHackerrank } from 'react-icons/fa'
+import { SiLeetcode, SiCodingninjas, SiGeeksforgeeks, SiCodechef } from 'react-icons/si'
 import { mainSocialLinks } from '../data/social'
 import { contactInfo } from '../data/contact'
 import logo from '../assets/logo.png'
@@ -28,11 +29,28 @@ const Footer = () => {
 
         <div className="footer-right">
           <div className="footer-social">
-            {social.map(s => (
-              <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name} className="social-icon-link">
-                <FaExternalLinkAlt />
-              </a>
-            ))}
+            {social.map(s => {
+              // map string icon name to component
+              const iconMap = {
+                FaGithub: FaGithub,
+                FaLinkedin: FaLinkedin,
+                SiLeetcode: SiLeetcode,
+                SiCodingninjas: SiCodingninjas,
+                SiGeeksforgeeks: SiGeeksforgeeks,
+                SiCodechef: SiCodechef,
+                FaHackerrank: FaHackerrank,
+                FaTwitter: FaTwitter,
+                FaGlobe: FaGlobe,
+              }
+
+              const IconComponent = iconMap[s.icon] || FaExternalLinkAlt
+
+              return (
+                <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name} className="social-icon-link" title={s.name}>
+                  <IconComponent />
+                </a>
+              )
+            })}
           </div>
           <a className="footer-email" href={`mailto:${contactInfo.primary.email}`}>{contactInfo.primary.email}</a>
         </div>

@@ -5,6 +5,7 @@ import { Link as ScrollLink } from "react-scroll";
 import {
   FaDownload,
   FaEye,
+  FaSmile,
   FaGithub,
   FaLinkedin,
   FaCode,
@@ -19,8 +20,8 @@ import {
   SiCodechef,
 } from "react-icons/si";
 import { personalInfo } from "../data/personal";
-import RotatingTitles from "../components/RotatingTitles";
 import { heroTitles } from "../data/titles";
+import TypewriterTitles from "../components/TypewriterTitles";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
 import profilePic from "../assets/profile-pic.png";
 import "../styles/pages/Home.css";
@@ -85,7 +86,7 @@ const Home = () => {
                       transformOrigin: '70% 70%'
                     }}
                   >
-                    👋
+                    {/* <FaSmile className="wave-icon" aria-hidden="true" /> */}
                   </motion.span>
                 </h1>
               </motion.div>
@@ -96,8 +97,7 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <h2 className="hero-subtitle">
-                  I'm a{" "}
-                  <RotatingTitles titles={heroTitles} interval={2200} className="gradient-text" />
+                  I'm a <TypewriterTitles titles={heroTitles} typingSpeed={100} deletingSpeed={50} pause={1500} />
                 </h2>
               </motion.div>
 

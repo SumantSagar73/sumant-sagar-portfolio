@@ -22,7 +22,8 @@ export default function RotatingTitles({ titles = [], interval = 2000, className
 
   return (
     <div className="rotating-titles" aria-live="polite">
-      <div className="rotating-window">
+      <div className="rotating-window   style={{ transform: `translateY(-${index * 2.2}rem)` }}
+">
         {titles.map((t, i) => (
           <div
             key={t + i}

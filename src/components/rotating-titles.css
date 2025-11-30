@@ -6,22 +6,20 @@
   height: var(--rotating-height);
   display: inline-block;
 }
-.rotating-window{
+.rotating-window {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.45s cubic-bezier(.2,.9,.2,1);
+}
+.rotating-item {
   position: relative;
+  transform: none !important;
+  opacity: 1 !important;
   height: var(--rotating-height);
+  display: flex;
+  align-items: center;
 }
-.rotating-item{
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: transform 450ms cubic-bezier(.2,.9,.2,1), opacity 300ms ease;
-  will-change: transform, opacity;
-  /* Default readable color for browsers that don't support background-clip text */
-  color: var(--text-primary);
-}
+
 
 /* When a rotating item is given the gradient-text class, apply the gradient
    directly on the element so background-clip works correctly with absolute

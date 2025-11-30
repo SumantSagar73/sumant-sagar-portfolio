@@ -1,7 +1,5 @@
 // Personal Information
 import { resumeData } from './resume';
-// Import local resume PDF (placed in src/assets)
-import resumePdf from '../assets/SumantSagarResume.pdf';
 
 export const personalInfo = {
   // Basic Information
@@ -22,8 +20,8 @@ export const personalInfo = {
   
   // Media
   profileImage: "/assets/profile-pic.png",
-  // Use the locally checked-in PDF so clicking the button opens the file in a new tab
-  resumeUrl: resumePdf || resumeData.resumeUrls.googleDocsView,
+  // Use the GitHub viewer (blob) so clicking "Preview & Download Resume" opens an in-browser viewer
+  resumeUrl: 'https://github.com/SumantSagar73/Resume/blob/main/SumantSagarResume%20(1).pdf',
   
   // Status
   availableForWork: true,
