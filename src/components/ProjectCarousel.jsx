@@ -135,13 +135,23 @@ const ProjectCarousel = ({ projects }) => {
                   // Center card - featured design
                   <div className="project-card-featured">
                     <div className="project-image-featured">
-                      <img 
-                        src={project.image || `https://picsum.photos/600/400?random=${project.id}`} 
-                        alt={project.title}
-                        onError={(e) => {
-                          e.target.src = `https://picsum.photos/600/400?random=${project.id}`;
-                        }}
-                      />
+                        {/* Use bgImage as background for a richer backdrop */}
+                        <div
+                          className="project-image-bg"
+                          style={{
+                            backgroundImage: `url(${project.bgImage || project.image || `https://picsum.photos/600/400?random=${project.id}`})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center center'
+                          }}
+                        >
+                          <img 
+                            src={project.image || `https://picsum.photos/600/400?random=${project.id}`} 
+                            alt={project.title}
+                            onError={(e) => {
+                              e.target.src = `https://picsum.photos/600/400?random=${project.id}`;
+                            }}
+                          />
+                        </div>
                       <div className="project-overlay-featured">
                         <div className="project-badges">
                           <span className="project-category">{project.category}</span>

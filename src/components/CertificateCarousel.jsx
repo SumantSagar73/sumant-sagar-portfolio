@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { certificates } from '../data/certificates';
-import { FaExpand, FaCompress } from 'react-icons/fa';
+import { FaExpand, FaCompress, FaPlay, FaPause } from 'react-icons/fa';
 import '../styles/components/CertificateCarousel.css';
 
 const CertificateCarousel = () => {
@@ -9,9 +9,14 @@ const CertificateCarousel = () => {
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isInView, setIsInView] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const [autoRotation, setAutoRotation] = useState(0);
   const containerRef = useRef(null);
   const contentRef = useRef(null);
   const wrapperRef = useRef(null);
+  const isScrolling = useRef(false);
+  const rotationSpeed = useRef(0); // Current rotation speed
+  const lastTime = useRef(0); // For smooth delta time animation
 
   // Calculate total scrollable height
   const totalCertificates = certificates.length;
@@ -26,6 +31,13 @@ const CertificateCarousel = () => {
     let hasScrolled = false;
 
     const handleScroll = () => {
+      // Set scrolling state
+      isScrolling.current = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling.current = false;
+      }, 150);
+
       if (rafId) return;
       
       rafId = requestAnimationFrame(() => {
@@ -35,19 +47,9 @@ const CertificateCarousel = () => {
         setScrollPosition(scrollPercent);
         rafId = null;
 
-        // On first scroll within the container, center the section
+        // On first scroll within the container, mark that the user has scrolled
         if (!hasScrolled && scrollTop > 0) {
           hasScrolled = true;
-          clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(() => {
-            const wrapper = wrapperRef.current;
-            if (wrapper) {
-              wrapper.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-              });
-            }
-          }, 150);
         }
       });
     };
@@ -60,6 +62,38 @@ const CertificateCarousel = () => {
     };
   }, [isFullscreen]);
 
+  // Auto-rotation effect with smooth inertia
+  useEffect(() => {
+    let animationFrameId;
+    
+    const animate = (time) => {
+      if (lastTime.current === 0) {
+        lastTime.current = time;
+      }
+      
+      // Target speed: 0.2 when rotating, 0 when paused or hovered
+      const targetSpeed = (isAutoRotating && hoveredCard === null) ? 0.2 : 0;
+      
+      // Smoothly interpolate current speed towards target speed (inertia)
+      // 0.05 is the interpolation factor - lower means more inertia/smoother stop
+      rotationSpeed.current += (targetSpeed - rotationSpeed.current) * 0.05;
+      
+      // Only update if there's significant movement
+      if (Math.abs(rotationSpeed.current) > 0.001) {
+        setAutoRotation(prev => prev + rotationSpeed.current);
+      }
+      
+      lastTime.current = time;
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, [isAutoRotating, hoveredCard]);
+
   // Intersection Observer to detect when section comes into view
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -69,16 +103,10 @@ const CertificateCarousel = () => {
       (entries) => {
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
-        
-        // When section comes into view, scroll it to center
-        if (entry.isIntersecting && !isFullscreen) {
-          setTimeout(() => {
-            wrapper.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-          }, 100);
-        }
+        // Note: we intentionally do not auto-scroll here to avoid
+        // interfering with other page navigation. We only track
+        // whether the section is intersecting so parent components
+        // or the user can decide to focus it.
       },
       {
         threshold: 0.3, // Trigger when 30% of the section is visible
@@ -110,7 +138,7 @@ const CertificateCarousel = () => {
   // Calculate rotation for each certificate - arranged like spokes facing center
   const getCardTransform = (index) => {
     const baseAngle = (360 / totalCertificates) * index;
-    const rotationOffset = scrollPosition * 360 * 2; // 2 full rotations
+    const rotationOffset = (scrollPosition * 360 * 2) + autoRotation; // 2 full rotations + auto rotation
     const finalAngle = baseAngle + rotationOffset;
     
     const radius = isFullscreen ? 500 : 400; // Increased radius in fullscreen
@@ -141,7 +169,8 @@ const CertificateCarousel = () => {
         rotateX(0deg)
       `,
       opacity: 1, // Keep all cards fully visible
-      zIndex: Math.round(z + 500) // Ensure proper layering
+      zIndex: Math.round(z + 500), // Ensure proper layering
+      transition: 'none' // Disable CSS transition for smooth auto-rotation
     };
   };
 
@@ -150,17 +179,31 @@ const CertificateCarousel = () => {
       className={`certificate-carousel-wrapper ${isFullscreen ? 'fullscreen' : ''}`} 
       ref={wrapperRef}
     >
-      <button 
-        className="fullscreen-toggle-btn"
-        onClick={toggleFullscreen}
-        aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-        title={isFullscreen ? "Exit Fullscreen (Esc)" : "View Fullscreen"}
-      >
-        {isFullscreen ? <FaCompress /> : <FaExpand />}
-        <span className="fullscreen-hint">
-          {isFullscreen ? "Exit Fullscreen" : "Fullscreen Mode"}
-        </span>
-      </button>
+      <div className="carousel-controls">
+        <button 
+          className="carousel-control-btn"
+          onClick={() => setIsAutoRotating(!isAutoRotating)}
+          aria-label={isAutoRotating ? "Pause Rotation" : "Start Rotation"}
+          title={isAutoRotating ? "Pause Rotation" : "Start Rotation"}
+        >
+          {isAutoRotating ? <FaPause /> : <FaPlay />}
+          <span className="control-hint">
+            {isAutoRotating ? "Pause Rotation" : "Start Rotation"}
+          </span>
+        </button>
+
+        <button 
+          className="carousel-control-btn"
+          onClick={toggleFullscreen}
+          aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          title={isFullscreen ? "Exit Fullscreen (Esc)" : "View Fullscreen"}
+        >
+          {isFullscreen ? <FaCompress /> : <FaExpand />}
+          <span className="control-hint">
+            {isFullscreen ? "Exit Fullscreen" : "Fullscreen Mode"}
+          </span>
+        </button>
+      </div>
       
       <div 
         ref={containerRef}

@@ -19,11 +19,16 @@
   border-radius: 0;
 }
 
-.fullscreen-toggle-btn {
+.carousel-controls {
   position: absolute;
   top: 20px;
   right: 20px;
   z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-control-btn {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
@@ -35,21 +40,22 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-.certificate-carousel-wrapper.fullscreen .fullscreen-toggle-btn {
+.certificate-carousel-wrapper.fullscreen .carousel-control-btn {
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.fullscreen-toggle-btn:hover {
+.carousel-control-btn:hover {
   background: var(--primary-color);
   color: white;
   transform: scale(1.1);
 }
 
-.fullscreen-hint {
+.control-hint {
   position: absolute;
   top: 50%;
   right: 100%;
@@ -67,7 +73,7 @@
   pointer-events: none;
 }
 
-.fullscreen-toggle-btn:hover .fullscreen-hint {
+.carousel-control-btn:hover .control-hint {
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(-5px);

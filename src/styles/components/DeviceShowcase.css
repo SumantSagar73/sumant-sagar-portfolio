@@ -201,9 +201,14 @@
   object-position: top center;
 }
 
+.screen-image {
+  position: relative;
+  z-index: 2;
+}
+
 .screen-fallback {
   position: absolute;
-  z-index: -1;
+  z-index: 1;
   font-size: 4rem;
   color: #333;
 }

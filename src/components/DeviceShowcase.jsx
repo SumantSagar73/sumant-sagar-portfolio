@@ -138,16 +138,22 @@ const DeviceShowcase = ({ projects }) => {
                       opacity: { duration: 0.2 }
                     }}
                     className="screen-image-container"
+                    style={{
+                      backgroundImage: `url(${currentProject.bgImage || currentProject.image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center center'
+                    }}
                   >
-                    <img 
-                      src={currentProject.image} 
-                      alt={currentProject.title}
-                      className="screen-image"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        // Fallback could be handled here
-                      }}
-                    />
+                    {/* Optional foreground screenshot (keeps aspect ratio) */}
+                    {currentProject.image && (
+                      <img
+                        src={currentProject.image}
+                        alt={currentProject.title}
+                        className="screen-image"
+                        onError={(e) => { e.target.style.display = 'none' }}
+                      />
+                    )}
+
                     {/* Fallback Icon if image fails or is missing */}
                     <div className="screen-fallback">
                       <FaLaptopCode />
