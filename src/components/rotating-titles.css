@@ -1,0 +1,50 @@
+:root {
+  --rotating-height: 2.2rem;
+}
+
+.rotating-titles {
+  overflow: hidden;
+  height: var(--rotating-height);
+  display: inline-block;
+}
+
+.rotating-window {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.45s cubic-bezier(.2, .9, .2, 1);
+}
+
+.rotating-item {
+  position: relative;
+  transform: none !important;
+  opacity: 1 !important;
+  height: var(--rotating-height);
+  display: flex;
+  align-items: center;
+}
+
+
+/* When a rotating item is given the gradient-text class, apply the gradient
+   directly on the element so background-clip works correctly with absolute
+   positioning. This makes the items visible when the site uses gradient text. */
+
+/* Apply gradient text only when the browser supports background-clip:text */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .rotating-item.gradient-text {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.rotating-item.active {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+.rotating-item:not(.active) {
+  opacity: 0;
+  transform: translateY(-100%);
+}
