@@ -9,25 +9,25 @@ const pdfVersion = pdfjs.version || '4.4.168';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfVersion}/build/pdf.worker.min.mjs`;
 
 class PdfErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("PDF Rendering Error:", error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <div className="certificate-bg-fallback flex items-center justify-center text-gray-500 text-sm">PDF Preview Unavailable</div>;
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
     }
-    return this.props.children;
-  }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.error("PDF Rendering Error:", error);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <div className="certificate-bg-fallback flex items-center justify-center text-gray-500 text-sm">PDF Preview Unavailable</div>;
+        }
+        return this.props.children;
+    }
 }
 
 const CertificateCardBackground = ({ imageUrl, type = "image", width = 220 }) => {
@@ -50,9 +50,9 @@ const CertificateCardBackground = ({ imageUrl, type = "image", width = 220 }) =>
         return (
             <div className="certificate-bg-media pdf-container">
                 <PdfErrorBoundary>
-                    <Document 
-                        file={imageUrl} 
-                        onLoadSuccess={onDocumentLoadSuccess} 
+                    <Document
+                        file={imageUrl}
+                        onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(err) => {
                             console.error("Document Load Error:", err);
                             setError(true);
@@ -60,11 +60,11 @@ const CertificateCardBackground = ({ imageUrl, type = "image", width = 220 }) =>
                         loading={<div className="pdf-loading">Loading...</div>}
                     >
                         {numPages && (
-                            <Page 
-                                pageNumber={1} 
-                                width={width} 
-                                renderTextLayer={false} 
-                                renderAnnotationLayer={false} 
+                            <Page
+                                pageNumber={1}
+                                width={width}
+                                renderTextLayer={false}
+                                renderAnnotationLayer={false}
                                 error={<div className="pdf-error">Page Error</div>}
                             />
                         )}
