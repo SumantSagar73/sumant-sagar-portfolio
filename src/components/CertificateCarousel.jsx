@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { certificates } from '../data/certificates';
+// import { certificates } from '../data/certificates';
 import { FaExpand, FaCompress, FaPlay, FaPause } from 'react-icons/fa';
+import CertificateCardBackground from './CertificateCardBackground';
 import '../styles/components/CertificateCarousel.css';
+import '../styles/components/CertificateModal.css';
+import { useCertificates } from '../context/CertificateContext';
 
 const CertificateCarousel = () => {
+  const { certificates, loading } = useCertificates();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
@@ -39,7 +43,7 @@ const CertificateCarousel = () => {
       }, 150);
 
       if (rafId) return;
-      
+
       rafId = requestAnimationFrame(() => {
         const scrollTop = container.scrollTop;
         const maxScroll = container.scrollHeight - container.clientHeight;
@@ -65,24 +69,24 @@ const CertificateCarousel = () => {
   // Auto-rotation effect with smooth inertia
   useEffect(() => {
     let animationFrameId;
-    
+
     const animate = (time) => {
       if (lastTime.current === 0) {
         lastTime.current = time;
       }
-      
+
       // Target speed: 0.2 when rotating, 0 when paused or hovered
       const targetSpeed = (isAutoRotating && hoveredCard === null) ? 0.2 : 0;
-      
+
       // Smoothly interpolate current speed towards target speed (inertia)
       // 0.05 is the interpolation factor - lower means more inertia/smoother stop
       rotationSpeed.current += (targetSpeed - rotationSpeed.current) * 0.05;
-      
+
       // Only update if there's significant movement
       if (Math.abs(rotationSpeed.current) > 0.001) {
         setAutoRotation(prev => prev + rotationSpeed.current);
       }
-      
+
       lastTime.current = time;
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -137,31 +141,32 @@ const CertificateCarousel = () => {
 
   // Calculate rotation for each certificate - arranged like spokes facing center
   const getCardTransform = (index) => {
+    if (totalCertificates === 0) return {};
     const baseAngle = (360 / totalCertificates) * index;
     const rotationOffset = (scrollPosition * 360 * 2) + autoRotation; // 2 full rotations + auto rotation
     const finalAngle = baseAngle + rotationOffset;
-    
+
     const radius = isFullscreen ? 500 : 400; // Increased radius in fullscreen
-    
+
     // Calculate position on the circle
     const angleInRadians = (finalAngle * Math.PI) / 180;
     const x = Math.sin(angleInRadians) * radius;
     const z = Math.cos(angleInRadians) * radius;
-    
+
     // Calculate Y position for slight vertical variation (optional)
     const y = Math.sin(angleInRadians * 2) * 20; // Slight wave effect
-    
+
     // Card rotation: rotate so LEFT edge faces the center (like spokes on a wheel)
     // Each card should be rotated so that its LEFT (or RIGHT) edge faces the center of the circle.
     // The cards should be evenly spaced around the circle like spokes on a wheel.
     const cardRotationY = finalAngle + 90; // Rotate 90° so left edge faces center
-    
+
     // Add hover effect - move outward from center
     const hoverMultiplier = hoveredCard === index ? 1.2 : 1;
     const hoverX = x * hoverMultiplier;
     const hoverZ = z * hoverMultiplier;
     const hoverY = y + (hoveredCard === index ? 30 : 0);
-    
+
     return {
       transform: `
         translate3d(${hoverX}px, ${hoverY}px, ${hoverZ}px) 
@@ -175,12 +180,12 @@ const CertificateCarousel = () => {
   };
 
   return (
-    <div 
-      className={`certificate-carousel-wrapper ${isFullscreen ? 'fullscreen' : ''}`} 
+    <div
+      className={`certificate-carousel-wrapper ${isFullscreen ? 'fullscreen' : ''}`}
       ref={wrapperRef}
     >
       <div className="carousel-controls">
-        <button 
+        <button
           className="carousel-control-btn"
           onClick={() => setIsAutoRotating(!isAutoRotating)}
           aria-label={isAutoRotating ? "Pause Rotation" : "Start Rotation"}
@@ -192,7 +197,7 @@ const CertificateCarousel = () => {
           </span>
         </button>
 
-        <button 
+        <button
           className="carousel-control-btn"
           onClick={toggleFullscreen}
           aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
@@ -204,12 +209,12 @@ const CertificateCarousel = () => {
           </span>
         </button>
       </div>
-      
-      <div 
+
+      <div
         ref={containerRef}
         className="certificate-carousel-container"
       >
-        <div 
+        <div
           ref={contentRef}
           className="certificate-carousel-content"
           style={{ height: `${scrollableHeight}px` }}
@@ -218,7 +223,7 @@ const CertificateCarousel = () => {
             <div className="certificate-carousel-circle">
               {certificates.map((certificate, index) => {
                 const style = getCardTransform(index);
-                
+
                 return (
                   <div
                     key={certificate.id}
@@ -230,60 +235,12 @@ const CertificateCarousel = () => {
                   >
                     <div className="certificate-card-inner">
                       <div className="certificate-front">
-                        <div className="certificate-header">
-                          <div className="certificate-logo">
-                            <span className="cert-icon">🏆</span>
-                          </div>
-                          <div className="certificate-issuer">
-                            {certificate.issuer}
-                          </div>
-                        </div>
-                        
-                        <div className="certificate-body">
-                          <h3 className="certificate-title">
-                            {certificate.title}
-                          </h3>
-                          <div className="certificate-date">
-                            Issued: {certificate.date}
-                          </div>
-                        </div>
-                        
-                        <div className="certificate-skills">
-                          {certificate.skills.slice(0, 3).map((skill, skillIndex) => (
-                            <span key={skillIndex} className="skill-tag">
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
+                        <CertificateCardBackground imageUrl={certificate.image} />
                       </div>
-                      
+
                       {/* Add back side with same content for visibility from all angles */}
                       <div className="certificate-back">
-                        <div className="certificate-header">
-                          <div className="certificate-logo">
-                            <span className="cert-icon">🏆</span>
-                          </div>
-                          <div className="certificate-issuer">
-                            {certificate.issuer}
-                          </div>
-                        </div>
-                        
-                        <div className="certificate-body">
-                          <h3 className="certificate-title">
-                            {certificate.title}
-                          </h3>
-                          <div className="certificate-date">
-                            Issued: {certificate.date}
-                          </div>
-                        </div>
-                        
-                        <div className="certificate-skills">
-                          {certificate.skills.slice(0, 3).map((skill, skillIndex) => (
-                            <span key={skillIndex} className="skill-tag">
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
+                        <CertificateCardBackground imageUrl={certificate.image} />
                       </div>
                     </div>
                   </div>
@@ -293,68 +250,69 @@ const CertificateCarousel = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Certificate Detail Modal */}
       {selectedCertificate && (
         <div className="certificate-modal-overlay" onClick={() => setSelectedCertificate(null)}>
           <div className="certificate-modal" onClick={(e) => e.stopPropagation()}>
-            <button 
+            <button
               className="modal-close-btn"
               onClick={() => setSelectedCertificate(null)}
               aria-label="Close modal"
             >
               ×
             </button>
-            
-            <div className="modal-header">
-              <div className="modal-logo">
-                <span className="modal-cert-icon">🏆</span>
-              </div>
-              <div className="modal-issuer">
-                {selectedCertificate.issuer}
-              </div>
-            </div>
-            
-            <div className="modal-body">
-              <h2 className="modal-title">
-                {selectedCertificate.title}
-              </h2>
-              
-              <div className="modal-details">
-                <div className="detail-item">
-                  <span className="detail-label">Issued:</span>
-                  <span className="detail-value">{selectedCertificate.date}</span>
+
+            <div className="modal-content-wrapper">
+              <div className="modal-image-section">
+                <div className="modal-image-container">
+                  <CertificateCardBackground imageUrl={selectedCertificate.image} width={800} />
                 </div>
-                
-                <div className="detail-item">
-                  <span className="detail-label">Skills Covered:</span>
-                  <div className="modal-skills">
-                    {selectedCertificate.skills.map((skill, skillIndex) => (
-                      <span key={skillIndex} className="modal-skill-tag">
-                        {skill}
-                      </span>
-                    ))}
+              </div>
+
+              <div className="modal-details-section">
+                <div className="modal-issuer-badge">
+                  {selectedCertificate.issuer}
+                </div>
+
+                <h2 className="modal-title">
+                  {selectedCertificate.title}
+                </h2>
+
+                <div className="modal-meta-grid">
+                  <div className="meta-item">
+                    <span className="meta-label">Issued</span>
+                    <span className="meta-value">{selectedCertificate.date}</span>
+                  </div>
+
+                  <div className="meta-item">
+                    <span className="meta-label">Skills</span>
+                    <div className="modal-skills-list">
+                      {selectedCertificate.skills.map((skill, skillIndex) => (
+                        <span key={skillIndex} className="skill-pill">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="modal-description">
-                <h3>About This Certification</h3>
-                <p>
-                  This certification validates expertise in {selectedCertificate.title.toLowerCase()} 
-                  and demonstrates proficiency in the associated technologies and methodologies. 
-                  It represents a commitment to professional development and staying current 
-                  with industry standards.
-                </p>
-              </div>
-              
-              <div className="modal-actions">
-                <button 
-                  className="modal-close-action"
-                  onClick={() => setSelectedCertificate(null)}
-                >
-                  Close
-                </button>
+
+                <div className="modal-description">
+                  <h3>About This Certification</h3>
+                  <p>
+                    This certification validates expertise in {selectedCertificate.title}
+                    and demonstrates proficiency in the associated technologies and methodologies.
+                  </p>
+                </div>
+
+                <div className="modal-footer">
+                  <button
+                    className="modal-btn modal-btn-secondary"
+                    onClick={() => setSelectedCertificate(null)}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,15 +1,19 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { certificates } from '../data/certificates';
+// import { certificates } from '../data/certificates';
+import CertificateCardBackground from './CertificateCardBackground';
 import '../styles/components/CertificateWall.css';
+import '../styles/components/CertificateModal.css';
+import { useCertificates } from '../context/CertificateContext';
 
 const CertificateWall = () => {
+  const { certificates } = useCertificates();
   const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   // Generate stable random tilts for each certificate
   const tilts = useMemo(() => {
     return certificates.map(() => Math.random() * 14 - 7); // -7 to 7 degrees for visible tilt
-  }, []);
+  }, [certificates]);
 
   return (
     <div className="certificate-wall-container">
@@ -23,8 +27,8 @@ const CertificateWall = () => {
               whileInView={{ opacity: 1, scale: 1, rotate: tilts[index] }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ 
-                scale: 1.15, 
+              whileHover={{
+                scale: 1.15,
                 rotate: 0,
                 zIndex: 100,
                 transition: { duration: 0.3 }
@@ -33,19 +37,7 @@ const CertificateWall = () => {
             >
               <div className="wall-frame-inner">
                 <div className="frame-matting">
-                  <div className="cert-content">
-                    <div className="cert-header">
-                      <span className="cert-icon">🏆</span>
-                      <span className="cert-issuer">{cert.issuer}</span>
-                    </div>
-                    <h3 className="cert-title">{cert.title}</h3>
-                    <div className="cert-date">{cert.date}</div>
-                    <div className="cert-skills">
-                      {cert.skills.slice(0, 3).map((skill, i) => (
-                        <span key={i} className="cert-skill-tag">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
+                  <CertificateCardBackground imageUrl={cert.image} />
                 </div>
               </div>
               <div className="hanging-string"></div>
@@ -59,63 +51,64 @@ const CertificateWall = () => {
       {selectedCertificate && (
         <div className="certificate-modal-overlay" onClick={() => setSelectedCertificate(null)}>
           <div className="certificate-modal" onClick={(e) => e.stopPropagation()}>
-            <button 
+            <button
               className="modal-close-btn"
               onClick={() => setSelectedCertificate(null)}
               aria-label="Close modal"
             >
               ×
             </button>
-            
-            <div className="modal-header">
-              <div className="modal-logo">
-                <span className="modal-cert-icon">🏆</span>
-              </div>
-              <div className="modal-issuer">
-                {selectedCertificate.issuer}
-              </div>
-            </div>
-            
-            <div className="modal-body">
-              <h2 className="modal-title">
-                {selectedCertificate.title}
-              </h2>
-              
-              <div className="modal-details">
-                <div className="detail-item">
-                  <span className="detail-label">Issued:</span>
-                  <span className="detail-value">{selectedCertificate.date}</span>
+
+            <div className="modal-content-wrapper">
+              <div className="modal-image-section">
+                <div className="modal-image-container">
+                  <CertificateCardBackground imageUrl={selectedCertificate.image} width={800} />
                 </div>
-                
-                <div className="detail-item">
-                  <span className="detail-label">Skills Covered:</span>
-                  <div className="modal-skills">
-                    {selectedCertificate.skills.map((skill, skillIndex) => (
-                      <span key={skillIndex} className="modal-skill-tag">
-                        {skill}
-                      </span>
-                    ))}
+              </div>
+
+              <div className="modal-details-section">
+                <div className="modal-issuer-badge">
+                  {selectedCertificate.issuer}
+                </div>
+
+                <h2 className="modal-title">
+                  {selectedCertificate.title}
+                </h2>
+
+                <div className="modal-meta-grid">
+                  <div className="meta-item">
+                    <span className="meta-label">Issued</span>
+                    <span className="meta-value">{selectedCertificate.date}</span>
+                  </div>
+
+                  <div className="meta-item">
+                    <span className="meta-label">Skills</span>
+                    <div className="modal-skills-list">
+                      {selectedCertificate.skills.map((skill, skillIndex) => (
+                        <span key={skillIndex} className="skill-pill">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="modal-description">
-                <h3>About This Certification</h3>
-                <p>
-                  This certification validates expertise in {selectedCertificate.title.toLowerCase()} 
-                  and demonstrates proficiency in the associated technologies and methodologies. 
-                  It represents a commitment to professional development and staying current 
-                  with industry standards.
-                </p>
-              </div>
-              
-              <div className="modal-actions">
-                <button 
-                  className="modal-close-action"
-                  onClick={() => setSelectedCertificate(null)}
-                >
-                  Close
-                </button>
+
+                <div className="modal-description">
+                  <h3>About This Certification</h3>
+                  <p>
+                    This certification validates expertise in {selectedCertificate.title}
+                    and demonstrates proficiency in the associated technologies and methodologies.
+                  </p>
+                </div>
+
+                <div className="modal-footer">
+                  <button
+                    className="modal-btn modal-btn-secondary"
+                    onClick={() => setSelectedCertificate(null)}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>

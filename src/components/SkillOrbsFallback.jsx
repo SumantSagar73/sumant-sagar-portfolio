@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { 
-  FaReact, 
-  FaJs, 
-  FaNodeJs, 
-  FaCss3Alt, 
-  FaHtml5, 
+import {
+  FaReact,
+  FaJs,
+  FaNodeJs,
+  FaCss3Alt,
+  FaHtml5,
   FaGitAlt,
   FaPython,
   FaDocker,
@@ -17,9 +17,9 @@ import {
   FaPalette,
   FaCode
 } from 'react-icons/fa'
-import { 
-  SiMongodb, 
-  SiExpress, 
+import {
+  SiMongodb,
+  SiExpress,
   SiTailwindcss,
   SiTypescript,
   SiVite,
@@ -64,7 +64,7 @@ const SkillOrbsFallback = () => {
       { name: 'C++', color: '#00599c', icon: SiCplusplus },
       { name: 'C#', color: '#239120', icon: DiDotnet },
       { name: 'Kotlin', color: '#7f52ff', icon: SiKotlin },
-      
+
       // Frontend Technologies
       { name: 'React', color: '#61dafb', icon: FaReact },
       { name: 'HTML5', color: '#e34f26', icon: FaHtml5 },
@@ -73,7 +73,7 @@ const SkillOrbsFallback = () => {
       { name: 'Sass', color: '#cc6699', icon: FaSass },
       { name: 'Bootstrap', color: '#7952b3', icon: FaBootstrap },
       { name: 'Tailwind', color: '#06b6d4', icon: SiTailwindcss },
-      
+
       // Backend & Database
       { name: 'Node.js', color: '#339933', icon: FaNodeJs },
       { name: 'Express', color: '#000000', icon: SiExpress },
@@ -82,7 +82,7 @@ const SkillOrbsFallback = () => {
       { name: 'PostgreSQL', color: '#336791', icon: SiPostgresql },
       { name: 'Firebase', color: '#ffca28', icon: SiFirebase },
       { name: 'Redis', color: '#dc382d', icon: SiRedis },
-      
+
       // Tools & DevOps
       { name: 'Git', color: '#f05032', icon: FaGitAlt },
       { name: 'Docker', color: '#2496ed', icon: FaDocker },
@@ -91,18 +91,18 @@ const SkillOrbsFallback = () => {
       { name: 'Webpack', color: '#8dd6f9', icon: SiWebpack },
       { name: 'Babel', color: '#f9dc3e', icon: SiBabel },
       { name: 'ESLint', color: '#4b32c3', icon: SiEslint },
-      
+
       // State Management & Testing
       { name: 'Redux', color: '#764abc', icon: SiRedux },
       { name: 'GraphQL', color: '#e10098', icon: SiGraphql },
       { name: 'Jest', color: '#c21325', icon: SiJest },
-      
+
       // Design & Other Skills
       { name: 'UI/UX', color: '#ff6b6b', icon: FaPalette },
       { name: 'Figma', color: '#f24e1e', icon: SiFigma },
       { name: 'DSA', color: '#4ecdc4', icon: FaCode },
       { name: 'Responsive', color: '#764abc', icon: FaMobile },
-      
+
       // Coding Platforms
       { name: 'LeetCode', color: '#ffa116', icon: SiLeetcode },
       { name: 'GeeksforGeeks', color: '#0f9d58', icon: SiGeeksforgeeks },
@@ -111,7 +111,7 @@ const SkillOrbsFallback = () => {
 
     const containerRect = containerRef.current.getBoundingClientRect()
     const orbSize = 85 //80
-    
+
     const initialOrbs = skills.map((skill, index) => ({
       id: index,
       skill,
@@ -133,6 +133,7 @@ const SkillOrbsFallback = () => {
     if (!containerRef.current || orbs.length === 0) return
 
     const animate = () => {
+      if (!containerRef.current) return
       const containerRect = containerRef.current.getBoundingClientRect()
       const gravity = 0.25 // Further reduced gravity
       const bounce = 0.3 // Much reduced bounce to prevent bouncing
@@ -144,22 +145,22 @@ const SkillOrbsFallback = () => {
       setOrbs(prevOrbs => {
         const newOrbs = prevOrbs.map(orb => {
           // Decay bounce scale back to 1
-          const newBounceScale = orb.bounceScale > 1 
-            ? Math.max(1, orb.bounceScale - 0.02) 
-            : orb.bounceScale < 1 
-            ? Math.min(1, orb.bounceScale + 0.02)
-            : 1
+          const newBounceScale = orb.bounceScale > 1
+            ? Math.max(1, orb.bounceScale - 0.02)
+            : orb.bounceScale < 1
+              ? Math.min(1, orb.bounceScale + 0.02)
+              : 1
 
           if (orb.isDragging) {
             // Calculate target position based on mouse and drag offset
             const targetX = mousePos.x - orb.dragOffset.x
             const targetY = mousePos.y - orb.dragOffset.y
-            
+
             // Use smoother following with less aggressive movement
             const dragForce = 0.15 // Reduced for smoother following
             const deltaX = targetX - orb.x
             const deltaY = targetY - orb.y
-            
+
             return {
               ...orb,
               x: orb.x + deltaX * dragForce,
@@ -179,7 +180,7 @@ const SkillOrbsFallback = () => {
           // Enhanced sleep mode for settled balls
           const velocityMagnitude = Math.sqrt(newVx * newVx + newVy * newVy)
           const isNearFloor = newY >= containerRect.height - orb.radius - 5
-          
+
           if (velocityMagnitude < sleepThreshold && isNearFloor) {
             // Ball is essentially motionless, put it to sleep
             newVx = 0
@@ -283,7 +284,7 @@ const SkillOrbsFallback = () => {
               // Wake up sleeping balls when collision occurs
               newOrbs[i].isAsleep = false
               newOrbs[j].isAsleep = false
-              
+
               // Normalize collision vector
               const normalX = dx / distance
               const normalY = dy / distance
@@ -300,23 +301,23 @@ const SkillOrbsFallback = () => {
               if (orb1.isDragging && !orb2.isDragging) {
                 newOrbs[j].x += separationX * 2 // Move the non-dragged ball away
                 newOrbs[j].y += separationY * 2
-                
+
                 // Apply strong push force to the non-dragged ball
                 const pushForce = 2
                 newOrbs[j].vx += normalX * pushForce
                 newOrbs[j].vy += normalY * pushForce
-                
+
                 // Add bounce effect to pushed ball
                 newOrbs[j].bounceScale = 1.1
               } else if (orb2.isDragging && !orb1.isDragging) {
                 newOrbs[i].x -= separationX * 2 // Move the non-dragged ball away
                 newOrbs[i].y -= separationY * 2
-                
+
                 // Apply strong push force to the non-dragged ball
                 const pushForce = 2
                 newOrbs[i].vx -= normalX * pushForce
                 newOrbs[i].vy -= normalY * pushForce
-                
+
                 // Add bounce effect to pushed ball
                 newOrbs[i].bounceScale = 1.1
               } else if (!orb1.isDragging && !orb2.isDragging) {
@@ -386,13 +387,13 @@ const SkillOrbsFallback = () => {
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!containerRef.current) return
-      
+
       const containerRect = containerRef.current.getBoundingClientRect()
       const newMousePos = {
         x: e.clientX - containerRect.left,
         y: e.clientY - containerRect.top
       }
-      
+
       setMousePos(newMousePos)
     }
 
@@ -402,8 +403,8 @@ const SkillOrbsFallback = () => {
           if (orb.id === draggedOrb) {
             // Give the ball momentum based on drag velocity
             const releaseVelocityMultiplier = 0.3
-            return { 
-              ...orb, 
+            return {
+              ...orb,
               isDragging: false,
               vx: orb.vx * releaseVelocityMultiplier,
               vy: orb.vy * releaseVelocityMultiplier
@@ -439,18 +440,18 @@ const SkillOrbsFallback = () => {
 
     // Set initial mouse position to prevent jump
     setMousePos({ x: mouseX, y: mouseY })
-    
+
     setDraggedOrb(orbId)
-    setOrbs(prevOrbs => prevOrbs.map(o => 
-      o.id === orbId 
-        ? { 
-            ...o, 
-            isDragging: true,
-            dragOffset: {
-              x: mouseX - o.x, // Offset from ball center to mouse
-              y: mouseY - o.y
-            }
+    setOrbs(prevOrbs => prevOrbs.map(o =>
+      o.id === orbId
+        ? {
+          ...o,
+          isDragging: true,
+          dragOffset: {
+            x: mouseX - o.x, // Offset from ball center to mouse
+            y: mouseY - o.y
           }
+        }
         : o
     ))
   }
@@ -460,12 +461,12 @@ const SkillOrbsFallback = () => {
       {/* Fun Interactive Message */}
       <div className="interaction-message">
         <p>🎮 <strong>Interactive Physics Playground!</strong></p>
-        <p>Drag, throw, and watch the tech skills bounce around! 
-           <span className="emoji-hint"> ✨ Hover for skill details</span>
+        <p>Drag, throw, and watch the tech skills bounce around!
+          <span className="emoji-hint"> ✨ Hover for skill details</span>
         </p>
       </div>
-      
-      <div 
+
+      <div
         ref={containerRef}
         className="physics-playground"
         style={{ position: 'relative', overflow: 'hidden' }}
@@ -483,8 +484,8 @@ const SkillOrbsFallback = () => {
                 '--primary-color': orb.skill.color,
                 cursor: orb.isDragging ? 'grabbing' : 'grab',
                 zIndex: orb.isDragging ? 10 : 1,
-                transform: orb.isDragging 
-                  ? 'scale(1.1)' 
+                transform: orb.isDragging
+                  ? 'scale(1.1)'
                   : `scale(${orb.bounceScale})`,
                 transition: orb.isDragging ? 'none' : 'transform 0.15s ease-out'
               }}

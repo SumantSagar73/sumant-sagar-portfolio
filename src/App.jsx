@@ -97,7 +97,7 @@ const AppLayout = () => {
 const App = () => {
   return (
     <ThemeProvider>
-            <Analytics />
+      <Analytics />
 
       {/* @vercel/analytics/next is Next.js-only and causes Vite to try resolving `next/navigation`.
           Removed to avoid runtime errors in this Vite app. If you want analytics, use a

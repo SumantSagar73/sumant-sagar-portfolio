@@ -1,12 +1,15 @@
 /* Certificate Carousel Wrapper */
 .certificate-carousel-wrapper {
   width: 100%;
-  min-height: 80vh; /* Reduced from 100vh to prevent overtaking */
+  min-height: 80vh;
+  /* Reduced from 100vh to prevent overtaking */
   background: var(--bg-primary);
   position: relative;
-  overflow: hidden; /* Changed from visible to hidden to prevent overflow */
+  overflow: hidden;
+  /* Changed from visible to hidden to prevent overflow */
   border-radius: var(--radius-xl);
-  z-index: 1; /* Lower z-index than navbar */
+  z-index: 1;
+  /* Lower z-index than navbar */
 }
 
 .certificate-carousel-wrapper.fullscreen {
@@ -15,7 +18,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999; /* High z-index for fullscreen */
+  z-index: 9999;
+  /* High z-index for fullscreen */
   border-radius: 0;
 }
 
@@ -81,11 +85,13 @@
 
 /* Main Container */
 .certificate-carousel-container {
-  height: 70vh; 
-  width: 100%; /* Reset to 100% to prevent overflow */
-  margin-left: 0; /* Reset margin */
+  height: 70vh;
+  width: 100%;
+  /* Reset to 100% to prevent overflow */
+  margin-left: 0;
+  /* Reset margin */
   overflow-y: scroll;
-  overflow-x: hidden; 
+  overflow-x: hidden;
   position: relative;
   scroll-behavior: smooth;
   scrollbar-width: thin;
@@ -127,21 +133,27 @@
 .certificate-carousel-content {
   position: relative;
   width: 100%;
-  overflow: visible; /* Allow 3D content to extend beyond */
+  overflow: visible;
+  /* Allow 3D content to extend beyond */
 }
 
 /* 3D Scene */
 .certificate-carousel-scene {
   position: sticky;
   top: 0;
-  height: 70vh; /* Match container height */
-  width: 100%; /* Keep within container bounds */
-  perspective: 2200px; /* Increased perspective for larger container */
-  perspective-origin: center 70%; /* View from front-top (70% down = looking down from above) */
+  height: 70vh;
+  /* Match container height */
+  width: 100%;
+  /* Keep within container bounds */
+  perspective: 2200px;
+  /* Increased perspective for larger container */
+  perspective-origin: center 70%;
+  /* View from front-top (70% down = looking down from above) */
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Hide any overflow */
+  overflow: hidden;
+  /* Hide any overflow */
 }
 
 .certificate-carousel-circle {
@@ -149,22 +161,28 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transform: rotateX(-20deg); /* Increased top view angle */
+  transform: rotateX(-20deg);
+  /* Increased top view angle */
 }
 
 /* Certificate Cards */
 .certificate-card {
   position: absolute;
-  width: 240px; /* Reduced from 320px */
-  height: 180px; /* Reduced from 240px */
+  width: 220px;
+  /* Reduced width */
+  height: 155px;
+  /* Reduced height for ~1.4 ratio */
   left: 50%;
   top: 50%;
-  margin-left: -120px; /* Half of width */
-  margin-top: -90px; /* Half of height */
+  margin-left: -110px;
+  /* Half of width */
+  margin-top: -77.5px;
+  /* Half of height */
   transform-style: preserve-3d;
   transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  backface-visibility: visible; /* Ensure both sides are visible */
+  backface-visibility: visible;
+  /* Ensure both sides are visible */
 }
 
 .certificate-card.hovered {
@@ -186,15 +204,19 @@
   background: var(--glass-bg);
   backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg); /* Slightly reduced radius for smaller cards */
-  padding: var(--spacing-md); /* Reduced padding */
+  border-radius: var(--radius-lg);
+  padding: 0;
+  /* Removed padding to eliminate waste space */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  /* Center content */
+  align-items: center;
   box-shadow: var(--shadow-xl);
   backface-visibility: hidden;
   overflow: hidden;
-  transform: translateZ(0); /* Force GPU acceleration */
+  transform: translateZ(0);
+  /* Force GPU acceleration */
 }
 
 .certificate-back {
@@ -212,7 +234,44 @@
   box-shadow: var(--shadow-xl);
   backface-visibility: hidden;
   overflow: hidden;
-  transform: rotateY(180deg) translateZ(0); /* Flipped back side */
+  transform: rotateY(180deg) translateZ(0);
+  /* Flipped back side */
+}
+
+.certificate-bg-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.certificate-bg-media img,
+.certificate-bg-media canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  /* Changed to fill to stretch image to container */
+  opacity: 1;
+}
+
+.pdf-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.pdf-loading,
+.pdf-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
 }
 
 .certificate-front::before {
@@ -223,12 +282,19 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.1) 0%, 
-    rgba(255, 255, 255, 0.05) 50%, 
-    rgba(0, 0, 0, 0.1) 100%
+    rgba(255, 255, 255, 0.8) 0%, 
+    rgba(255, 255, 255, 0.6) 50%, 
+    rgba(255, 255, 255, 0.8) 100%
   );
   border-radius: var(--radius-xl);
   z-index: -1;
+}
+
+[data-theme="dark"] .certificate-front::before {
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.7) 100%);
 }
 
 /* Certificate Header */
@@ -421,7 +487,7 @@
     margin-left: -140px;
     margin-top: -105px;
   }
-  
+
   .certificate-carousel-circle {
     transform: rotateX(5deg) scale(0.9);
   }
@@ -431,26 +497,26 @@
   .certificate-carousel-container {
     height: 70vh;
   }
-  
+
   .certificate-card {
     width: 250px;
     height: 180px;
     margin-left: -125px;
     margin-top: -90px;
   }
-  
+
   .certificate-front {
     padding: var(--spacing-md);
   }
-  
+
   .certificate-title {
     font-size: var(--text-base);
   }
-  
+
   .certificate-carousel-circle {
     transform: rotateX(0deg) scale(0.8);
   }
-  
+
   .scroll-indicator {
     right: var(--spacing-sm);
   }
@@ -460,26 +526,26 @@
   .certificate-carousel-header {
     padding: var(--spacing-lg) var(--spacing-md);
   }
-  
+
   .certificate-carousel-header h2 {
     font-size: var(--text-2xl);
   }
-  
+
   .certificate-card {
     width: 220px;
     height: 160px;
     margin-left: -110px;
     margin-top: -80px;
   }
-  
+
   .certificate-carousel-circle {
     transform: scale(0.7);
   }
-  
+
   .certificate-skills {
     gap: 2px;
   }
-  
+
   .skill-tag {
     font-size: 10px;
     padding: 2px 6px;
@@ -492,6 +558,7 @@
     transform: translateY(20px) rotateY(0deg);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0) rotateY(0deg);
     opacity: 1;
@@ -512,240 +579,7 @@
   color: var(--primary-color);
 }
 
-/* Certificate Detail Modal */
-.certificate-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: modalFadeIn 0.3s ease-out;
-}
-
-.certificate-modal {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: var(--shadow-2xl);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-.modal-close-btn {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-full);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  font-size: var(--text-xl);
-  cursor: pointer;
-  transition: var(--transition-normal);
-  z-index: 1;
-}
-
-.modal-close-btn:hover {
-  background: var(--primary-color);
-  color: white;
-  transform: scale(1.1);
-}
-
-.modal-header {
-  background: var(--bg-secondary);
-  padding: var(--spacing-xl);
-  text-align: center;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.modal-logo {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto var(--spacing-md);
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-color);
-}
-
-.modal-cert-icon {
-  font-size: var(--text-2xl);
-}
-
-.modal-issuer {
-  color: var(--primary-color);
-  font-size: var(--text-lg);
-  font-weight: var(--font-bold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.modal-body {
-  padding: var(--spacing-2xl);
-}
-
-.modal-title {
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-xl);
-  text-align: center;
-  line-height: 1.3;
-}
-
-.modal-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.detail-label {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.detail-value {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  font-weight: var(--font-medium);
-  background: var(--bg-secondary);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-}
-
-.modal-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-}
-
-.modal-skill-tag {
-  background: var(--primary-color);
-  color: white;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  transition: var(--transition-fast);
-}
-
-.modal-skill-tag:hover {
-  background: var(--accent-color);
-  transform: scale(1.05);
-}
-
-.modal-description {
-  background: var(--bg-secondary);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  margin-bottom: var(--spacing-xl);
-}
-
-.modal-description h3 {
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-md);
-}
-
-.modal-description p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: var(--text-base);
-}
-
-.modal-actions {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.modal-verify-btn {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  color: white;
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-radius: var(--radius-full);
-  text-decoration: none;
-  font-weight: var(--font-medium);
-  transition: var(--transition-normal);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  box-shadow: var(--shadow-md);
-}
-
-.modal-verify-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.modal-close-action {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-medium);
-  cursor: pointer;
-  transition: var(--transition-normal);
-}
-
-.modal-close-action:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--border-dark);
-}
-
-/* Modal Animations */
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px) scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
+/* Certificate Detail Modal styles moved to CertificateModal.css */
 
 /* Responsive Modal */
 @media (max-width: 768px) {
@@ -753,15 +587,15 @@
     width: 95%;
     max-height: 90vh;
   }
-  
+
   .modal-body {
     padding: var(--spacing-lg);
   }
-  
+
   .modal-actions {
     flex-direction: column;
   }
-  
+
   .modal-verify-btn,
   .modal-close-action {
     width: 100%;
