@@ -21,7 +21,7 @@ export const personalInfo = {
   // Media
   profileImage: "/assets/profile-pic.png",
   // Use the GitHub viewer (blob) so clicking "Preview & Download Resume" opens an in-browser viewer
-  resumeUrl: 'https://github.com/SumantSagar73/Resume/blob/main/SumantSagarResume%20(1).pdf',
+  resumeUrl: 'https://github.com/SumantSagar73/Resume/blob/main/SumantSagarResume.pdf',
   
   // Status
   availableForWork: true,

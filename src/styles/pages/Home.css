@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -38,7 +38,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
   background-size: 25px 25px;
@@ -52,6 +52,7 @@
   0% {
     background-position: 0 0, 0 0;
   }
+
   100% {
     background-position: 50px 50px, 50px 50px;
   }
@@ -79,15 +80,20 @@
 }
 
 @keyframes dots-float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) translateX(0) scale(1);
   }
+
   25% {
     transform: translateY(-10px) translateX(5px) scale(1.05);
   }
+
   50% {
     transform: translateY(0) translateX(10px) scale(1);
   }
+
   75% {
     transform: translateY(10px) translateX(5px) scale(0.95);
   }
@@ -103,11 +109,12 @@
   margin: 0 auto;
   padding: var(--spacing-lg);
   position: relative;
-  z-index: 4; /* Increased to ensure content is above all grid layers */
+  z-index: 4;
+  /* Increased to ensure content is above all grid layers */
 }
 
 /* Additional gradient overlay for better text readability */
-.hero-section > .container::before {
+.hero-section>.container::before {
   content: '';
   position: absolute;
   top: 0;
@@ -178,50 +185,60 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  top: -70px;
+  /* Move up to fix "little bottom" */
+  left: 20px;
+  /* Move slightly right */
 }
 
 .image-container {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  /* Increased size */
+  height: 400px;
+  /* Increased size */
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  z-index: 1;
 }
 
 /* Circular border background */
 .image-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-full);
-  border: 4px solid var(--primary-color);
-  box-shadow: var(--shadow-xl);
-  z-index: 1;
+  display: none;
+  /* Removed background circle */
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-full);
-  overflow: hidden;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  overflow: visible;
 }
 
 .profile-image img {
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
   object-fit: contain;
-  border-radius: var(--radius-full);
-  
+  border-radius: 0;
+  margin-bottom: 0;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  transform-origin: bottom center;
+  transition: transform 0.3s ease;
+  transform: scaleX(-1);
+  /* Flip image */
+}
+
+.profile-image:hover img {
+  transform: scaleX(-1) scale(1.05);
+  /* Maintain flip on hover */
 }
 
 .placeholder-avatar {
@@ -335,59 +352,60 @@
 }
 
 @media (max-width: 768px) {
+
   /* Adjust grid for mobile */
   .hero-section::before {
     background-size: 30px 30px;
     animation-duration: 15s;
   }
-  
+
   .hero-section::after {
     background-size: 15px 15px;
     animation-duration: 12s;
   }
-  
+
   .hero-content::before {
     background-size: 15px 15px;
     animation-duration: 20s;
   }
-  
+
   .hero-content {
     grid-template-columns: 1fr;
     gap: var(--spacing-2xl);
     text-align: center;
   }
-  
+
   .hero-text {
     order: 2;
   }
-  
+
   .hero-image {
     order: 1;
   }
-  
+
   .image-container {
     width: 250px;
     height: 250px;
   }
-  
+
   .hero-actions {
     justify-content: center;
   }
-  
+
   .hero-social {
     justify-content: center;
   }
-  
+
   .skills-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .hero-section .scroll-indicator {
     bottom: 1.5rem;
     font-size: var(--text-xs);
   }
-  
+
   .hero-section .scroll-arrow {
     font-size: var(--text-lg);
   }

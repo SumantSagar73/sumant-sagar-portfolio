@@ -23,7 +23,6 @@ import { personalInfo } from "../data/personal";
 import { heroTitles } from "../data/titles";
 import TypewriterTitles from "../components/TypewriterTitles";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
-import profilePic from "../assets/profile-pic.png";
 import "../styles/pages/Home.css";
 
 const Home = () => {
@@ -64,7 +63,7 @@ const Home = () => {
           >
             {/* Hero Text */}
             <div className="hero-text">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -81,7 +80,7 @@ const Home = () => {
                       repeat: Infinity,
                       repeatDelay: 1,
                     }}
-                    style={{ 
+                    style={{
                       display: 'inline-block',
                       transformOrigin: '70% 70%'
                     }}
@@ -91,17 +90,17 @@ const Home = () => {
                 </h1>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <h2 className="hero-subtitle">
-                  I'm a <TypewriterTitles titles={heroTitles} typingSpeed={100} deletingSpeed={50} pause={1500} />
+                  I'm a <TypewriterTitles titles={heroTitles} typingSpeed={100} deletingSpeed={50} pause={1500} className="gradient-text" />
                 </h2>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -110,17 +109,17 @@ const Home = () => {
               </motion.div>
 
               {/* Call to Action Buttons */}
-              <motion.div 
+              <motion.div
                 className="hero-actions"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                <ScrollLink 
-                  to="projects" 
-                  smooth={true} 
-                  offset={-70} 
-                  duration={500} 
+                <ScrollLink
+                  to="projects"
+                  smooth={true}
+                  offset={-70}
+                  duration={500}
                   className="btn btn-primary"
                   style={{ cursor: 'pointer' }}
                 >
@@ -140,7 +139,7 @@ const Home = () => {
               </motion.div>
 
               {/* Social Links */}
-              <motion.div 
+              <motion.div
                 className="hero-social"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -167,7 +166,7 @@ const Home = () => {
             </div>
 
             {/* Hero Image/Avatar */}
-            <motion.div 
+            <motion.div
               className="hero-image"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -180,7 +179,7 @@ const Home = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <img
-                    src={profilePic}
+                    src={personalInfo.profileImage}
                     alt={`${personalInfo.name} - ${personalInfo.title}`}
                     onError={(e) => {
                       e.target.style.display = "none";
@@ -198,7 +197,7 @@ const Home = () => {
                     </span>
                   </div>
                 </motion.div>
-                
+
               </div>
             </motion.div>
           </motion.div>

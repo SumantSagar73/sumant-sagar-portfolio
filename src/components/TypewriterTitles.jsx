@@ -3,7 +3,7 @@ import './typewriter-titles.css'
 
 // Simple typewriter component.
 // Props: titles: string[], typingSpeed, deletingSpeed, pause (ms)
-export default function TypewriterTitles({ titles = [], typingSpeed = 120, deletingSpeed = 60, pause = 1400 }) {
+export default function TypewriterTitles({ titles = [], typingSpeed = 120, deletingSpeed = 60, pause = 1400, className = '' }) {
   const [text, setText] = useState('')
   const [index, setIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -60,7 +60,7 @@ export default function TypewriterTitles({ titles = [], typingSpeed = 120, delet
   // ARIA: announce live updates politely
   return (
     <span className="typewriter" aria-live="polite" aria-atomic="true">
-      <span className="typewriter-text">{text}</span>
+      <span className={`typewriter-text ${className}`}>{text}</span>
       <span className="typewriter-caret" aria-hidden="true">|</span>
     </span>
   )
