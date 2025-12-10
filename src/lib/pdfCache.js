@@ -7,33 +7,33 @@ import { getPdfFromDB, savePdfToDB } from './indexedDB';
  * @returns {Promise<void>}
  */
 export const fetchAndCachePdf = async (id, url) => {
-  if (!id || !url) return;
+    if (!id || !url) return;
 
-  try {
-    // Check if already in DB
-    const existingBlob = await getPdfFromDB(id);
-    if (existingBlob) {
-      // console.log(`PDF ${id} already cached.`);
-      return;
+    try {
+        // Check if already in DB
+        const existingBlob = await getPdfFromDB(id);
+        if (existingBlob) {
+            // console.log(`PDF ${id} already cached.`);
+            return;
+        }
+
+        // Fetch from network
+        // console.log(`Fetching PDF ${id} from ${url}...`);
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+        }
+
+        const blob = await response.blob();
+
+        // Save to DB
+        await savePdfToDB({ id, blob });
+        // console.log(`PDF ${id} cached successfully.`);
+
+    } catch (error) {
+        console.error(`Error caching PDF ${id}:`, error);
+        // We don't throw here to allow other PDFs to continue processing in Promise.all
     }
-
-    // Fetch from network
-    // console.log(`Fetching PDF ${id} from ${url}...`);
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch PDF: ${response.statusText}`);
-    }
-
-    const blob = await response.blob();
-
-    // Save to DB
-    await savePdfToDB({ id, blob });
-    // console.log(`PDF ${id} cached successfully.`);
-
-  } catch (error) {
-    console.error(`Error caching PDF ${id}:`, error);
-    // We don't throw here to allow other PDFs to continue processing in Promise.all
-  }
 };
 
 /**
@@ -42,8 +42,8 @@ export const fetchAndCachePdf = async (id, url) => {
  * @returns {Promise<void>}
  */
 export const cacheMultiplePdfs = async (pdfList) => {
-  if (!Array.isArray(pdfList) || pdfList.length === 0) return;
+    if (!Array.isArray(pdfList) || pdfList.length === 0) return;
 
-  const promises = pdfList.map(({ id, url }) => fetchAndCachePdf(id, url));
-  await Promise.all(promises);
+    const promises = pdfList.map(({ id, url }) => fetchAndCachePdf(id, url));
+    await Promise.all(promises);
 };

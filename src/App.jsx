@@ -49,7 +49,7 @@ const AppLayout = () => {
     // Cache Resume PDF on initial load
     // TODO: Replace this URL with your Supabase URL for the resume
     const resumeUrl = resumeData.resumeUrls.googleDocsPdf;
-    
+
     // Only attempt to cache if it's a valid URL (Google Docs export links might have CORS issues, 
     // but this setup is ready for Supabase URLs)
     if (resumeUrl) {

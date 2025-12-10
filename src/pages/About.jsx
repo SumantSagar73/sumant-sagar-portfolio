@@ -1,4 +1,4 @@
-   import React, { useState } from 'react'
+import React, { useState } from 'react'
 // motion is used in JSX (e.g. <motion.div />). Some linters flag it as unused; allow it here.
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
@@ -49,16 +49,16 @@ const About = () => {
   const skillColorMap = React.useMemo(() => {
     const allSkills = getAllSkills();
     const map = {};
-    
+
     allSkills.forEach(skill => {
       // Map exact name
       map[skill.name.toLowerCase()] = skill.color;
-      
+
       // Handle variations (e.g., "React" vs "React.js")
       if (skill.name === "React.js") map["react"] = skill.color;
       if (skill.name === "Node.js") map["node"] = skill.color;
     });
-    
+
     return map;
   }, []);
 
@@ -78,7 +78,7 @@ const About = () => {
       <div className="container">
         <div className="page-content">
           {/* Skills Section - Toggle View */}
-          <motion.section 
+          <motion.section
             className="skills-section"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -93,13 +93,13 @@ const About = () => {
             </div>
 
             <div className="view-toggle-container">
-              <button 
+              <button
                 className={`view-toggle-btn ${viewMode === 'interactive' ? 'active' : ''}`}
                 onClick={() => setViewMode('interactive')}
               >
                 Interactive View
               </button>
-              <button 
+              <button
                 className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                 onClick={() => setViewMode('list')}
               >
@@ -110,7 +110,7 @@ const About = () => {
             <div className="skills-content-wrapper">
               <AnimatePresence mode="wait">
                 {viewMode === 'interactive' ? (
-                  <motion.div 
+                  <motion.div
                     key="interactive"
                     className="skills-view-interactive"
                     initial={{ opacity: 0, y: 20 }}
@@ -121,7 +121,7 @@ const About = () => {
                     <SkillOrbsFallback />
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     key="list"
                     className="skills-view-list"
                     initial={{ opacity: 0, y: 20 }}
@@ -131,7 +131,7 @@ const About = () => {
                   >
                     <div className="skills-grid-container">
                       {skillCategories.map((category, index) => (
-                        <motion.div 
+                        <motion.div
                           className="skill-category-card"
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
@@ -146,8 +146,8 @@ const About = () => {
                             {category.skills.map(skill => {
                               const color = getSkillColor(skill);
                               return (
-                                <span 
-                                  key={skill} 
+                                <span
+                                  key={skill}
                                   className="skill-pill"
                                   style={color ? { '--skill-hover-color': color } : {}}
                                 >
@@ -166,7 +166,7 @@ const About = () => {
           </motion.section>
 
           {/* Certifications Section */}
-          <motion.section 
+          <motion.section
             className="certifications-section"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -175,15 +175,15 @@ const About = () => {
           >
             <div className="section-header">
               <h2 className="section-title">Professional Certifications</h2>
-              
+
               <div className="view-toggle-container">
-                <button 
+                <button
                   className={`view-toggle-btn ${certViewMode === 'carousel' ? 'active' : ''}`}
                   onClick={() => setCertViewMode('carousel')}
                 >
                   3D Carousel
                 </button>
-                <button 
+                <button
                   className={`view-toggle-btn ${certViewMode === 'wall' ? 'active' : ''}`}
                   onClick={() => setCertViewMode('wall')}
                 >
@@ -191,11 +191,11 @@ const About = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="certificate-views-container" style={{ position: 'relative', minHeight: '400px' }}>
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ 
+                animate={{
                   opacity: certViewMode === 'carousel' ? 1 : 0,
                   display: certViewMode === 'carousel' ? 'block' : 'none'
                 }}
@@ -203,10 +203,10 @@ const About = () => {
               >
                 <CertificateCarousel />
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ 
+                animate={{
                   opacity: certViewMode === 'wall' ? 1 : 0,
                   display: certViewMode === 'wall' ? 'block' : 'none'
                 }}
