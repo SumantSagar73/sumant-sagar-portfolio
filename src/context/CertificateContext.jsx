@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { cacheMultiplePdfs } from '../lib/pdfCache';
 
 const CertificateContext = createContext();
 
@@ -37,6 +38,18 @@ export const CertificateProvider = ({ children }) => {
                 }));
 
                 setCertificates(mappedData);
+
+                // Identify PDFs and cache them
+                const pdfsToCache = mappedData
+                    .filter(cert => cert.image && cert.image.toLowerCase().includes('.pdf'))
+                    .map(cert => ({
+                        id: String(cert.id), // Ensure ID is string for IndexedDB key
+                        url: cert.image
+                    }));
+
+                if (pdfsToCache.length > 0) {
+                    cacheMultiplePdfs(pdfsToCache).catch(err => console.error("Background PDF caching failed", err));
+                }
 
                 // Update cache
                 localStorage.setItem(CACHE_KEY, JSON.stringify({

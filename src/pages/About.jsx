@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+   import React, { useState } from 'react'
 // motion is used in JSX (e.g. <motion.div />). Some linters flag it as unused; allow it here.
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
@@ -192,29 +192,29 @@ const About = () => {
               </div>
             </div>
             
-            <AnimatePresence mode="wait">
-              {certViewMode === 'carousel' ? (
-                <motion.div
-                  key="carousel"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CertificateCarousel />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="wall"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CertificateWall />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div className="certificate-views-container" style={{ position: 'relative', minHeight: '400px' }}>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: certViewMode === 'carousel' ? 1 : 0,
+                  display: certViewMode === 'carousel' ? 'block' : 'none'
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <CertificateCarousel />
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: certViewMode === 'wall' ? 1 : 0,
+                  display: certViewMode === 'wall' ? 'block' : 'none'
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <CertificateWall />
+              </motion.div>
+            </div>
           </motion.section>
         </div>
       </div>

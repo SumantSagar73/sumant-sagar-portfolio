@@ -37,7 +37,7 @@ const CertificateWall = () => {
             >
               <div className="wall-frame-inner">
                 <div className="frame-matting">
-                  <CertificateCardBackground imageUrl={cert.image} />
+                  <CertificateCardBackground imageUrl={cert.image} id={cert.id} />
                 </div>
               </div>
               <div className="hanging-string"></div>
@@ -62,7 +62,7 @@ const CertificateWall = () => {
             <div className="modal-content-wrapper">
               <div className="modal-image-section">
                 <div className="modal-image-container">
-                  <CertificateCardBackground imageUrl={selectedCertificate.image} width={800} />
+                  <CertificateCardBackground imageUrl={selectedCertificate.image} id={selectedCertificate.id} width={800} />
                 </div>
               </div>
 

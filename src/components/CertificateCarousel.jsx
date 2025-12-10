@@ -235,12 +235,12 @@ const CertificateCarousel = () => {
                   >
                     <div className="certificate-card-inner">
                       <div className="certificate-front">
-                        <CertificateCardBackground imageUrl={certificate.image} />
+                        <CertificateCardBackground imageUrl={certificate.image} id={certificate.id} />
                       </div>
 
                       {/* Add back side with same content for visibility from all angles */}
                       <div className="certificate-back">
-                        <CertificateCardBackground imageUrl={certificate.image} />
+                        <CertificateCardBackground imageUrl={certificate.image} id={certificate.id} />
                       </div>
                     </div>
                   </div>
@@ -266,7 +266,7 @@ const CertificateCarousel = () => {
             <div className="modal-content-wrapper">
               <div className="modal-image-section">
                 <div className="modal-image-container">
-                  <CertificateCardBackground imageUrl={selectedCertificate.image} width={800} />
+                  <CertificateCardBackground imageUrl={selectedCertificate.image} id={selectedCertificate.id} width={800} />
                 </div>
               </div>
 

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
 import { useTheme } from "./context/useTheme";
 import { FaMoon, FaSun } from 'react-icons/fa'
 import { Analytics } from '@vercel/analytics/react';
+import { cacheMultiplePdfs } from './lib/pdfCache';
+import { resumeData } from './data/resume';
 
 
 // Components
@@ -42,6 +44,19 @@ const ThemeToggle = () => {
 const AppLayout = () => {
   const location = useLocation();
   const isResumePage = location.pathname === "/resume";
+
+  useEffect(() => {
+    // Cache Resume PDF on initial load
+    // TODO: Replace this URL with your Supabase URL for the resume
+    const resumeUrl = resumeData.resumeUrls.googleDocsPdf;
+    
+    // Only attempt to cache if it's a valid URL (Google Docs export links might have CORS issues, 
+    // but this setup is ready for Supabase URLs)
+    if (resumeUrl) {
+      cacheMultiplePdfs([{ id: 'resume', url: resumeUrl }])
+        .catch(err => console.error("Failed to cache resume PDF:", err));
+    }
+  }, []);
 
   if (isResumePage) {
     return (
