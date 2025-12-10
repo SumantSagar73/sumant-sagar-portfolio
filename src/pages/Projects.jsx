@@ -58,19 +58,19 @@ const Projects = () => {
           </motion.p>
 
           {/* View Toggle */}
-          <motion.div 
+          <motion.div
             className="view-toggle-container"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
           >
-            <button 
+            <button
               className={`view-toggle-btn ${viewMode === 'showcase' ? 'active' : ''}`}
               onClick={() => setViewMode('showcase')}
             >
               <FaLaptop /> Showcase
             </button>
-            <button 
+            <button
               className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
               onClick={() => setViewMode('list')}
             >
@@ -103,9 +103,8 @@ const Projects = () => {
                   {projectsData.categories.map((category) => (
                     <button
                       key={category}
-                      className={`filter-btn ${
-                        selectedCategory === category ? "active" : ""
-                      }`}
+                      className={`filter-btn ${selectedCategory === category ? "active" : ""
+                        }`}
                       onClick={() => handleCategoryChange(category)}
                     >
                       {category}
@@ -144,9 +143,9 @@ const Projects = () => {
                         className="project-card-item"
                       >
                         <div className="project-card-image-container">
-                          <img 
-                            src={project.image} 
-                            alt={project.title} 
+                          <img
+                            src={project.image}
+                            alt={project.title}
                             className="project-card-image"
                             loading="lazy"
                             decoding="async"
@@ -175,12 +174,12 @@ const Projects = () => {
                             <span className="project-year">{project.year}</span>
                             <span className="project-category">{project.category}</span>
                           </div>
-                          
+
                           <h3 className="project-card-title">
                             {project.title}
                             {project.featured && <span className="card-featured-badge" title="Featured Project">★</span>}
                           </h3>
-                          
+
                           <p className="project-card-description">{project.description}</p>
 
                           <div className="project-card-tech">

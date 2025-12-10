@@ -8,18 +8,18 @@ const Certifications = () => {
       <Suspense fallback={<div>Loading certificates...</div>}>
         <CertificateCarousel />
       </Suspense>
-      
+
       <div className="certifications-info">
         <div className="info-container">
           <div className="info-section">
             <h3>Professional Development</h3>
             <p>
-              Continuous learning and professional development are core to my approach 
-              as a software developer. These certifications represent my commitment to 
+              Continuous learning and professional development are core to my approach
+              as a software developer. These certifications represent my commitment to
               staying current with industry best practices and emerging technologies.
             </p>
           </div>
-          
+
           <div className="info-section">
             <h3>Technology Stack</h3>
             <div className="tech-categories">
@@ -31,7 +31,7 @@ const Certifications = () => {
                   <li>Microsoft Azure</li>
                 </ul>
               </div>
-              
+
               <div className="tech-category">
                 <h4>Development</h4>
                 <ul>
@@ -40,7 +40,7 @@ const Certifications = () => {
                   <li>GraphQL & MongoDB</li>
                 </ul>
               </div>
-              
+
               <div className="tech-category">
                 <h4>DevOps & Infrastructure</h4>
                 <ul>
@@ -51,12 +51,12 @@ const Certifications = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="info-section">
             <h3>Verification</h3>
             <p>
-              All certifications can be verified through their respective issuing 
-              organizations. Click the "Verify" button on any certificate to access 
+              All certifications can be verified through their respective issuing
+              organizations. Click the "Verify" button on any certificate to access
               the official verification portal.
             </p>
           </div>

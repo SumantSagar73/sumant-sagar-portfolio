@@ -113,7 +113,7 @@ const About = () => {
 
             <div className="skills-content-wrapper">
               <AnimatePresence mode="wait">
-                    {viewMode === 'interactive' ? (
+                {viewMode === 'interactive' ? (
                   <motion.div
                     key="interactive"
                     className="skills-view-interactive"
@@ -124,7 +124,7 @@ const About = () => {
                   >
                     <SkillOrbsFallback />
                   </motion.div>
-                    ) : (
+                ) : (
                   <motion.div
                     key="list"
                     className="skills-view-list"
@@ -197,7 +197,7 @@ const About = () => {
             </div>
 
             <div className="certificate-views-container" style={{ position: 'relative', minHeight: '400px' }}>
-                <motion.div
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: certViewMode === 'carousel' ? 1 : 0,
@@ -210,7 +210,7 @@ const About = () => {
                 </React.Suspense>
               </motion.div>
 
-                <motion.div
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: certViewMode === 'wall' ? 1 : 0,

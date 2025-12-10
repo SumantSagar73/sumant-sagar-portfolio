@@ -24,7 +24,7 @@ const ProjectCarousel = ({ projects }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isCarouselFocused) return
-      
+
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
         setIsTransitioning(true)
@@ -53,7 +53,7 @@ const ProjectCarousel = ({ projects }) => {
 
   return (
     <div className="project-carousel">
-      <div 
+      <div
         className={`carousel-container ${isTransitioning ? 'transitioning' : ''}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -61,7 +61,7 @@ const ProjectCarousel = ({ projects }) => {
       >
         {/* Keyboard Navigation Hint */}
         {isCarouselFocused && (
-          <motion.div 
+          <motion.div
             className="keyboard-hint"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -78,7 +78,7 @@ const ProjectCarousel = ({ projects }) => {
         </div>
 
         {/* Navigation Buttons */}
-        <button 
+        <button
           className="carousel-nav carousel-nav-left"
           onClick={prevProject}
           aria-label="Previous project"
@@ -86,7 +86,7 @@ const ProjectCarousel = ({ projects }) => {
           <FaChevronLeft />
         </button>
 
-        <button 
+        <button
           className="carousel-nav carousel-nav-right"
           onClick={nextProject}
           aria-label="Next project"
@@ -99,29 +99,28 @@ const ProjectCarousel = ({ projects }) => {
           {projects.map((project, index) => {
             // Calculate position relative to current center
             let position = index - currentIndex
-            
+
             // Handle circular positioning
             if (position > projects.length / 2) {
               position = position - projects.length
             } else if (position < -projects.length / 2) {
               position = position + projects.length
             }
-            
+
             const isCenter = position === 0
             const isFirstLayer = Math.abs(position) === 1
             const isSecondLayer = Math.abs(position) === 2
             const isThirdLayer = Math.abs(position) === 3
-            
+
             return (
               <div
                 key={project.id}
-                className={`carousel-item ${
-                  isCenter ? 'carousel-item-center' :
-                  isFirstLayer ? 'carousel-item-first' :
-                  isSecondLayer ? 'carousel-item-second' :
-                  isThirdLayer ? 'carousel-item-third' :
-                  'carousel-item-hidden'
-                } ${position < 0 ? 'left' : position > 0 ? 'right' : ''}`}
+                className={`carousel-item ${isCenter ? 'carousel-item-center' :
+                    isFirstLayer ? 'carousel-item-first' :
+                      isSecondLayer ? 'carousel-item-second' :
+                        isThirdLayer ? 'carousel-item-third' :
+                          'carousel-item-hidden'
+                  } ${position < 0 ? 'left' : position > 0 ? 'right' : ''}`}
                 style={{
                   zIndex: isCenter ? 50 : isFirstLayer ? 40 : isSecondLayer ? 30 : isThirdLayer ? 20 : 10,
                 }}
@@ -135,42 +134,42 @@ const ProjectCarousel = ({ projects }) => {
                   // Center card - featured design
                   <div className="project-card-featured">
                     <div className="project-image-featured">
-                        {/* Use bgImage as background for a richer backdrop */}
-                        <div
-                          className="project-image-bg"
-                          style={{
-                            backgroundImage: `url(${project.bgImage || project.image || `https://picsum.photos/600/400?random=${project.id}`})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center center'
+                      {/* Use bgImage as background for a richer backdrop */}
+                      <div
+                        className="project-image-bg"
+                        style={{
+                          backgroundImage: `url(${project.bgImage || project.image || `https://picsum.photos/600/400?random=${project.id}`})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center center'
+                        }}
+                      >
+                        <img
+                          src={project.image || `https://picsum.photos/600/400?random=${project.id}`}
+                          alt={project.title}
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => {
+                            e.target.src = `https://picsum.photos/600/400?random=${project.id}`;
                           }}
-                        >
-                          <img 
-                            src={project.image || `https://picsum.photos/600/400?random=${project.id}`} 
-                            alt={project.title}
-                            loading="lazy"
-                            decoding="async"
-                            onError={(e) => {
-                              e.target.src = `https://picsum.photos/600/400?random=${project.id}`;
-                            }}
-                          />
-                        </div>
+                        />
+                      </div>
                       <div className="project-overlay-featured">
                         <div className="project-badges">
                           <span className="project-category">{project.category}</span>
                           {project.featured && <span className="featured-badge"><FaStar /> Featured</span>}
                         </div>
                         <div className="project-actions">
-                          <a 
-                            href={project.liveUrl} 
-                            target="_blank" 
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="action-btn"
                           >
                             <FaExternalLinkAlt />
                           </a>
-                          <a 
-                            href={project.githubUrl} 
-                            target="_blank" 
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="action-btn"
                           >
@@ -197,13 +196,12 @@ const ProjectCarousel = ({ projects }) => {
                   </div>
                 ) : (
                   // Side cards - compact design
-                  <div className={`project-card-compact ${
-                    isThirdLayer ? 'micro' : 
-                    isSecondLayer ? 'mini' : ''
-                  }`}>
+                  <div className={`project-card-compact ${isThirdLayer ? 'micro' :
+                      isSecondLayer ? 'mini' : ''
+                    }`}>
                     <div className="project-image-compact">
-                      <img 
-                        src={project.image || `https://picsum.photos/400/300?random=${project.id}`} 
+                      <img
+                        src={project.image || `https://picsum.photos/400/300?random=${project.id}`}
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
@@ -254,14 +252,14 @@ const ProjectCarousel = ({ projects }) => {
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -40, scale: 0.95 }}
-          transition={{ 
-            duration: 0.6, 
+          transition={{
+            duration: 0.6,
             ease: [0.4, 0.0, 0.2, 1],
             delay: 0.2
           }}
         >
           <div className="project-details-content">
-            <motion.div 
+            <motion.div
               className="details-header"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -276,13 +274,13 @@ const ProjectCarousel = ({ projects }) => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="details-body"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <motion.div 
+              <motion.div
                 className="details-description"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -292,7 +290,7 @@ const ProjectCarousel = ({ projects }) => {
                 <p>{projects[currentIndex].longDescription}</p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 className="details-tech"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -301,13 +299,13 @@ const ProjectCarousel = ({ projects }) => {
                 <h4>Technologies Used</h4>
                 <div className="tech-stack-detailed">
                   {projects[currentIndex].techStack.map((tech, index) => (
-                    <motion.span 
-                      key={tech} 
+                    <motion.span
+                      key={tech}
                       className="tech-item-detailed"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ 
-                        duration: 0.3, 
+                      transition={{
+                        duration: 0.3,
                         delay: 0.7 + (index * 0.05),
                         ease: "easeOut"
                       }}
@@ -319,7 +317,7 @@ const ProjectCarousel = ({ projects }) => {
               </motion.div>
 
               {projects[currentIndex].highlights && (
-                <motion.div 
+                <motion.div
                   className="details-highlights"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -328,12 +326,12 @@ const ProjectCarousel = ({ projects }) => {
                   <h4>Key Features</h4>
                   <ul className="highlights-list">
                     {projects[currentIndex].highlights.map((highlight, index) => (
-                      <motion.li 
+                      <motion.li
                         key={index}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ 
-                          duration: 0.3, 
+                        transition={{
+                          duration: 0.3,
                           delay: 0.8 + (index * 0.1),
                           ease: "easeOut"
                         }}
@@ -345,23 +343,23 @@ const ProjectCarousel = ({ projects }) => {
                 </motion.div>
               )}
 
-              <motion.div 
+              <motion.div
                 className="details-actions"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
-                <a 
-                  href={projects[currentIndex].liveUrl} 
-                  target="_blank" 
+                <a
+                  href={projects[currentIndex].liveUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"
                 >
                   <FaExternalLinkAlt /> View Live Demo
                 </a>
-                <a 
-                  href={projects[currentIndex].githubUrl} 
-                  target="_blank" 
+                <a
+                  href={projects[currentIndex].githubUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline"
                 >

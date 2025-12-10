@@ -49,7 +49,7 @@ const DeviceShowcase = ({ projects }) => {
   return (
     <div className="device-showcase-container">
       <div className="showcase-layout">
-        
+
         {/* Left Side: Project Info */}
         <div className="project-info-panel">
           <AnimatePresence mode="wait">
@@ -65,7 +65,7 @@ const DeviceShowcase = ({ projects }) => {
                 <span className="project-category-tag">{currentProject.category}</span>
                 <h2 className="project-title-display">{currentProject.title}</h2>
               </div>
-              
+
               <p className="project-description-display">
                 {currentProject.longDescription || currentProject.description}
               </p>
@@ -77,17 +77,17 @@ const DeviceShowcase = ({ projects }) => {
               </div>
 
               <div className="project-actions-display">
-                <a 
-                  href={currentProject.liveUrl} 
-                  target="_blank" 
+                <a
+                  href={currentProject.liveUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"
                 >
                   <FaExternalLinkAlt /> Live Demo
                 </a>
-                <a 
-                  href={currentProject.githubUrl} 
-                  target="_blank" 
+                <a
+                  href={currentProject.githubUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary"
                 >
@@ -103,8 +103,8 @@ const DeviceShowcase = ({ projects }) => {
             </button>
             <div className="pagination-dots">
               {projects.map((_, idx) => (
-                <span 
-                  key={idx} 
+                <span
+                  key={idx}
                   className={`dot ${idx === currentIndex ? 'active' : ''}`}
                   onClick={() => {
                     setDirection(idx > currentIndex ? 1 : -1);
