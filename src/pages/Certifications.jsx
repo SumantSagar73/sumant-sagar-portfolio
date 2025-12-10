@@ -1,11 +1,13 @@
-import React from 'react';
-import CertificateCarousel from '../components/CertificateCarousel';
+import React, { Suspense } from 'react';
+const CertificateCarousel = React.lazy(() => import('../components/CertificateCarousel'));
 import '../styles/pages/Certifications.css';
 
 const Certifications = () => {
   return (
     <div className="certifications-page">
-      <CertificateCarousel />
+      <Suspense fallback={<div>Loading certificates...</div>}>
+        <CertificateCarousel />
+      </Suspense>
       
       <div className="certifications-info">
         <div className="info-container">

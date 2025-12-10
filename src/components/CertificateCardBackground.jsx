@@ -118,9 +118,9 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220 }
     }
 
     return (
-        <div className="certificate-bg-media image-container">
-            <img src={imageUrl} alt="Certificate" onError={() => setError(true)} />
-        </div>
+            <div className="certificate-bg-media image-container">
+                <img src={imageUrl} alt="Certificate" loading="lazy" decoding="async" onError={() => setError(true)} />
+            </div>
     );
 };
 

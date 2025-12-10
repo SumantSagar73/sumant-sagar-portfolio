@@ -148,6 +148,8 @@ const Projects = () => {
                             src={project.image} 
                             alt={project.title} 
                             className="project-card-image"
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               e.target.src = `https://via.placeholder.com/400x250/1a1a1a/ffffff?text=${encodeURIComponent(project.title)}`;
                             }}

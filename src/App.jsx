@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
@@ -15,11 +15,14 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 // Pages
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import Contact from "./pages/Contact";
-import ResumePreview from "./components/ResumePreview";
+// Lazy load pages and heavy components so initial bundle is small
+const Home = React.lazy(() => import('./pages/Home'));
+const About = React.lazy(() => import('./pages/About'));
+const Projects = React.lazy(() => import('./pages/Projects'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const ResumePreview = React.lazy(() => import('./components/ResumePreview'));
+
+import Loader from './components/Loader';
 
 // Theme Toggle Button Component
 const ThemeToggle = () => {
@@ -67,7 +70,7 @@ const AppLayout = () => {
         </div>
         <main className="main-content">
           <Routes>
-            <Route path="/resume" element={<ResumePreview />} />
+            <Route path="/resume" element={<Suspense fallback={<Loader message="Loading resume..." />}><ResumePreview /></Suspense>} />
           </Routes>
         </main>
         <Footer />
@@ -87,16 +90,24 @@ const AppLayout = () => {
       {/* Main Content Area */}
       <main className="main-content">
         <section id="home">
-          <Home />
+          <Suspense fallback={<Loader message="Loading home..." />}>
+            <Home />
+          </Suspense>
         </section>
         <section id="about">
-          <About />
+          <Suspense fallback={<Loader message="Loading about..." />}>
+            <About />
+          </Suspense>
         </section>
         <section id="projects">
-          <Projects />
+          <Suspense fallback={<Loader message="Loading projects..." />}>
+            <Projects />
+          </Suspense>
         </section>
         <section id="contact">
-          <Contact />
+          <Suspense fallback={<Loader message="Loading contact..." />}>
+            <Contact />
+          </Suspense>
         </section>
       </main>
 

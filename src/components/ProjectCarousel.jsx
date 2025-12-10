@@ -147,6 +147,8 @@ const ProjectCarousel = ({ projects }) => {
                           <img 
                             src={project.image || `https://picsum.photos/600/400?random=${project.id}`} 
                             alt={project.title}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               e.target.src = `https://picsum.photos/600/400?random=${project.id}`;
                             }}
@@ -203,6 +205,8 @@ const ProjectCarousel = ({ projects }) => {
                       <img 
                         src={project.image || `https://picsum.photos/400/300?random=${project.id}`} 
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                           e.target.src = `https://picsum.photos/400/300?random=${project.id}`;
                         }}

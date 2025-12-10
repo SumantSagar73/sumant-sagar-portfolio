@@ -181,6 +181,7 @@ const Home = () => {
                   <img
                     src={personalInfo.profileImage}
                     alt={`${personalInfo.name} - ${personalInfo.title}`}
+                    decoding="async"
                     onError={(e) => {
                       e.target.style.display = "none";
                       e.target.nextSibling.style.display = "flex";

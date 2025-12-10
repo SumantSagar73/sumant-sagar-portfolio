@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaCode, FaLaptopCode, FaDatabase, FaTools, FaLayerGroup, FaTrophy } from 'react-icons/fa'
-import CertificateCarousel from '../components/CertificateCarousel'
-import CertificateWall from '../components/CertificateWall'
+// Lazy-load heavy components below so they are not part of the initial bundle
+// (Define constants below rather than static imports)
 import SkillOrbsFallback from '../components/SkillOrbsFallback'
 import { getAllSkills } from '../data/skills'
 
@@ -40,6 +40,10 @@ const skillCategories = [
     icon: <FaTrophy />
   }
 ]
+
+const CertificateCarouselLazy = React.lazy(() => import('../components/CertificateCarousel'));
+const CertificateWallLazy = React.lazy(() => import('../components/CertificateWall'));
+const About3DBackgroundLazy = React.lazy(() => import('../components/About3DBackground'));
 
 const About = () => {
   const [viewMode, setViewMode] = useState('interactive')
@@ -109,7 +113,7 @@ const About = () => {
 
             <div className="skills-content-wrapper">
               <AnimatePresence mode="wait">
-                {viewMode === 'interactive' ? (
+                    {viewMode === 'interactive' ? (
                   <motion.div
                     key="interactive"
                     className="skills-view-interactive"
@@ -120,7 +124,7 @@ const About = () => {
                   >
                     <SkillOrbsFallback />
                   </motion.div>
-                ) : (
+                    ) : (
                   <motion.div
                     key="list"
                     className="skills-view-list"
@@ -193,7 +197,7 @@ const About = () => {
             </div>
 
             <div className="certificate-views-container" style={{ position: 'relative', minHeight: '400px' }}>
-              <motion.div
+                <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: certViewMode === 'carousel' ? 1 : 0,
@@ -201,10 +205,12 @@ const About = () => {
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <CertificateCarousel />
+                <React.Suspense fallback={<div>Loading certificates...</div>}>
+                  <CertificateCarouselLazy />
+                </React.Suspense>
               </motion.div>
 
-              <motion.div
+                <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: certViewMode === 'wall' ? 1 : 0,
@@ -212,7 +218,9 @@ const About = () => {
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <CertificateWall />
+                <React.Suspense fallback={<div>Loading certificate wall...</div>}>
+                  <CertificateWallLazy />
+                </React.Suspense>
               </motion.div>
             </div>
           </motion.section>

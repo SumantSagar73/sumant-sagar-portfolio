@@ -15,7 +15,7 @@ const Footer = () => {
     <footer className="footer simple-footer">
       <div className="footer-inner container">
         <div className="footer-left">
-          <img src={logo} alt="logo" className="footer-logo" />
+          <img src={logo} alt="logo" className="footer-logo" loading="lazy" decoding="async" />
           <div className="brand-text">
             <strong>Sumant Sagar</strong>
             <span className="brand-sub">Software Developer</span>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 // import { certificates } from '../data/certificates';
 import { FaExpand, FaCompress, FaPlay, FaPause } from 'react-icons/fa';
-import CertificateCardBackground from './CertificateCardBackground';
+const CertificateCardBackground = React.lazy(() => import('./CertificateCardBackground'));
 import '../styles/components/CertificateCarousel.css';
 import '../styles/components/CertificateModal.css';
 import { useCertificates } from '../context/CertificateContext';
@@ -161,21 +161,21 @@ const CertificateCarousel = () => {
     // The cards should be evenly spaced around the circle like spokes on a wheel.
     const cardRotationY = finalAngle + 90; // Rotate 90° so left edge faces center
 
-    // Add hover effect - move outward from center
-    const hoverMultiplier = hoveredCard === index ? 1.2 : 1;
-    const hoverX = x * hoverMultiplier;
-    const hoverZ = z * hoverMultiplier;
-    const hoverY = y + (hoveredCard === index ? 30 : 0);
+    // Add hover effect - translate upward (do NOT translate forward)
+    // We'll use a CSS variable to animate translateY on the inner card so
+    // rotation (applied to the parent transform) is unaffected and remains smooth.
+    const hoverX = x; // keep position around the circle - do not move forward/back
+    const hoverZ = z;
+    const hoverY = y; // don't change Y here; we will animate vertical lift on inner element using CSS
+    const innerTranslateY = hoveredCard === index ? -40 : 0; // up 40px when hovered
 
     return {
-      transform: `
-        translate3d(${hoverX}px, ${hoverY}px, ${hoverZ}px) 
-        rotateY(${cardRotationY}deg) 
-        rotateX(0deg)
-      `,
+      transform: `translate3d(${hoverX}px, ${hoverY}px, ${hoverZ}px) rotateY(${cardRotationY}deg) rotateX(0deg)`,
+      // Pass CSS var to inner element so we can animate vertical translation separately and smoothly
+      ['--card-translate-y']: `${innerTranslateY}px`,
       opacity: 1, // Keep all cards fully visible
       zIndex: Math.round(z + 500), // Ensure proper layering
-      transition: 'none' // Disable CSS transition for smooth auto-rotation
+      transition: 'none' // Keep rotation immediate (no CSS transition) - inner element will handle smooth animation
     };
   };
 
@@ -235,7 +235,9 @@ const CertificateCarousel = () => {
                   >
                     <div className="certificate-card-inner">
                       <div className="certificate-front">
-                        <CertificateCardBackground imageUrl={certificate.image} id={certificate.id} />
+                        <Suspense fallback={<div className='certificate-card-placeholder'>Loading...</div>}>
+                          <CertificateCardBackground imageUrl={certificate.image} id={certificate.id} />
+                        </Suspense>
                       </div>
 
                       {/* Add back side with same content for visibility from all angles */}
@@ -266,7 +268,9 @@ const CertificateCarousel = () => {
             <div className="modal-content-wrapper">
               <div className="modal-image-section">
                 <div className="modal-image-container">
-                  <CertificateCardBackground imageUrl={selectedCertificate.image} id={selectedCertificate.id} width={800} />
+                  <Suspense fallback={<div className='certificate-modal-placeholder'>Loading preview...</div>}>
+                    <CertificateCardBackground imageUrl={selectedCertificate.image} id={selectedCertificate.id} width={800} />
+                  </Suspense>
                 </div>
               </div>
 

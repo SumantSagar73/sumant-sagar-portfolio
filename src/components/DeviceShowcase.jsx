@@ -150,6 +150,8 @@ const DeviceShowcase = ({ projects }) => {
                         src={currentProject.image}
                         alt={currentProject.title}
                         className="screen-image"
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => { e.target.style.display = 'none' }}
                       />
                     )}

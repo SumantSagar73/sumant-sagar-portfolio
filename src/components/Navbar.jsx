@@ -85,7 +85,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className="brand-content"
             >
-              <img src={logo} alt="Sumant Sagar" className="brand-logo" />
+              <img src={logo} alt="Sumant Sagar" className="brand-logo" loading="lazy" decoding="async" />
               <span className="brand-text">Sumant</span>
             </motion.div>
           </RouterLink>
