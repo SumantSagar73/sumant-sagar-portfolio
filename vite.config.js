@@ -17,9 +17,9 @@ export default defineConfig({
 
           if (id.includes('node_modules')) {
             // Separate React core to ensure it's loaded correctly and available
-            if (id.includes('/react/') || id.includes('\\react\\') || 
-                id.includes('/react-dom/') || id.includes('\\react-dom\\') ||
-                id.includes('/react-router/') || id.includes('\\react-router\\')) {
+            if (id.includes('/react/') || id.includes('\\react\\') ||
+              id.includes('/react-dom/') || id.includes('\\react-dom\\') ||
+              id.includes('/react-router/') || id.includes('\\react-router\\')) {
               return 'react-vendor'
             }
 
@@ -35,7 +35,7 @@ export default defineConfig({
             if (id.includes('framer-motion')) {
               return 'framer-motion-vendor'
             }
-            
+
             return 'vendor'
           }
         }
