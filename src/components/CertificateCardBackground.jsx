@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import useIsMobile from '../hooks/useIsMobile'
 import { Document, Page, pdfjs } from 'react-pdf';
 import { usePdf } from '../hooks/usePdf';
@@ -46,6 +46,12 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
         setIsPdf(!!isPdfUrl);
     }, [isPdfUrl]);
 
+    const pdfOptions = useMemo(() => ({
+        cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfVersion}/cmaps/`,
+        cMapPacked: true,
+        verbosity: 0, // Suppress warnings like "Unsupported ShadingType: 1"
+    }), []);
+
     const handleLoadComplete = () => {
         if (onLoaded) onLoaded();
     };
@@ -55,11 +61,14 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
         handleLoadComplete();
     };
 
-    if (!imageUrl || error) {
-        // Call onLoaded even if error, so we don't block the loading screen
-        useEffect(() => {
+    // Call onLoaded even if error, so we don't block the loading screen
+    useEffect(() => {
+        if (!imageUrl || error) {
             handleLoadComplete();
-        }, [error, imageUrl]);
+        }
+    }, [error, imageUrl]);
+
+    if (!imageUrl || error) {
         return <div className="certificate-bg-fallback" />;
     }
 
@@ -124,11 +133,7 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
                 <PdfErrorBoundary>
                     <Document
                         file={fileSource}
-                        options={{
-                            cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfVersion}/cmaps/`,
-                            cMapPacked: true,
-                            verbosity: 0, // Suppress warnings like "Unsupported ShadingType: 1"
-                        }}
+                        options={pdfOptions}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(err) => {
                             console.error("Document Load Error:", err);
