@@ -16,6 +16,13 @@ export default defineConfig({
           if (!id) return
 
           if (id.includes('node_modules')) {
+            // Separate React core to ensure it's loaded correctly and available
+            if (id.includes('/react/') || id.includes('\\react\\') || 
+                id.includes('/react-dom/') || id.includes('\\react-dom\\') ||
+                id.includes('/react-router/') || id.includes('\\react-router\\')) {
+              return 'react-vendor'
+            }
+
             if (id.includes('three') || id.includes('@react-three')) {
               return 'three-vendor'
             }
@@ -28,10 +35,7 @@ export default defineConfig({
             if (id.includes('framer-motion')) {
               return 'framer-motion-vendor'
             }
-            // Put other large libs into vendor chunk if needed
-            if (id.includes('@react-spring') || id.includes('@react-three/drei') || id.includes('three')) {
-              return 'vendor-large'
-            }
+            
             return 'vendor'
           }
         }
