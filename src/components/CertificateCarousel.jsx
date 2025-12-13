@@ -1,16 +1,49 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
+import useIsMobile from '../hooks/useIsMobile'
 // import { certificates } from '../data/certificates';
 import { FaExpand, FaCompress, FaPlay, FaPause } from 'react-icons/fa';
 const CertificateCardBackground = React.lazy(() => import('./CertificateCardBackground'));
+import Loader from './Loader';
 import '../styles/components/CertificateCarousel.css';
+import '../styles/components/CertificateCarouselLoading.css';
 import '../styles/components/CertificateModal.css';
 import { useCertificates } from '../context/CertificateContext';
 
 const CertificateCarousel = () => {
   const { certificates, loading } = useCertificates();
+  const isMobile = useIsMobile()
   const [scrollPosition, setScrollPosition] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [loadedIds, setLoadedIds] = useState(new Set());
+  const [forceShow, setForceShow] = useState(false);
+
+  const handleImageLoad = (id) => {
+    setLoadedIds(prev => {
+      const newSet = new Set(prev);
+      newSet.add(id);
+      return newSet;
+    });
+  };
+
+  // Reset loaded state when certificates change
+  useEffect(() => {
+    setLoadedIds(new Set());
+    setForceShow(false);
+  }, [certificates]);
+
+  const allImagesLoaded = certificates.length > 0 && certificates.every(cert => loadedIds.has(cert.id));
+  const isLoading = (loading || (certificates.length > 0 && !allImagesLoaded)) && !forceShow;
+
+  // Safety timeout to prevent infinite loading
+  useEffect(() => {
+    if (isLoading) {
+        const timer = setTimeout(() => {
+            setForceShow(true);
+        }, 8000); // 8 seconds timeout
+        return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
   const [isInView, setIsInView] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
@@ -122,6 +155,13 @@ const CertificateCarousel = () => {
     return () => observer.unobserve(wrapper);
   }, [isFullscreen]);
 
+  // Disable auto-rotation & hover interactions on mobile to improve performance
+  useEffect(() => {
+    if (isMobile) {
+      setIsAutoRotating(false)
+    }
+  }, [isMobile])
+
   // Handle fullscreen toggle
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
@@ -184,6 +224,12 @@ const CertificateCarousel = () => {
       className={`certificate-carousel-wrapper ${isFullscreen ? 'fullscreen' : ''}`}
       ref={wrapperRef}
     >
+      {isLoading && (
+        <div className="carousel-loading-overlay">
+          <Loader message="Loading certificates..." />
+        </div>
+      )}
+
       <div className="carousel-controls">
         <button
           className="carousel-control-btn"
@@ -212,7 +258,7 @@ const CertificateCarousel = () => {
 
       <div
         ref={containerRef}
-        className="certificate-carousel-container"
+        className={`certificate-carousel-container ${isLoading ? 'blurred' : ''}`}
       >
         <div
           ref={contentRef}
@@ -228,15 +274,19 @@ const CertificateCarousel = () => {
                   <div
                     key={certificate.id}
                     className={`certificate-card ${hoveredCard === index ? 'hovered' : ''}`}
-                    style={style}
-                    onMouseEnter={() => setHoveredCard(index)}
-                    onMouseLeave={() => setHoveredCard(null)}
+                      style={style}
+                      onMouseEnter={() => { if (!isMobile) setHoveredCard(index) }}
+                      onMouseLeave={() => { if (!isMobile) setHoveredCard(null) }}
                     onClick={() => setSelectedCertificate(certificate)}
                   >
                     <div className="certificate-card-inner">
                       <div className="certificate-front">
                         <Suspense fallback={<div className='certificate-card-placeholder'>Loading...</div>}>
-                          <CertificateCardBackground imageUrl={certificate.image} id={certificate.id} />
+                          <CertificateCardBackground 
+                            imageUrl={certificate.image} 
+                            id={certificate.id} 
+                            onLoaded={() => handleImageLoad(certificate.id)}
+                          />
                         </Suspense>
                       </div>
 

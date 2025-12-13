@@ -354,3 +354,40 @@ body {
     --border-color: var(--text-primary);
   }
 }
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 64px;
+    --container-max-width: 100%;
+    --text-base: 0.95rem;
+    --text-lg: 1rem;
+    --text-xl: 1.1rem;
+  }
+
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .page-content {
+    padding: var(--spacing-lg) 0 var(--spacing-2xl);
+    min-height: calc(100vh - var(--navbar-height) - 80px);
+  }
+
+  .page-title {
+    font-size: clamp(1.5rem, 7vw, 2.25rem);
+  }
+
+  .hero-title, .hero-subtitle, .hero-description { text-align: center; }
+
+  /* Reduce spacing in hero on small screens */
+  .hero-actions { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+  .hero-actions .btn { width: 100%; }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .page-title { font-size: clamp(1.25rem, 8vw, 1.75rem); }
+  .page-description { font-size: var(--text-sm); }
+}

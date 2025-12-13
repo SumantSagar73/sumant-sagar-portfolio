@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import useIsMobile from '../hooks/useIsMobile'
 import {
   FaReact,
   FaJs,
@@ -47,15 +48,15 @@ import '../styles/components/SkillOrbs.css'
 
 const SkillOrbsFallback = () => {
   const containerRef = useRef(null)
+  const isMobile = useIsMobile()
   const [orbs, setOrbs] = useState([])
   const [draggedOrb, setDraggedOrb] = useState(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const animationRef = useRef()
 
-  // Initialize orbs with physics properties
+  // Initialize orbs with physics properties (disable on mobile - static list instead)
   useEffect(() => {
-    if (!containerRef.current) return
-
+    // Common skill definitions
     const skills = [
       // Core Programming Languages
       { name: 'JavaScript', color: '#f7df1e', icon: SiJavascript },
@@ -109,6 +110,14 @@ const SkillOrbsFallback = () => {
       { name: 'CodingNinjas', color: '#dd6620', icon: SiCodingninjas },
     ]
 
+    // If mobile, initialize a minimal non-physics orb list and skip heavy physics calculations
+    if (isMobile) {
+      const minimalOrbs = skills.map((skill, index) => ({ id: index, skill }))
+      setOrbs(minimalOrbs)
+      return
+    }
+
+    if (!containerRef.current) return
     const containerRect = containerRef.current.getBoundingClientRect()
     const orbSize = 85 //80
 
@@ -126,10 +135,11 @@ const SkillOrbsFallback = () => {
     }))
 
     setOrbs(initialOrbs)
-  }, [])
+  }, [isMobile])
 
-  // Physics simulation with ball-to-ball collisions
+  // Physics simulation with ball-to-ball collisions (disabled on mobile)
   useEffect(() => {
+    if (isMobile) return
     if (!containerRef.current || orbs.length === 0) return
 
     const animate = () => {
@@ -381,7 +391,7 @@ const SkillOrbsFallback = () => {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [orbs.length, mousePos, draggedOrb])
+  }, [isMobile, orbs.length, mousePos, draggedOrb])
 
   // Mouse move handler with velocity tracking
   useEffect(() => {
@@ -428,6 +438,7 @@ const SkillOrbsFallback = () => {
   }, [draggedOrb])
 
   const handleOrbMouseDown = (e, orbId) => {
+    if (isMobile) return // disable dragging on mobile
     e.preventDefault()
     if (!containerRef.current) return
 
@@ -471,7 +482,17 @@ const SkillOrbsFallback = () => {
         className="physics-playground"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        {orbs.map((orb) => {
+        {isMobile ? (
+          // Very lightweight static grid view on mobile
+          <div className="skill-grid-mobile">
+            {orbs.map((orb) => (
+              <div key={orb.id} className="skill-pill" style={{ background: orb.skill.color }}>
+                {orb.skill.name}
+              </div>
+            ))}
+          </div>
+        ) : (
+          orbs.map((orb) => {
           const IconComponent = orb.skill.icon
           return (
             <div
@@ -500,7 +521,8 @@ const SkillOrbsFallback = () => {
               <div className="orb-ripple"></div>
             </div>
           )
-        })}
+          })
+        )}
       </div>
     </div>
   )

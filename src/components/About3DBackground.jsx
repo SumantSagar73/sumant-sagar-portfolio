@@ -1,4 +1,5 @@
 import React, { useRef, useMemo } from 'react'
+import useIsMobile from '../hooks/useIsMobile'
 import { Canvas, useFrame } from '@react-three/fiber'
 
 // Floating stat orb with 3D text effect
@@ -221,6 +222,33 @@ function AboutScene({ variant = 'stats' }) {
 
 // Main exported component
 const About3DBackground = ({ variant = 'stats', height = '400px' }) => {
+  const isMobile = useIsMobile()
+  if (isMobile) {
+    // Mobile fallback: show simple static layout for accessibility & performance
+    return (
+      <div style={{ width: '100%', height: height, position: 'relative', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(99,102,241,0.03), rgba(168,85,247,0.03))' }}>
+        <div style={{ padding: '16px', display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+          {variant === 'stats' && (
+            <>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>15+</div>
+                <div style={{ fontSize: '0.85rem' }}>Projects</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>200+</div>
+                <div style={{ fontSize: '0.85rem' }}>Problems</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>2+</div>
+                <div style={{ fontSize: '0.85rem' }}>Experience</div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{
       width: '100%',

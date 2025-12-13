@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // motion is used in JSX (e.g. <motion.div />). Some linters flag it as unused; allow it here.
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
@@ -6,7 +6,9 @@ import { FaCode, FaLaptopCode, FaDatabase, FaTools, FaLayerGroup, FaTrophy } fro
 // Lazy-load heavy components below so they are not part of the initial bundle
 // (Define constants below rather than static imports)
 import SkillOrbsFallback from '../components/SkillOrbsFallback'
+import useIsMobile from '../hooks/useIsMobile'
 import { getAllSkills } from '../data/skills'
+import Loader from '../components/Loader'
 
 const skillCategories = [
   {
@@ -46,8 +48,17 @@ const CertificateWallLazy = React.lazy(() => import('../components/CertificateWa
 const About3DBackgroundLazy = React.lazy(() => import('../components/About3DBackground'));
 
 const About = () => {
-  const [viewMode, setViewMode] = useState('interactive')
-  const [certViewMode, setCertViewMode] = useState('carousel')
+  const isMobile = useIsMobile();
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'interactive')
+  const [certViewMode, setCertViewMode] = useState(isMobile ? 'wall' : 'carousel')
+
+  // Sync view mode with screen resize - prefer list/wall on mobile
+  useEffect(() => {
+    if (isMobile) {
+      setViewMode('list')
+      setCertViewMode('wall')
+    }
+  }, [isMobile])
 
   // Create a map of skill names to their colors for quick lookup
   const skillColorMap = React.useMemo(() => {
@@ -205,7 +216,7 @@ const About = () => {
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <React.Suspense fallback={<div>Loading certificates...</div>}>
+                <React.Suspense fallback={<Loader message="Loading certificates..." />}>
                   <CertificateCarouselLazy />
                 </React.Suspense>
               </motion.div>
@@ -218,7 +229,7 @@ const About = () => {
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <React.Suspense fallback={<div>Loading certificate wall...</div>}>
+                <React.Suspense fallback={<Loader message="Loading certificate wall..." />}>
                   <CertificateWallLazy />
                 </React.Suspense>
               </motion.div>

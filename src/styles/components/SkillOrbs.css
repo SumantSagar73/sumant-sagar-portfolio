@@ -489,6 +489,15 @@
   }
 }
 
+/* Mobile friendly static grid for SkillOrbsFallback */
+@media (max-width: 768px) {
+  .skill-orbs-container { min-height: 280px; padding: 1rem; }
+  .physics-playground { height: auto; padding: var(--spacing-sm); border-radius: 12px; }
+  .skill-grid-mobile { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; align-items: center; }
+  .skill-grid-mobile .skill-pill { padding: 8px 10px; font-size: 0.8rem; border-radius: 9999px; color: white; }
+  .skill-orb.physics-ball { display: none; }
+}
+
 @media (max-width: 480px) {
   .physics-playground {
     gap: 0.8rem;

@@ -73,28 +73,35 @@ export const CertificateProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        // Try to load from cache first
-        const cachedData = localStorage.getItem(CACHE_KEY);
+        const loadCertificates = () => {
+            // Try to load from cache first
+            const cachedData = localStorage.getItem(CACHE_KEY);
 
-        if (cachedData) {
-            try {
-                const parsedCache = JSON.parse(cachedData);
-                if (parsedCache && Array.isArray(parsedCache.certificates)) {
-                    setCertificates(parsedCache.certificates);
-                    setLoading(false); // Skip loading spinner if cache exists
+            if (cachedData) {
+                try {
+                    const parsedCache = JSON.parse(cachedData);
+                    if (parsedCache && Array.isArray(parsedCache.certificates)) {
+                        setCertificates(parsedCache.certificates);
+                        setLoading(false); // Skip loading spinner if cache exists
 
-                    // Silently fetch fresh data in background
-                    fetchCertificates(true);
-                    return;
+                        // Silently fetch fresh data in background
+                        fetchCertificates(true);
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Error parsing certificate cache:', e);
+                    localStorage.removeItem(CACHE_KEY);
                 }
-            } catch (e) {
-                console.error('Error parsing certificate cache:', e);
-                localStorage.removeItem(CACHE_KEY);
             }
-        }
 
-        // If no cache or invalid cache, fetch normally
-        fetchCertificates(false);
+            // If no cache or invalid cache, fetch normally
+            fetchCertificates(false);
+        };
+
+        // Delay execution to prioritize initial page render
+        const timer = setTimeout(loadCertificates, 2000);
+
+        return () => clearTimeout(timer);
     }, []);
 
     return (

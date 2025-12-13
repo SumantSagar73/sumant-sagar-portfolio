@@ -1,12 +1,17 @@
 import React, { Suspense } from 'react';
 const CertificateCarousel = React.lazy(() => import('../components/CertificateCarousel'));
+const CertificateWall = React.lazy(() => import('../components/CertificateWall'));
+import useIsMobile from '../hooks/useIsMobile'
+import Loader from '../components/Loader';
 import '../styles/pages/Certifications.css';
 
 const Certifications = () => {
+  const isMobile = useIsMobile()
+
   return (
     <div className="certifications-page">
-      <Suspense fallback={<div>Loading certificates...</div>}>
-        <CertificateCarousel />
+      <Suspense fallback={<Loader message="Loading certificates..." />}>
+        {isMobile ? <CertificateWall /> : <CertificateCarousel />}
       </Suspense>
 
       <div className="certifications-info">

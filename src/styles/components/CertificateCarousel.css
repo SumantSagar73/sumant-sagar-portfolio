@@ -608,3 +608,40 @@
     justify-content: center;
   }
 }
+
+/* Mobile: fallback to a stacked/2D grid - disable 3D transforms for performance */
+@media (max-width: 480px) {
+  .certificate-carousel-scene {
+    perspective: none !important;
+    height: auto;
+    padding-bottom: var(--spacing-md);
+  }
+
+  .certificate-carousel-circle {
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .certificate-card {
+    position: relative;
+    width: 95% !important;
+    height: auto !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    transform: none !important;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    backface-visibility: hidden;
+  }
+
+  .certificate-card-inner { transform: none !important; }
+  .certificate-front, .certificate-back { transform: none !important; position: relative; width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .carousel-controls { display: none; }
+}

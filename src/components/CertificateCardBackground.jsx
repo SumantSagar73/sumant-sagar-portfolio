@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useIsMobile from '../hooks/useIsMobile'
 import { Document, Page, pdfjs } from 'react-pdf';
 import { usePdf } from '../hooks/usePdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -31,7 +32,7 @@ class PdfErrorBoundary extends React.Component {
     }
 }
 
-const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220 }) => {
+const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, onLoaded }) => {
     const [isPdf, setIsPdf] = useState(false);
     const [error, setError] = useState(false);
     const [numPages, setNumPages] = useState(null);
@@ -39,17 +40,45 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220 }
     const isPdfUrl = imageUrl?.toLowerCase().includes(".pdf") || type === "pdf";
     const { pdfUrl, loading: pdfLoading } = usePdf(isPdfUrl && id ? String(id) : null);
 
+    const isMobile = useIsMobile()
+
     useEffect(() => {
         setIsPdf(!!isPdfUrl);
     }, [isPdfUrl]);
 
-    const onDocumentLoadSuccess = ({ numPages }) => setNumPages(numPages);
+    const handleLoadComplete = () => {
+        if (onLoaded) onLoaded();
+    };
+
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+        handleLoadComplete();
+    };
 
     if (!imageUrl || error) {
+        // Call onLoaded even if error, so we don't block the loading screen
+        useEffect(() => {
+             handleLoadComplete();
+        }, [error, imageUrl]);
         return <div className="certificate-bg-fallback" />;
     }
 
     if (isPdf) {
+        if (isMobile) {
+            // On mobile, avoid rendering the heavy PDF viewer; use the first page rendered as an optimized image
+            return (
+                <div className="certificate-bg-media image-container">
+                    <img 
+                        src={imageUrl} 
+                        alt="Certificate" 
+                        loading="lazy" 
+                        decoding="async" 
+                        onError={() => { setError(true); handleLoadComplete(); }} 
+                        onLoad={handleLoadComplete}
+                    />
+                </div>
+            );
+        }
         if (pdfLoading) {
             return <div className="certificate-bg-fallback flex items-center justify-center text-gray-500 text-sm">Loading PDF...</div>;
         }
@@ -99,6 +128,7 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220 }
                         onLoadError={(err) => {
                             console.error("Document Load Error:", err);
                             setError(true);
+                            handleLoadComplete();
                         }}
                         loading={<div className="pdf-loading">Loading...</div>}
                     >
@@ -119,7 +149,14 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220 }
 
     return (
         <div className="certificate-bg-media image-container">
-            <img src={imageUrl} alt="Certificate" loading="lazy" decoding="async" onError={() => setError(true)} />
+            <img 
+                src={imageUrl} 
+                alt="Certificate" 
+                loading="lazy" 
+                decoding="async" 
+                onError={() => { setError(true); handleLoadComplete(); }} 
+                onLoad={handleLoadComplete}
+            />
         </div>
     );
 };
