@@ -16,16 +16,20 @@ export default defineConfig({
           if (!id) return
 
           if (id.includes('node_modules')) {
-            // Separate React core to ensure it's loaded correctly and available
-            if (id.includes('/react/') || id.includes('\\react\\') ||
-              id.includes('/react-dom/') || id.includes('\\react-dom\\') ||
-              id.includes('/react-router/') || id.includes('\\react-router\\')) {
-              return 'react-vendor'
-            }
-
-            if (id.includes('three') || id.includes('@react-three')) {
+            // Split specific large libraries
+            
+            // Three.js core only (engine)
+            if (id.includes('/node_modules/three/') || id.includes('\\node_modules\\three\\')) {
               return 'three-vendor'
             }
+            
+            // @react-three/drei (components) - large, safe to split
+            if (id.includes('@react-three/drei') || id.includes('@react-three\\drei')) {
+              return 'drei-vendor'
+            }
+            
+            // Note: @react-three/fiber stays in main vendor chunk with React to avoid initialization issues
+            
             if (id.includes('react-pdf') || id.includes('pdfjs-dist')) {
               return 'pdf-vendor'
             }
