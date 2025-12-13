@@ -38,10 +38,10 @@ const CertificateCarousel = () => {
   // Safety timeout to prevent infinite loading
   useEffect(() => {
     if (isLoading) {
-        const timer = setTimeout(() => {
-            setForceShow(true);
-        }, 8000); // 8 seconds timeout
-        return () => clearTimeout(timer);
+      const timer = setTimeout(() => {
+        setForceShow(true);
+      }, 8000); // 8 seconds timeout
+      return () => clearTimeout(timer);
     }
   }, [isLoading]);
   const [isInView, setIsInView] = useState(false);
@@ -274,17 +274,17 @@ const CertificateCarousel = () => {
                   <div
                     key={certificate.id}
                     className={`certificate-card ${hoveredCard === index ? 'hovered' : ''}`}
-                      style={style}
-                      onMouseEnter={() => { if (!isMobile) setHoveredCard(index) }}
-                      onMouseLeave={() => { if (!isMobile) setHoveredCard(null) }}
+                    style={style}
+                    onMouseEnter={() => { if (!isMobile) setHoveredCard(index) }}
+                    onMouseLeave={() => { if (!isMobile) setHoveredCard(null) }}
                     onClick={() => setSelectedCertificate(certificate)}
                   >
                     <div className="certificate-card-inner">
                       <div className="certificate-front">
                         <Suspense fallback={<div className='certificate-card-placeholder'>Loading...</div>}>
-                          <CertificateCardBackground 
-                            imageUrl={certificate.image} 
-                            id={certificate.id} 
+                          <CertificateCardBackground
+                            imageUrl={certificate.image}
+                            id={certificate.id}
                             onLoaded={() => handleImageLoad(certificate.id)}
                           />
                         </Suspense>

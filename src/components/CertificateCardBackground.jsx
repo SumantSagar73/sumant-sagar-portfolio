@@ -58,7 +58,7 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
     if (!imageUrl || error) {
         // Call onLoaded even if error, so we don't block the loading screen
         useEffect(() => {
-             handleLoadComplete();
+            handleLoadComplete();
         }, [error, imageUrl]);
         return <div className="certificate-bg-fallback" />;
     }
@@ -68,12 +68,12 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
             // On mobile, avoid rendering the heavy PDF viewer; use the first page rendered as an optimized image
             return (
                 <div className="certificate-bg-media image-container">
-                    <img 
-                        src={imageUrl} 
-                        alt="Certificate" 
-                        loading="lazy" 
-                        decoding="async" 
-                        onError={() => { setError(true); handleLoadComplete(); }} 
+                    <img
+                        src={imageUrl}
+                        alt="Certificate"
+                        loading="lazy"
+                        decoding="async"
+                        onError={() => { setError(true); handleLoadComplete(); }}
                         onLoad={handleLoadComplete}
                     />
                 </div>
@@ -149,12 +149,12 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
 
     return (
         <div className="certificate-bg-media image-container">
-            <img 
-                src={imageUrl} 
-                alt="Certificate" 
-                loading="lazy" 
-                decoding="async" 
-                onError={() => { setError(true); handleLoadComplete(); }} 
+            <img
+                src={imageUrl}
+                alt="Certificate"
+                loading="lazy"
+                decoding="async"
+                onError={() => { setError(true); handleLoadComplete(); }}
                 onLoad={handleLoadComplete}
             />
         </div>
