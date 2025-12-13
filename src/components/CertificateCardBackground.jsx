@@ -124,6 +124,11 @@ const CertificateCardBackground = ({ imageUrl, id, type = "image", width = 220, 
                 <PdfErrorBoundary>
                     <Document
                         file={fileSource}
+                        options={{
+                            cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfVersion}/cmaps/`,
+                            cMapPacked: true,
+                            verbosity: 0, // Suppress warnings like "Unsupported ShadingType: 1"
+                        }}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(err) => {
                             console.error("Document Load Error:", err);
