@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaLaptopCode } from 'react-icons/fa';
+import Tilt from './Tilt';
 import '../styles/components/DeviceShowcase.css';
 
 const DeviceShowcase = ({ projects }) => {
@@ -121,53 +122,55 @@ const DeviceShowcase = ({ projects }) => {
 
         {/* Right Side: Laptop Device */}
         <div className="device-display-area">
-          <div className="laptop-wrapper">
-            <div className="laptop-lid">
-              <div className="laptop-camera"></div>
-              <div className="laptop-screen">
-                <AnimatePresence initial={false} custom={direction}>
-                  <motion.div
-                    key={currentIndex}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 }
-                    }}
-                    className="screen-image-container"
-                    style={{
-                      backgroundImage: `url(${currentProject.bgImage || currentProject.image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center center'
-                    }}
-                  >
-                    {/* Optional foreground screenshot (keeps aspect ratio) */}
-                    {currentProject.image && (
-                      <img
-                        src={currentProject.image}
-                        alt={currentProject.title}
-                        className="screen-image"
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => { e.target.style.display = 'none' }}
-                      />
-                    )}
+          <Tilt className="laptop-tilt-container">
+            <div className="laptop-wrapper">
+              <div className="laptop-lid">
+                <div className="laptop-camera"></div>
+                <div className="laptop-screen">
+                  <AnimatePresence initial={false} custom={direction}>
+                    <motion.div
+                      key={currentIndex}
+                      custom={direction}
+                      variants={slideVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "spring", stiffness: 300, damping: 30 },
+                        opacity: { duration: 0.2 }
+                      }}
+                      className="screen-image-container"
+                      style={{
+                        backgroundImage: `url(${currentProject.bgImage || currentProject.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center'
+                      }}
+                    >
+                      {/* Optional foreground screenshot (keeps aspect ratio) */}
+                      {currentProject.image && (
+                        <img
+                          src={currentProject.image}
+                          alt={currentProject.title}
+                          className="screen-image"
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => { e.target.style.display = 'none' }}
+                        />
+                      )}
 
-                    {/* Fallback Icon if image fails or is missing */}
-                    <div className="screen-fallback">
-                      <FaLaptopCode />
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                      {/* Fallback Icon if image fails or is missing */}
+                      <div className="screen-fallback">
+                        <FaLaptopCode />
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+              <div className="laptop-base">
+                <div className="laptop-trackpad"></div>
               </div>
             </div>
-            <div className="laptop-base">
-              <div className="laptop-trackpad"></div>
-            </div>
-          </div>
+          </Tilt>
         </div>
 
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ThemeProvider from "./context/ThemeContext";
@@ -23,6 +23,8 @@ const Contact = React.lazy(() => import('./pages/Contact'));
 const ResumePreview = React.lazy(() => import('./components/ResumePreview'));
 
 import Loader from './components/Loader';
+import Preloader from './components/Preloader';
+import { useAssetLoader } from './hooks/useAssetLoader';
 
 // Theme Toggle Button Component
 const ThemeToggle = () => {
@@ -121,15 +123,26 @@ const AppLayout = () => {
 
 // Root App Component
 const App = () => {
+  const { progress, isReady } = useAssetLoader();
+  const [showContent, setShowContent] = useState(false);
+
   return (
     <ThemeProvider>
       <Analytics />
 
-      {/* @vercel/analytics/next is Next.js-only and causes Vite to try resolving `next/navigation`.
-          Removed to avoid runtime errors in this Vite app. If you want analytics, use a
-          Vite-compatible analytics integration or initialize the package conditionally. */}
+      <Preloader
+        progress={progress}
+        isReady={isReady}
+        onComplete={() => setShowContent(true)}
+      />
 
-      <AppLayout />
+      <div style={{
+        opacity: showContent ? 1 : 0,
+        visibility: showContent ? 'visible' : 'hidden',
+        transition: 'opacity 0.8s ease'
+      }}>
+        <AppLayout />
+      </div>
     </ThemeProvider>
   );
 };

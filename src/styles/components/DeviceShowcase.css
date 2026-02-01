@@ -137,23 +137,30 @@
   align-items: center;
 }
 
-.laptop-wrapper {
+.laptop-tilt-container {
   width: 100%;
   max-width: 600px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
-.laptop-wrapper:hover {
-  transform: rotateY(-5deg) rotateX(5deg);
+.laptop-wrapper {
+  width: 100%;
+  position: relative;
+  transform-style: preserve-3d;
 }
+
+/* Removed manual hover as Tilt handles it now */
 
 /* Laptop Lid */
 .laptop-lid {
-  background: #1a1a1a; /* Dark Grey/Black Frame */
+  background: #1a1a1a;
+  /* Dark Grey/Black Frame */
   border-radius: 16px 16px 0 0;
-  padding: 12px 12px 0 12px; /* Bezel */
+  padding: 12px 12px 0 12px;
+  /* Bezel */
   position: relative;
   box-shadow: inset 0 0 0 2px #333;
   aspect-ratio: 16 / 10;
@@ -169,7 +176,7 @@
   top: 6px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 2px rgba(255,255,255,0.2);
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .laptop-screen {
@@ -215,12 +222,14 @@
 
 /* Laptop Base */
 .laptop-base {
-  background: #2a2a2a; /* Darker base */
+  background: #2a2a2a;
+  /* Darker base */
   height: 16px;
   border-radius: 0 0 12px 12px;
   position: relative;
-  margin-top: -1px; /* Connect to lid */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  margin-top: -1px;
+  /* Connect to lid */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .laptop-base::before {
@@ -231,7 +240,8 @@
   transform: translateX(-50%);
   width: 120px;
   height: 8px;
-  background: #3a3a3a; /* Hinge area */
+  background: #3a3a3a;
+  /* Hinge area */
   border-radius: 0 0 8px 8px;
 }
 
@@ -253,7 +263,8 @@
   }
 
   .project-info-panel {
-    order: 2; /* Move info below laptop on mobile */
+    order: 2;
+    /* Move info below laptop on mobile */
     text-align: center;
     align-items: center;
   }
@@ -280,7 +291,7 @@
   .project-title-display {
     font-size: var(--text-2xl);
   }
-  
+
   .laptop-lid {
     padding: 8px 8px 0 8px;
   }

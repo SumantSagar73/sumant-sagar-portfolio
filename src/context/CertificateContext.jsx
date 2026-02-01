@@ -98,10 +98,8 @@ export const CertificateProvider = ({ children }) => {
             fetchCertificates(false);
         };
 
-        // Delay execution to prioritize initial page render
-        const timer = setTimeout(loadCertificates, 2000);
-
-        return () => clearTimeout(timer);
+        // Execute immediately instead of waiting 2s
+        loadCertificates();
     }, []);
 
     return (

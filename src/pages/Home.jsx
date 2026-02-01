@@ -23,6 +23,7 @@ import { personalInfo } from "../data/personal";
 import { heroTitles } from "../data/titles";
 import TypewriterTitles from "../components/TypewriterTitles";
 import { mainSocialLinks, getCodingPlatforms } from "../data/social";
+import Tilt from "../components/Tilt";
 import "../styles/pages/Home.css";
 
 const Home = () => {
@@ -173,31 +174,32 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <div className="image-container">
-                <motion.div
-                  className="profile-image"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <img
-                    src={personalInfo.profileImage}
-                    alt={`${personalInfo.name} - ${personalInfo.title}`}
-                    decoding="async"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                      e.target.nextSibling.style.display = "flex";
-                    }}
-                  />
-                  {/* image placeholder */}
+                <Tilt className="profile-image-tilt">
+                  <motion.div
+                    className="profile-image"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img
+                      src={personalInfo.profileImage}
+                      alt={`${personalInfo.name} - ${personalInfo.title}`}
+                      decoding="async"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    {/* image placeholder */}
 
-                  <div className="placeholder-avatar">
-                    <span>
-                      {personalInfo.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
-                  </div>
-                </motion.div>
+                    <div className="placeholder-avatar">
+                      <span>
+                        {personalInfo.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                    </div>
+                  </motion.div>
+                </Tilt>
 
               </div>
             </motion.div>
