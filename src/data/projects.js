@@ -14,7 +14,7 @@ export const projectsData = {
       bgImage: "https://source.unsplash.com/1200x800/?certificate,documents",
       category: "Full Stack",
       status: "Completed",
-      featured: true,
+      featured: false,
       year: "2025"
     },
     {
@@ -30,7 +30,7 @@ export const projectsData = {
       bgImage: "https://source.unsplash.com/1200x800/?career,growth",
       category: "Full Stack",
       status: "In Progress",
-      featured: true,
+      featured: false,
       year: "2025"
     },
     {
@@ -61,8 +61,38 @@ export const projectsData = {
       image: "/assets/projects/portfolio.png",
       category: "Web Development",
       status: "Completed",
-      featured: true,
+      featured: false,
       year: "2024"
+    },
+
+    // ⭐ Resume Featured Projects
+    {
+      id: 12,
+      title: "PlanTube – YouTube Study Platform",
+      description: "Converts YouTube playlists into structured learning paths with AI tutor, Watch Parties, and gamification.",
+      longDescription: "A study platform that converts YouTube playlists into structured learning paths with automatic review scheduling, progress tracking across 19 data models, live Watch Parties, AI tutor, XP rewards, 15+ badges, streaks, leaderboard, and an admin panel with 18 feature flags.",
+      techStack: ["React 19", "Vite", "Node.js", "Express 5", "MongoDB", "Socket.io", "LLM API", "GitHub Actions"],
+      liveUrl: "#",
+      githubUrl: "https://github.com/SumantSagar73/plantube",
+      image: "/assets/projects/plantube.png",
+      category: "Full Stack",
+      status: "Completed",
+      featured: true,
+      year: "2026"
+    },
+    {
+      id: 13,
+      title: "HabitTube – AI Habit Tracker",
+      description: "Habit tracking PWA with yearly-to-daily goal breakdown, AI coach powered by Groq/LLaMA, and real-time sync.",
+      longDescription: "A habit tracking app where users set yearly goals that break down into quarterly, monthly, weekly, and daily tasks with automatic progress scoring. Built-in AI coach powered by Groq/LLaMA with insights dashboard, offline PWA, real-time sync, push notifications, and one-click Excel export.",
+      techStack: ["React 19", "Vite", "Supabase", "PostgreSQL", "Groq/LLaMA", "Recharts", "Tailwind CSS"],
+      liveUrl: "#",
+      githubUrl: "https://github.com/SumantSagar73/habittube",
+      image: "/assets/projects/habittube.png",
+      category: "Full Stack",
+      status: "Completed",
+      featured: true,
+      year: "2026"
     },
 
     // 🎮 Vanilla JavaScript Projects (2024)

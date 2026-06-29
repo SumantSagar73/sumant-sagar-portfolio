@@ -21,6 +21,8 @@ const About = React.lazy(() => import('./pages/About'));
 const Projects = React.lazy(() => import('./pages/Projects'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const ResumePreview = React.lazy(() => import('./components/ResumePreview'));
+const BentoDashboard = React.lazy(() => import('./components/BentoDashboard'));
+const HorizontalLayout = React.lazy(() => import('./components/HorizontalLayout'));
 
 import Loader from './components/Loader';
 import Preloader from './components/Preloader';
@@ -82,41 +84,12 @@ const AppLayout = () => {
 
   return (
     <div className="app-layout">
-      <Navbar />
-
-      {/* Theme Toggle - Fixed Position */}
-      <div className="theme-toggle-container">
-        <ThemeToggle />
-      </div>
-
-      {/* Main Content Area */}
-      <main className="main-content">
-        <section id="home">
-          <Suspense fallback={<Loader message="Loading home..." />}>
-            <Home />
-          </Suspense>
-        </section>
-        <section id="about">
-          <Suspense fallback={<Loader message="Loading about..." />}>
-            <About />
-          </Suspense>
-        </section>
-        <section id="projects">
-          <Suspense fallback={<Loader message="Loading projects..." />}>
-            <Projects />
-          </Suspense>
-        </section>
-        <section id="contact">
-          <Suspense fallback={<Loader message="Loading contact..." />}>
-            <Contact />
-          </Suspense>
-        </section>
+      {/* Main Content — Horizontal Layout (has its own topbar) */}
+      <main className="main-content" style={{ overflow: 'hidden' }}>
+        <Suspense fallback={<Loader message="Loading..." />}>
+          <HorizontalLayout />
+        </Suspense>
       </main>
-
-      <Footer />
-
-      {/* Scroll to Top Button */}
-      <ScrollToTop />
     </div>
   );
 };

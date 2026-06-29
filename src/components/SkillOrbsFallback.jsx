@@ -119,7 +119,7 @@ const SkillOrbsFallback = () => {
 
     if (!containerRef.current) return
     const containerRect = containerRef.current.getBoundingClientRect()
-    const orbSize = 85 //80
+    const orbSize = 55
 
     const initialOrbs = skills.map((skill, index) => ({
       id: index,

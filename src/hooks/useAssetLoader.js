@@ -12,6 +12,7 @@ export const useAssetLoader = () => {
 
         const startTime = Date.now();
         const minDuration = 2000; // 2 seconds minimum
+        const maxDuration = 5000; // hard cap — never block past 5 seconds
 
         const updateProgress = () => {
             if (!mounted) return;
@@ -23,12 +24,13 @@ export const useAssetLoader = () => {
             // but document.readyState === 'complete' is usually what we want for "all assets"
 
             const isWindowLoaded = document.readyState === 'complete';
+            const isPastMax = elapsed >= maxDuration;
 
             // Combination of time and window load
             let totalProgress = timeProgress;
 
-            if (isWindowLoaded) {
-                // If window is loaded, we can accelerate to 100%
+            if (isWindowLoaded || isPastMax) {
+                // If window is loaded (or hard cap hit), advance to 100%
                 totalProgress = Math.max(timeProgress, 100);
             } else {
                 // If not loaded, cap at 90% until window.onload fires

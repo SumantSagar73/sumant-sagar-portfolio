@@ -9,11 +9,11 @@
   display: flex;
   align-items: center;
   position: relative;
-  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background: var(--bg-primary);
   overflow: hidden;
 }
 
-/* Animated Grid Background */
+/* Subtle grid background — monochrome in dark mode */
 .hero-section::before {
   content: '';
   position: absolute;
@@ -22,13 +22,11 @@
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
-  background-position: 0 0, 0 0;
   z-index: 1;
   animation: grid-move 20s linear infinite;
-  opacity: 0.6;
 }
 
 .hero-section::after {
@@ -39,13 +37,11 @@
   right: 0;
   bottom: 0;
   background-image:
-    linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 25px 25px;
-  background-position: 0 0, 0 0;
   z-index: 1;
   animation: grid-move 15s linear infinite reverse;
-  opacity: 0.4;
 }
 
 @keyframes grid-move {
@@ -141,6 +137,12 @@
   background-clip: text;
 }
 
+[data-theme="dark"] .hero-name {
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+}
+
 .wave {
   display: inline-block;
   margin-left: var(--spacing-sm);
@@ -159,6 +161,12 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: var(--font-semibold);
+}
+
+[data-theme="dark"] .gradient-text {
+  background: none;
+  -webkit-text-fill-color: #a0a0a0;
+  color: #a0a0a0;
 }
 
 .hero-description {

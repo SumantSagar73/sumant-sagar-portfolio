@@ -58,6 +58,12 @@
   font-size: var(--text-3xl);
 }
 
+[data-theme="dark"] .section-header .section-title {
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+}
+
 .section-header .section-description {
   color: var(--text-secondary);
   font-size: var(--text-lg);

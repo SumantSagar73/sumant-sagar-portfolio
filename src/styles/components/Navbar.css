@@ -1,5 +1,10 @@
 /* Navbar Component Styles */
 
+/* Hidden on desktop — bento layout needs full viewport height */
+@media (min-width: 901px) {
+  .navbar { display: none !important; }
+}
+
 .navbar {
   position: fixed;
   top: 0;
